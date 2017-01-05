@@ -1,0 +1,17 @@
+.DS_Store
+target
+.idea
+*.tmproj
+*.iml
+*.ipr
+*.iws
+*.swp
+.project
+.classpath
+.cache
+.settings
+test-output
+bin
+*.sublime-project
+*.sublime-workspace
+*.log
