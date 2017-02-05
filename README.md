@@ -15,6 +15,7 @@ list_query_success
 }
 ```
 
+
 detail_query_success
 ```json
 {
@@ -39,7 +40,7 @@ error
   url: /api/user/adduser,
   method: post,
   content-type: application/json; charset=utf-8,
-  data: "{
+  data: {
     id: (若没有则添加，若有则为更新),
     name: 姓名,
     age: 年龄,
@@ -48,7 +49,7 @@ error
     email: 邮箱,
     password: base64加密后的密码,
     type: 用户类型(字符型:'a'dmin为系统管理员，'c'ommon为普通用户.该参数只在添加时有效)  
-  }"
+  }
 }
 添加用户时，没有带上的字段设置为初始值，不会报错。
 更新用户信息时，没有带上的字段不会更改。
