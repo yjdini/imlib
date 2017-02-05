@@ -6,7 +6,7 @@ operate_success
 }
 
 list_query_success
-```json
+```javascript
 {
   status: "ok",
   list: [],
