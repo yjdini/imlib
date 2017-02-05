@@ -20,6 +20,9 @@ public class Application {
     @Bean
     public MongoTemplate mongoTemplate()
     {
+        char[] b = {};
+//        String a = (String) b;
+        String a = b.toString();//这是调用对象表示的方法，并非将原对象转化为了什么
         System.out.println("create bean mongoTemplate");
         return new MongoTemplate(MongoClientFactory.getMongoClient(), "test");
     }

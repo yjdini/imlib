@@ -5,6 +5,8 @@ import java.beans.Introspector;
 import java.beans.MethodDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.catalina.util.Introspection;
 
@@ -12,9 +14,26 @@ public class PrintUtil
 {
 	public static void print(Object object)
 	{
-		System.out.println("==========="+Object.class.getName());
-		printGetMethods(object);
-		printFields(object);
+		if(object == null)
+		{
+			System.out.println("null");
+			return;
+		}
+		System.out.println("==========="+object.getClass().getName());
+		if(object.getClass().isArray())
+		{
+			Object[] l = (Object[]) object;
+			for(int i = 0; i < l.length; i ++){
+				System.out.println("the "+ i);
+				print(l[i]);
+			}
+			return;
+		}
+		else
+		{
+			printGetMethods(object);
+			printFields(object);
+		}
 	}
 	
 
@@ -56,8 +75,9 @@ public class PrintUtil
 		{
 			try {
 				field.setAccessible(true);
-				System.out.println("****" + ModifierUtil.getModifierStr(field.getModifiers()) + "/ " +
-					 field.getDeclaringClass() + "/ " + field.getName()+" : "+field.get(object));
+				System.out.println("****" + ReflectUtil.getModifierStr(field.getModifiers()) + "/ " +
+					 field.getClass().toString().replace("class","") + "/ " +
+						field.getName()+" : "+field.get(object));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

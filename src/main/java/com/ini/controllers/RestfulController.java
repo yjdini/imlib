@@ -1,11 +1,10 @@
 package com.ini.controllers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.util.*;
 //import org.springframework.http.converter.HttpMessageNotWritableException;
+import com.utils.PrintUtil;
+import org.apache.catalina.util.Introspection;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -14,6 +13,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +34,11 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/rest")
@@ -100,13 +105,57 @@ public class RestfulController
 		List<User> ul = mongoTemplate.findAll(User.class);
 		return ul;
 	}
-	
+
+	@RequestMapping("/httptest")
+	public void httptest(HttpServletRequest request, HttpServletResponse response)
+	{
+		//PrintUtil.print(request);
+
+		Field[] fields = Introspection.getDeclaredFields(request.getClass());
+
+		for (Field field : fields)
+		{
+			field.setAccessible(true);
+			if("request".equals(field.getName()))
+			{
+				try {
+					PrintUtil.print(field.get(request));
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
+	@RequestMapping("/setcookie/{key}/{value}")
+	public ResponseEntity setcookie(HttpServletResponse response, @PathVariable String key, @PathVariable String value)
+	{
+		HttpHeaders headers = new HttpHeaders();
+		StringBuilder cookieStr = new StringBuilder();
+		cookieStr.append(key).append('=').append(value).append(';');
+		cookieStr.append("path=/search;domain=localhost;");
+		headers.put("Set-Cookie", Collections.singletonList(cookieStr.toString()));
+		return new ResponseEntity(headers,HttpStatus.OK);
+	}
+
+	@RequestMapping("/getcookies")
+	public Cookie[] getCookie(HttpServletRequest request, HttpServletResponse response)
+	{
+		List a = new ArrayList();
+		a.getClass().isArray();
+		if(request.getCookies() != null)
+			PrintUtil.print(request.getCookies());
+		return request.getCookies();
+	}
+
 	@RequestMapping("/getUser/idtest")
 	public Document getUserByObjId()
 	{
 		MongoCollection<Document> userCollection = DataBaseFactory.getDataBase().getCollection("user");
 		FindIterable<Document> fi = userCollection.find(new Document().append("_id", new ObjectId("585aa3798b7a627b59571e11")));
 		MongoCursor<Document> it = fi.iterator();
+
 		while(it.hasNext())
 		{
 			return it.next();
@@ -208,6 +257,27 @@ public class RestfulController
 		MongoCollection<Document> userCollection = database.getCollection("user");
 		userCollection.createIndex(new Document("name",1));
 		userCollection.createIndex(new Document("str.sdf",1));
+	}
+
+	@RequestMapping("/sessiontest")
+	public int sessionTest(HttpServletRequest request)
+	{
+		HttpSession session = request.getSession();
+		Integer access = (Integer) session.getAttribute("access");
+		if(access == null)
+		{
+			session.setAttribute("access",0);
+			return 0;
+		}
+		else
+		{
+			access ++;
+			session.setAttribute("access", access);
+			PrintUtil.print(session);
+			Enumeration<String> names = session.getAttributeNames();
+			return access;
+		}
+
 	}
 }
 

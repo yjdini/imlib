@@ -29,8 +29,6 @@ public class UserController
         mongoTemplate.save(user);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-
 }
 
 
