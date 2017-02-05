@@ -17,7 +17,7 @@ list_query_success
 
 
 detail_query_success
-```json
+```javascript
 {
   status: "ok",
   data:{
@@ -27,7 +27,7 @@ detail_query_success
 ```
 
 error
-```json
+```javascript
 {
   status: "err"
 }
@@ -35,7 +35,7 @@ error
 
 #1.User
 #####添加/更新
-```json
+```javascript
 {
   url: /api/user/adduser,
   method: post,
