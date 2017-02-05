@@ -1,11 +1,9 @@
 #0.Response
 
 operate_success
-```json
 {
   status: "ok"
 }
-```
 
 list_query_success
 ```json
