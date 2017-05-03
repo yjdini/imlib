@@ -1,12 +1,12 @@
 [![Build Status](https://travis-ci.org/fakemongo/fongo.svg?branch=master)](https://travis-ci.org/fakemongo/fongo)
 # 1.Response
-#####operate_success
+##### operate_success
 ```javascript
 {
   status: "ok"
 }
 ```
-#####page_list_query_success
+##### page_list_query_success
 ```javascript
 {
   status: "ok",
@@ -17,7 +17,7 @@
 ```
 
 
-#####detail_query_success
+##### detail_query_success
 ```javascript
 {
   status: "ok",
@@ -27,7 +27,7 @@
 }
 ```
 
-#####error
+##### error
 ```javascript
 {
   status: "unlogin"(登录过期)
@@ -38,8 +38,8 @@
 }
 ```
 
-#2.User
-#####添加用户
+# 2.User
+##### 添加用户
 ```javascript
 {
   url: /api/user/addUser,
@@ -56,7 +56,7 @@
   }
 }
 ```
-#####修改资料
+##### 修改资料
 ```javascript
 {
   url: /api/user/editUser,
@@ -66,7 +66,7 @@
 }
 ```
 
-#####登录
+##### 登录
 ```javascript
 request
 {
@@ -93,7 +93,7 @@ response
 }
 ```
 
-#####退出登录
+##### 退出登录
 ```javascript
 request
 {
@@ -106,7 +106,7 @@ request
 }
 ```
 
-#####获取某用户基本信息
+##### 获取某用户基本信息
 ```javascript
 request
 {
@@ -123,7 +123,7 @@ response
   data: User@object
 }
 ```
-#####更新头像
+##### 更新头像
 ```javascript
 {
   url: /api/user/uploadAvatar,
@@ -138,8 +138,8 @@ response
 
 
 
-#3.Skill
-#####添加技能
+# 3.Skill
+##### 添加技能
 ```javascript
 {
   url: /api/skill/addSkill,
@@ -150,7 +150,7 @@ response
   }
 }
 ```
-#####删除技能
+##### 删除技能
 ```javascript
 {
   url: /api/skill/deleteSkill,
@@ -162,7 +162,7 @@ response
 }
 ```
 
-#####修改技能
+##### 修改技能
 ```javascript
 {
   url: /api/skill/editSkill,
@@ -174,7 +174,7 @@ response
 }
 ```
 
-#####查看某用户技能列表
+##### 查看某用户技能列表
 ```javascript
 request
 {
@@ -192,7 +192,7 @@ response
 }
 ```
 
-#####查看某个技能详细信息
+##### 查看某个技能详细信息
 ```javascript
 request
 {
@@ -210,7 +210,7 @@ response
 }
 ```
 
-#####关键字搜索技能列表
+##### 关键字搜索技能列表
 ```javascript
 request
 {
@@ -228,8 +228,8 @@ response
 }
 ```
 
-#4.Order
-#####添加预约
+# 4.Order
+##### 添加预约
 ```javascript
 {
   url: /api/order/addOrder,
@@ -237,7 +237,7 @@ response
   data: Order@object
 }
 ```
-#####取消预约
+##### 取消预约
 ```javascript
 {
   url: /api/order/cancelOrder,
@@ -248,7 +248,7 @@ response
 }
 ```
 
-#####获取自己的预约列表
+##### 获取自己的预约列表
 ```javascript
 request
 {
@@ -262,7 +262,7 @@ response
   data: Order@object[]
 }
 ```
-#####查看某个预约详细信息
+##### 查看某个预约详细信息
 ```javascript
 request
 {
@@ -280,8 +280,8 @@ response
 }
 ```
 
-#5.Comment
-#####对某个技能进行评论/回复某个评论
+# 5.Comment
+##### 对某个技能进行评论/回复某个评论
 ```javascript
 request
 {
@@ -294,7 +294,7 @@ request
   }
 }
 ```
-#####查看某个技能的评论列表
+##### 查看某个技能的评论列表
 ```javascript
 request
 {
@@ -312,7 +312,7 @@ response
 }
 ```
 
-#####获取某个技能的新评论
+##### 获取某个技能的新评论
 ```javascript
 request
 {
@@ -330,8 +330,8 @@ response
 }
 ```
 
-#6.Apply
-#####申请行家认证
+# 6.Apply
+##### 申请行家认证
 ```javascript
 {
   url: /api/apply/addApply,
@@ -341,7 +341,7 @@ response
 }
 ```
 
-#####查看自己的认证申请列表
+##### 查看自己的认证申请列表
 ```javascript
 request
 {
@@ -356,7 +356,7 @@ response
 }
 ```
 
-#####查看某个认证申请的详细信息
+##### 查看某个认证申请的详细信息
 ```javascript
 request
 {
