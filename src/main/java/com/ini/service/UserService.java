@@ -9,4 +9,6 @@ public interface UserService {
     void test();
 
     boolean addUser(User user);
+
+    boolean editUser(User user);
 }

@@ -86,11 +86,8 @@ request
 ```javascript
 request
 {
-  url: /api/user/getUserById,
-  method: get,
-  data: {
-    id: 
-  }
+  url: /api/user/getUserById/{userId},
+  method: get
 }
  
 response:User@object
@@ -122,12 +119,8 @@ response:User@object
 ##### 删除技能
 ```javascript
 {
-  url: /api/skill/deleteSkill,
-  method: get,
-  content-type: application/json; charset=utf-8,
-  data: {
-    skillId:
-  }
+  url: /api/skill/deleteSkill/{skillId},
+  method: get
 }
 ```
 
@@ -145,11 +138,8 @@ response:User@object
 ```javascript
 request
 {
-  url: /api/skill/getSkills,
-  method: get,
-  data: {
-    id:
-  }
+  url: /api/skill/getSkills/{userId}
+  method: get
 }
  
 response:SKill@object[]
@@ -159,11 +149,8 @@ response:SKill@object[]
 ```javascript
 request
 {
-  url: /api/skill/getSkillDetail,
-  method: get,
-  data: {
-    skillId:
-  }
+  url: /api/skill/getSkillDetail/{skillId},
+  method: get
 }
  
 response:SKill@object
@@ -195,11 +182,8 @@ response:SKill@object[]
 ##### 取消预约
 ```javascript
 {
-  url: /api/order/cancelOrder,
-  method: post,
-  data: {
-    id: 
-  }
+  url: /api/order/cancelOrder/{orderId},
+  method: post
 }
 ```
 
@@ -217,11 +201,8 @@ response:Order@object[]
 ```javascript
 request
 {
-  url: /api/order/getOrderDetail,
-  method: get,
-  data:{
-    orderId:
-  }
+  url: /api/order/getOrderDetail/{orderId},
+  method: get
 }
  
 response:Order@object
@@ -245,11 +226,8 @@ request
 ```javascript
 request
 {
-  url: /api/comment/getCommentsBySkillId,
-  method: get,
-  data: {
-    skillId: 
-  }
+  url: /api/comment/getCommentsBySkillId/{skillId},
+  method: get
 }
  
 response:Comment@object[](按时间递增排序)
@@ -259,11 +237,8 @@ response:Comment@object[](按时间递增排序)
 ```javascript
 request
 {
-  url: /api/comment/getCommentIM,
-  method: get,
-  data: {
-    skillId: 
-  }
+  url: /api/comment/getCommentIM/{skillId},
+  method: get
 }
  
 response:Comment@object[]
@@ -295,11 +270,8 @@ response:Apply@object[]
 ```javascript
 request
 {
-  url: /api/apply/getApplyDetail,
-  method: get,
-  data: {
-    applyId: 
-  }
+  url: /api/apply/getApplyDetail/{applyId},
+  method: get
 }
  
 response:Apply@object

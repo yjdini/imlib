@@ -6,6 +6,7 @@ import com.aop.annotation.Authentication;
 import com.aop.authentication.AuthenticationType;
 import com.ini.entity.UserRepository;
 import com.ini.service.UserService;
+import com.utils.ConstJson;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.IndexOperations;
@@ -34,13 +35,20 @@ public class UserController
     @Autowired
 	private UserService userService;
 
-
-	@RequestMapping(value ="/adduser",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity addUser(@RequestBody User user)
+	@RequestMapping(value = "/addUser",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ConstJson.Status addUser(@RequestBody User user)
     {
-        return null;
-//        return userService.addUser(user);
+        return ConstJson.getStatusByResult(userService.addUser(user));
     }
+
+    @RequestMapping(value = "/editUser",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ConstJson.Status editUser(@RequestBody User user)
+    {
+        return ConstJson.getStatusByResult(userService.editUser(user));
+    }
+
+    @RequestMapping(value = "login")
+
 }
 
 
