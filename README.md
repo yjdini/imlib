@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/fakemongo/fongo.svg?branch=master)](https://travis-ci.org/fakemongo/fongo)
 #1.Response
 #####operate_success
 ```javascript
