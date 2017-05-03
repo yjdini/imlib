@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Created by Somnus`L on 2017/4/14.
  */
-public class Test {
+public class Exam414 {
     public static void main(String[] args){
         String in = "";
         char[] chars = in.toCharArray();

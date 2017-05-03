@@ -16,8 +16,8 @@ import java.lang.reflect.Method;
 /**
  * Created by Somnus`L on 2017/1/12.
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public final class AuthenticationInterceptor extends HandlerInterceptorAdapter
 {
     @Override
@@ -95,6 +95,7 @@ public final class AuthenticationInterceptor extends HandlerInterceptorAdapter
     public void afterCompletion(
             HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
+        System.out.print("");
     }
 
     private void alertNoAuthority(String type, HttpServletResponse response) throws IOException {

@@ -1,28 +1,8 @@
 # 1.Response
-##### operate_success
+##### success
 ```javascript
 {
   status: "ok"
-}
-```
-##### page_list_query_success
-```javascript
-{
-  status: "ok",
-  data: [],
-  currentPage: 当前页号码(1 - page_max),
-  recordCount: 当前搜索条件下的记录总数
-}
-```
-
-
-##### detail_query_success
-```javascript
-{
-  status: "ok",
-  data:{
-
-  } 
 }
 ```
 
@@ -88,7 +68,7 @@ response
 }
  
 {
-  status: "error"(密码错误)
+  status: "psdErr"(密码错误)
 }
 ```
 
@@ -98,10 +78,7 @@ request
 {
   url: /api/user/logout,
   method: get,
-  content-type: application/json; charset=utf-8,
-  data: {
-    
-  }
+  content-type: application/json; charset=utf-8
 }
 ```
 
@@ -116,18 +93,13 @@ request
   }
 }
  
-response
-{
-  status: "ok",
-  data: User@object
-}
+response:User@object
 ```
 ##### 更新头像
 ```javascript
 {
   url: /api/user/uploadAvatar,
   method: post,
-  content-type: application/json; charset=utf-8,
   data: {
     image:
   }
@@ -144,9 +116,7 @@ response
   url: /api/skill/addSkill,
   method: post,
   content-type: application/json; charset=utf-8,
-  data: {
-    Skill@object
-  }
+  data: Skill@object
 }
 ```
 ##### 删除技能
@@ -167,9 +137,7 @@ response
   url: /api/skill/editSkill,
   method: post,
   content-type: application/json; charset=utf-8,
-  data: {
-    Skill@object
-  }
+  data: Skill@object
 }
 ```
 
@@ -184,11 +152,7 @@ request
   }
 }
  
-response
-{
-  status: "ok",
-  data: SKill@object[]
-}
+response:SKill@object[]
 ```
 
 ##### 查看某个技能详细信息
@@ -202,11 +166,7 @@ request
   }
 }
  
-response
-{
-  status: "ok",
-  data: SKill@object
-}
+response:SKill@object
 ```
 
 ##### 关键字搜索技能列表
@@ -220,11 +180,7 @@ request
   }
 }
  
-response
-{
-  status: "ok",
-  data: SKill@object[]
-}
+response:SKill@object[]
 ```
 
 # 4.Order
@@ -255,11 +211,7 @@ request
   method: get
 }
  
-response
-{
-  status: "ok",
-  data: Order@object[]
-}
+response:Order@object[]
 ```
 ##### 查看某个预约详细信息
 ```javascript
@@ -272,11 +224,7 @@ request
   }
 }
  
-response
-{
-  status: "ok",
-  data: Order@object
-}
+response:Order@object
 ```
 
 # 5.Comment
@@ -304,11 +252,7 @@ request
   }
 }
  
-response
-{
-  status: "ok",
-  data: Comment@object[](按时间递增排序)
-}
+response:Comment@object[](按时间递增排序)
 ```
 
 ##### 获取某个技能的新评论
@@ -322,11 +266,7 @@ request
   }
 }
  
-response
-{
-  status: "ok",
-  data: Comment@object[](按时间递增排序)
-}
+response:Comment@object[]
 ```
 
 # 6.Apply
@@ -348,11 +288,7 @@ request
   method: get
 }
  
-response
-{
-  status: "ok",
-  list: Apply@object[]
-}
+response:Apply@object[]
 ```
 
 ##### 查看某个认证申请的详细信息
@@ -366,9 +302,5 @@ request
   }
 }
  
-response
-{
-  status: "ok",
-  data: Apply@object
-}
+response:Apply@object
 ```

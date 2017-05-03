@@ -5,11 +5,13 @@ import java.util.*;
 //import org.springframework.http.converter.HttpMessageNotWritableException;
 import com.aop.annotation.Authentication;
 import com.aop.authentication.AuthenticationType;
+import com.ini.entity.UserRepository;
 import com.utils.PrintUtil;
 import org.apache.catalina.util.Introspection;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
@@ -37,6 +39,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,6 +49,12 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/rest")
 public class RestfulController
 {
+	@Autowired
+	private MongoOperations mongoTemplate;
+
+	@Resource
+	private UserRepository userRepository;
+
 //	@RequestMapping("/showUser/{id}/{name}")
 //	public User showUser(@PathVariable ObjectId id, @PathVariable String name)
 //	{

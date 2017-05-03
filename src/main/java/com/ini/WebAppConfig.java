@@ -2,6 +2,8 @@ package com.ini;
 
 import com.aop.authentication.AuthenticationInterceptor;
 import com.db.mongod.core.MongoClientFactory;
+import com.ini.service.UserService;
+import com.ini.service.UserServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +23,13 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         SpringApplication.run(WebAppConfig.class, args);
     }
 
-    public void addInterceptors(InterceptorRegistry registry){
-        registry.addInterceptor(new AuthenticationInterceptor()).addPathPatterns("/test/**");
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new AuthenticationInterceptor()).addPathPatterns("/**");
+    }
+
+    @Bean
+    public UserService userService(){
+        return new UserServiceImpl();
     }
 
     @Bean
