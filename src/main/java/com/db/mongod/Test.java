@@ -3,6 +3,8 @@ package com.db.mongod;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 public class Test
 {
@@ -10,6 +12,9 @@ public class Test
 	public int b = 0;
 	public static Test product()
 	{
+		Thread a = new Thread();
+		ConcurrentHashMap n;
+//		Thread a;
 		return new Test();
 	}
 
@@ -42,5 +47,6 @@ public class Test
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		a.toString();
 	}
 }

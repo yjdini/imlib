@@ -1,30 +1,29 @@
 package com.ini;
 
-
+import com.aop.authentication.AuthenticationInterceptor;
 import com.db.mongod.core.MongoClientFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.beans.Introspector;
-import java.beans.MethodDescriptor;
-import java.lang.reflect.Proxy;
-import java.util.Collection;
-
+/**
+ * Created by Somnus`L on 2017/4/11.
+ */
 @Configuration
 @SpringBootApplication
-public class Application {
+public class WebAppConfig extends WebMvcConfigurerAdapter {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-        Proxy a;
-        MethodDescriptor b;
-        Introspector c;
-        Collection d;
+        SpringApplication.run(WebAppConfig.class, args);
     }
 
+    public void addInterceptors(InterceptorRegistry registry){
+        registry.addInterceptor(new AuthenticationInterceptor()).addPathPatterns("/test/**");
+    }
 
     @Bean
     public MongoTemplate mongoTemplate()

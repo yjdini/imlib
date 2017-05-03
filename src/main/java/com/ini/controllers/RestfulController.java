@@ -3,6 +3,8 @@ package com.ini.controllers;
 import java.lang.reflect.Field;
 import java.util.*;
 //import org.springframework.http.converter.HttpMessageNotWritableException;
+import com.aop.annotation.Authentication;
+import com.aop.authentication.AuthenticationType;
 import com.utils.PrintUtil;
 import org.apache.catalina.util.Introspection;
 import org.bson.Document;
@@ -54,6 +56,7 @@ public class RestfulController
 //	}
 //
 	@RequestMapping("/getUser/{name}")
+	@Authentication(AuthenticationType.User)
 	public List<Document> getUser(@PathVariable String name)
 	{
 		MongoCollection<Document> userCollection = DataBaseFactory.getDataBase().getCollection("user");
@@ -81,7 +84,7 @@ public class RestfulController
 		DBCollection userCollection = db.getCollection("user");
 		DBCursor fi = userCollection.find(new BasicDBObject().append("name", name));
 		Iterator<DBObject> it = fi.iterator();
-		
+
 		MongoOperations mongoTemplate = new MongoTemplate(MongoClientFactory.getMongoClient(),"test");
 		MongoConverter convert = mongoTemplate.getConverter();
 		
@@ -257,6 +260,7 @@ public class RestfulController
 		MongoCollection<Document> userCollection = database.getCollection("user");
 		userCollection.createIndex(new Document("name",1));
 		userCollection.createIndex(new Document("str.sdf",1));
+		HashMap m;
 	}
 
 	@RequestMapping("/sessiontest")
