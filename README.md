@@ -13,7 +13,7 @@
 }
  
 {
-  status: "error"(服务器错误)
+  status: "error"(服务器错误/恶意操作)
 }
 ```
 

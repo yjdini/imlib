@@ -12,4 +12,7 @@ public class Skill {
     private Date createTime;
 
 
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 }

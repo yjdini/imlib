@@ -36,18 +36,43 @@ public class UserController
 	private UserService userService;
 
 	@RequestMapping(value = "/addUser",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ConstJson.Status addUser(@RequestBody User user)
+    public ConstJson.Result addUser(@RequestBody User user)
     {
-        return ConstJson.getStatusByResult(userService.addUser(user));
+        return userService.addUser(user);
     }
 
     @RequestMapping(value = "/editUser",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ConstJson.Status editUser(@RequestBody User user)
+    public ConstJson.Result editUser(@RequestBody User user, HttpServletRequest request)
     {
-        return ConstJson.getStatusByResult(userService.editUser(user));
+        return userService.editUser(user, userService.getSessionUid(request));
     }
 
-    @RequestMapping(value = "login")
+    @RequestMapping(value = "/login")
+    public ConstJson.Result login(HttpServletRequest request, HttpServletResponse response)
+    {
+        return userService.validateUser(request.getParameter("phone"), request.getParameter("password"));
+    }
+
+    @RequestMapping(value = "/logout")
+    public ConstJson.Result logout(HttpServletRequest request, HttpServletResponse response)
+    {
+        return userService.clearUserSession(request);
+    }
+
+    @RequestMapping(value = "/getUserById/{userId}")
+    public User getUserById(@PathVariable String userId)
+    {
+        return userService.getUserById(new Integer(userId));
+    }
+
+    @RequestMapping(value = "/uploadAvatar",method = RequestMethod.POST , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ConstJson.Result uploadAvatar(HttpServletRequest request, HttpServletResponse response)
+    {
+        return userService.uploadAvatar(request.getParameter("image"));
+    }
+
+
+
 
 }
 

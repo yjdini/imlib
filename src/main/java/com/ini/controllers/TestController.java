@@ -47,7 +47,7 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/rest")
-public class RestfulController
+public class TestController
 {
 	@Autowired
 	private MongoOperations mongoTemplate;
