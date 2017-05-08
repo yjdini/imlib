@@ -18,10 +18,31 @@
 ```
 
 # 2.User
+##### 数据表
+```concept
+{
+    userId;
+    nickname;
+    avatar;
+    studentCard;
+    grade;
+    major;
+    password;
+    type;
+    phone;
+    wechart;
+    introduce;
+    title;
+    works;
+    orderTimes;
+    orderedTimes;
+    score;
+}
+```
 ##### 添加用户
 ```javascript
 {
-  url: /api/user/addUser,
+  url: /api/user/add,
   method: post,
   content-type: application/json; charset=utf-8,
   data: {
@@ -38,7 +59,7 @@
 ##### 修改资料
 ```javascript
 {
-  url: /api/user/editUser,
+  url: /api/user/edit,
   method: post,
   content-type: application/json; charset=utf-8,
   data: User@object
@@ -53,7 +74,7 @@ request
   method: post,
   content-type: application/json; charset=utf-8,
   data: {
-    phone: ,
+    nickname: ,
     password: base64加密后的密码
   }
 }
@@ -86,7 +107,7 @@ request
 ```javascript
 request
 {
-  url: /api/user/getUserById/{userId},
+  url: /api/user/info/{userId},
   method: get
 }
  
@@ -95,7 +116,7 @@ response:User@object
 ##### 更新头像
 ```javascript
 {
-  url: /api/user/uploadAvatar,
+  url: /api/user/avatar/upload,
   method: post,
   data: {
     image:
@@ -107,10 +128,26 @@ response:User@object
 
 
 # 3.Skill
+##### 数据表
+```concept
+{
+    skillId;
+    userId;
+    title;
+    description;
+    works;
+    totleTime;
+    totlePrice;
+    tagId;
+    score;
+    orderTimes;
+    orderedTimes;
+}
+```
 ##### 添加技能
 ```javascript
 {
-  url: /api/skill/addSkill,
+  url: /api/skill/add,
   method: post,
   content-type: application/json; charset=utf-8,
   data: Skill@object
@@ -119,18 +156,8 @@ response:User@object
 ##### 删除技能
 ```javascript
 {
-  url: /api/skill/deleteSkill/{skillId},
+  url: /api/skill/delete/{skillId},
   method: get
-}
-```
-
-##### 修改技能
-```javascript
-{
-  url: /api/skill/editSkill,
-  method: post,
-  content-type: application/json; charset=utf-8,
-  data: Skill@object
 }
 ```
 
@@ -138,7 +165,7 @@ response:User@object
 ```javascript
 request
 {
-  url: /api/skill/getSkills/{userId}
+  url: /api/skill/list/{userId}
   method: get
 }
  
@@ -149,10 +176,9 @@ response:SKill@object[]
 ```javascript
 request
 {
-  url: /api/skill/getSkillDetail/{skillId},
+  url: /api/skill/info/{skillId},
   method: get
 }
- 
 response:SKill@object
 ```
 
@@ -160,30 +186,73 @@ response:SKill@object
 ```javascript
 request
 {
-  url: /api/skill/search,
-  method: post,
-  data: {
-    keyword:
-  }
+  url: /api/skill/search/keyword/{keyword},
+  method: get
 }
  
-response:SKill@object[]
+response:SKill+User@object[]
 ```
 
+##### 关键字搜索技能列表
+```javascript
+request
+{
+  url: /api/skill/search/tag/{tagId},
+  method: get
+}
+ 
+response:SKill+User@object[]
+```
+
+
 # 4.Order
+##### 数据表
+```concept
+{
+    orderId;
+    fromUserId;
+    toUserId;
+    skillId;
+    introduction;
+    result;//0：申请中；1：同意；2：拒绝；3：已完成
+    wechart;
+    rejectReason;
+}
+```
 ##### 添加预约
 ```javascript
 {
-  url: /api/order/addOrder,
+  url: /api/order/add,
   method: post,
   data: Order@object
 }
 ```
-##### 取消预约
+##### (发起者)取消预约
 ```javascript
 {
-  url: /api/order/cancelOrder/{orderId},
-  method: post
+  url: /api/order/cancel/{orderId},
+  method: get
+}
+```
+##### (行家)拒绝预约
+```javascript
+{
+  url: /api/order/reject/{orderId},
+  method: get
+}
+```
+##### 完成预约
+```javascript
+{
+  url: /api/order/finish/{orderId},
+  method: get
+}
+```
+##### 删除预约
+```javascript
+{
+  url: /api/order/delete/{orderId},
+  method: get
 }
 ```
 
@@ -191,7 +260,7 @@ response:SKill@object[]
 ```javascript
 request
 {
-  url: /api/order/getOrders,
+  url: /api/order/list,
   method: get
 }
  
@@ -201,7 +270,7 @@ response:Order@object[]
 ```javascript
 request
 {
-  url: /api/order/getOrderDetail/{orderId},
+  url: /api/order/info/{orderId},
   method: get
 }
  
@@ -209,15 +278,24 @@ response:Order@object
 ```
 
 # 5.Comment
-##### 对某个技能进行评论/回复某个评论
+##### 数据表
+```concept
+{
+    commentId;
+    userId;
+    skillId;
+    content;
+    score;
+}
+```
+##### 对某个技能进行评论
 ```javascript
 request
 {
-  url: /api/comment/addComment,
+  url: /api/skill/comment/add,
   method: post,
   data: {
     skillId:,
-    commentId:,
     content:
   }
 }
@@ -226,29 +304,34 @@ request
 ```javascript
 request
 {
-  url: /api/comment/getCommentsBySkillId/{skillId},
+  url: /api/skill/comments/{skillId},
   method: get
 }
  
-response:Comment@object[](按时间递增排序)
+response:Comment+User@object[](按时间递增排序)
 ```
 
-##### 获取某个技能的新评论
-```javascript
-request
-{
-  url: /api/comment/getCommentIM/{skillId},
-  method: get
-}
- 
-response:Comment@object[]
-```
 
 # 6.Apply
+##### 数据表
+```concept
+{
+    applyId;
+    userId;
+    title;
+    introduce;
+    works;
+    result;//0:审核中； 1：通过； 2：拒绝；
+    rejectReason;
+    wechart;
+    
+}
+```
+
 ##### 申请行家认证
 ```javascript
 {
-  url: /api/apply/addApply,
+  url: /api/apply/add,
   method: post,
   content-type: application/json; charset=utf-8,
   data: Apply@object
@@ -259,7 +342,7 @@ response:Comment@object[]
 ```javascript
 request
 {
-  url: /api/apply/getApplys,
+  url: /api/apply/list,
   method: get
 }
  
@@ -270,7 +353,7 @@ response:Apply@object[]
 ```javascript
 request
 {
-  url: /api/apply/getApplyDetail/{applyId},
+  url: /api/apply/info/{applyId},
   method: get
 }
  

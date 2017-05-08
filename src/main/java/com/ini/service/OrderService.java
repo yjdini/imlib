@@ -1,7 +1,6 @@
 package com.ini.service;
 
 import com.ini.entity.Order;
-import com.ini.entity.Skill;
 import com.utils.ConstJson;
 
 import java.util.List;
@@ -20,4 +19,8 @@ public interface OrderService {
     List<Order> getOrders(Integer sessionUid);
 
     Order getOrderDetail(Integer orderId, Integer sessionUid);
+
+    ConstJson.Result rejectOrder(Integer orderId, Integer sessionUid);
+
+    ConstJson.Result deleteOrder(Integer orderId, Integer sessionUid);
 }

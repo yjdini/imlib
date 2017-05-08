@@ -1,18 +1,72 @@
 package com.ini.entity;
 
-import java.util.Date;
+
+import javax.persistence.*;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 /**
- * Created by Somnus`L on 2017/4/5.
+ * Created by Somnus`L on 2017/5/4.
  */
+@Entity
+@Table(name = "Comment")
 public class Comment {
-    private int fromUser;
-    private int toUser;
-    private String content;
-    private Date createTime;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-    public int getFromUser() {
-        return fromUser;
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    private DateTime createTime;
+
+    private Integer userId;
+
+    private Integer skillId;
+
+    private Integer commentId;
+
+    private String content;
+
+    private Integer status;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public DateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(DateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getSkillId() {
+        return skillId;
+    }
+
+    public void setSkillId(Integer skillId) {
+        this.skillId = skillId;
+    }
+
+    public Integer getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 
     public String getContent() {
@@ -23,23 +77,11 @@ public class Comment {
         this.content = content;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public void setFromUser(int fromUser) {
-        this.fromUser = fromUser;
-    }
-
-    public int getToUser() {
-        return toUser;
-    }
-
-    public void setToUser(int toUser) {
-        this.toUser = toUser;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

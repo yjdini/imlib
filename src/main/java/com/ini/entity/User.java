@@ -1,34 +1,53 @@
 package com.ini.entity;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.TextIndexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
+import javax.persistence.*;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+
+/**
+ * Created by Somnus`L on 2017/5/4.
+ */
+@Entity
+@Table(name = "User")
 public class User {
-    public String getTelephone() {
-        return telephone;
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    private DateTime createTime;
 
-    private String telephone;
-    private String email;
+    private String name;
+
+    private String nick;
+
+    private String phone;
+
     private String password;
 
-    public String getId() {
+    private Integer subId;
+
+    private Integer status;
+
+    private char type;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    @Id
-    private String id;
+    public DateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(DateTime createTime) {
+        this.createTime = createTime;
+    }
 
     public String getName() {
         return name;
@@ -38,54 +57,20 @@ public class User {
         this.name = name;
     }
 
-    private String name;
-
-    public int getAge() {
-        return age;
+    public String getNick() {
+        return nick;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
-    private int age;
-
-    public boolean isSex() {
-        return sex;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setSex(boolean sex) {
-        this.sex = sex;
-    }
-
-    private boolean sex;
-
-    public char getType() {
-        return type;
-    }
-
-    public void setType(char type) {
-        this.type = type;
-    }
-
-    private char type;
-
-    public char getStatus() {
-        return status;
-    }
-
-    public void setStatus(char status) {
-        this.status = status;
-    }
-
-    private char status;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getPassword() {
@@ -94,5 +79,29 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getSubId() {
+        return subId;
+    }
+
+    public void setSubId(Integer subId) {
+        this.subId = subId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public char getType() {
+        return type;
+    }
+
+    public void setType(char type) {
+        this.type = type;
     }
 }

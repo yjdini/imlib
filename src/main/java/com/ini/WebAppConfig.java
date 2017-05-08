@@ -1,14 +1,12 @@
 package com.ini;
 
+
 import com.aop.authentication.AuthenticationInterceptor;
-import com.db.mongod.core.MongoClientFactory;
-import com.ini.service.UserService;
-import com.ini.service.UserServiceImpl;
+import com.ini.service.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -33,12 +31,30 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public MongoTemplate mongoTemplate()
-    {
-        char[] b = {};
-//        String a = (String) b;
-        String a = b.toString();//这是调用对象表示的方法，并非将原对象转化为了什么
-        System.out.println("create bean mongoTemplate");
-        return new MongoTemplate(MongoClientFactory.getMongoClient(), "test");
+    public OrderService orderService(){
+        return new OrderServiceImpl();
     }
+
+    @Bean
+    public ApplyService applyService(){
+        return new ApplyServiceImpl();
+    }
+    @Bean
+    public CommentService commentService(){
+        return new CommentServiceImpl();
+    }
+    @Bean
+    public SkillService skillService(){
+        return new SkillServiceImpl();
+    }
+    @Bean
+    public StatisticsService statisticsService(){
+        return new StatisticsServiceImpl();
+    }
+
+//    @Bean
+//    public MongoTemplate mongoTemplate()
+//    {
+//        return new MongoTemplate(MongoClientFactory.getMongoClient(), "test");
+//    }
 }

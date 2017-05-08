@@ -1,14 +1,11 @@
 package com.ini.controllers;
 
 import com.ini.entity.Order;
-import com.ini.entity.Skill;
 import com.ini.service.OrderService;
-import com.ini.service.SkillService;
 import com.ini.service.UserService;
 import com.utils.ConstJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +35,18 @@ public class OrderController {
     public ConstJson.Result cancleOrder(@PathVariable Integer orderId, HttpServletRequest request){
         //防止恶意取消别人的预约
         return orderService.cancleOrder(orderId, userService.getSessionUid(request));
+    }
+
+    @RequestMapping(value ="/rejectOrder/{orderId}")
+    public ConstJson.Result rejectOrder(@PathVariable Integer orderId, HttpServletRequest request){
+        //防止恶意拒绝别人的预约
+        return orderService.rejectOrder(orderId, userService.getSessionUid(request));
+    }
+
+    @RequestMapping(value ="/deleteOrder/{orderId}")
+    public ConstJson.Result deleteOrder(@PathVariable Integer orderId, HttpServletRequest request){
+        //防止恶意拒绝别人的预约
+        return orderService.deleteOrder(orderId, userService.getSessionUid(request));
     }
 
     @RequestMapping("/getOrders")

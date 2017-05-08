@@ -1,6 +1,5 @@
 package com.ini.service;
 
-import com.ini.entity.Order;
 import com.ini.entity.Skill;
 import com.utils.ConstJson;
 
@@ -21,6 +20,4 @@ public interface SkillService {
     Skill getSkillDetail(Integer skillId);
 
     List<Skill> searchSkills(String keyword);
-
-
 }

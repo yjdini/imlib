@@ -33,7 +33,7 @@ public class SkillController {
     }
 
     @RequestMapping(value = "/editSkill",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ConstJson.Result editUser(@RequestBody Skill skill, HttpServletRequest request)
+    public ConstJson.Result editSkill(@RequestBody Skill skill, HttpServletRequest request)
     {
         return skillService.editSkill(skill, userService.getSessionUid(request));
     }
