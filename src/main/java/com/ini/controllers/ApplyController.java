@@ -1,6 +1,6 @@
 package com.ini.controllers;
 
-import com.ini.entity.Apply;
+import com.ini.dao.entity.Apply;
 import com.ini.service.ApplyService;
 import com.ini.service.UserService;
 import com.utils.ConstJson;

@@ -1,6 +1,7 @@
 package com.ini.controllers;
 
-import com.ini.entity.Skill;
+import com.ini.dao.entity.Skill;
+import com.ini.dao.schema.SkillTagSet;
 import com.ini.service.SkillService;
 import com.ini.service.UserService;
 import com.utils.ConstJson;
@@ -42,22 +43,22 @@ public class SkillController {
     }
 
     @RequestMapping("/list/{userId}")
-    public List<Skill> getSkills(@PathVariable Integer userId){
+    public List<SkillTagSet> getSkills(@PathVariable Integer userId){
         return skillService.getSkillsByUserId(userId);
     }
 
     @RequestMapping("/info/{skillId}")
-    public Skill getSkillDetail(@PathVariable Integer skillId){
+    public SkillTagSet getSkillDetail(@PathVariable Integer skillId){
         return skillService.getSkillDetail(skillId);
     }
 
     @RequestMapping("/search/keyword/{subId}/{keyword}")
-    public List<Skill> searchByKeyword(@PathVariable String keyword, @PathVariable Integer subId){
+    public List searchByKeyword(@PathVariable String keyword, @PathVariable Integer subId){
         return skillService.searchByKeyword(keyword, subId);
     }
 
     @RequestMapping("/search/tag/{subId}/{tagId}")
-    public List<Skill> searchByTagId(@PathVariable Integer tagId, @PathVariable Integer subId){
+    public List searchByTagId(@PathVariable Integer tagId, @PathVariable Integer subId){
         return skillService.searchByTagId(tagId, subId);
     }
 

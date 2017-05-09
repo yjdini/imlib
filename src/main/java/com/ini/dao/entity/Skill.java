@@ -1,4 +1,4 @@
-package com.ini.entity;
+package com.ini.dao.entity;
 
 
 import javax.persistence.*;
@@ -11,9 +11,28 @@ import java.math.BigDecimal;
 /**
  * Created by Somnus`L on 2017/5/4.
  */
+
+@SqlResultSetMapping
+(
+    name="SkillUserEntity",
+    entities = {
+        @EntityResult
+        (
+            entityClass = com.ini.dao.entity.Skill.class
+        ),
+        @EntityResult
+        (
+            entityClass = com.ini.dao.entity.User.class
+        )
+    },
+    columns = {
+        @ColumnResult(name="tagname")
+    }
+)
 @Entity
 @Table(name = "Skill")
 public class Skill {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer skillId;

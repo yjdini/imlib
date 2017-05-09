@@ -10,10 +10,16 @@ public class ConstJson {
     public final static Result UNREGIST = new Result("unRegist");
     public final static Result PSDERR = new Result("psdErr");
 
-    public static class Result{
+    public static class Result {
         private String status;
-        public Result(String status){
+        private String result;
+        public Result(String status) {
             this.status = status;
+        }
+
+        public Result(String status, String result) {
+            this.status = status;
+            this.result = result;
         }
 
         public String getStatus() {
@@ -22,6 +28,10 @@ public class ConstJson {
 
         public void setStatus(String status) {
             this.status = status;
+        }
+
+        public ConstJson.Result setResult(String result) {
+            return new Result(this.getStatus(), result);
         }
     }
 }

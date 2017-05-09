@@ -1,9 +1,8 @@
 package com.ini.service.implement;
 
-import com.ini.entity.Apply;
+import com.ini.dao.entity.Apply;
 import com.ini.service.ApplyService;
 import com.utils.ConstJson;
-import org.joda.time.DateTime;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -27,13 +26,13 @@ public class ApplyServiceImpl implements ApplyService {
             e.printStackTrace();
             return ConstJson.ERROR;
         }
-        return ConstJson.OK;
+        return ConstJson.OK.setResult(apply.getApplyId().toString());
     }
 
     @Override
     public List<Apply> getApplys(Integer userId) {
         return entityManager.createQuery(
-                "from apply where userId = :userId and status = 1", Apply.class)
+                "from Apply where userId = :userId and status = 1", Apply.class)
                 .setParameter("userId", userId).getResultList();
     }
 
@@ -45,7 +44,7 @@ public class ApplyServiceImpl implements ApplyService {
     @Override
     public Apply getLatestApply(Integer userId) {
         return entityManager.createQuery(
-                "from apply where userId = :userId and status = 1 orderBy applyId desc", Apply.class)
+                "from Apply where userId = :userId and status = 1 orderBy applyId desc", Apply.class)
                 .setParameter("userId", userId)
                 .getResultList().get(0);
     }

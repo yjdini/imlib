@@ -1,4 +1,4 @@
-package com.ini.entity;
+package com.ini.dao.entity;
 
 
 import javax.persistence.*;

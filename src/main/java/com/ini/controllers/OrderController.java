@@ -1,6 +1,6 @@
 package com.ini.controllers;
 
-import com.ini.entity.Orders;
+import com.ini.dao.entity.Orders;
 import com.ini.service.OrderService;
 import com.ini.service.UserService;
 import com.utils.ConstJson;

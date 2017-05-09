@@ -1,6 +1,6 @@
 package com.ini.service;
 
-import com.ini.entity.User;
+import com.ini.dao.entity.User;
 import com.utils.ConstJson;
 
 /**

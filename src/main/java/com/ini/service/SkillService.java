@@ -1,6 +1,7 @@
 package com.ini.service;
 
-import com.ini.entity.Skill;
+import com.ini.dao.entity.Skill;
+import com.ini.dao.schema.SkillTagSet;
 import com.utils.ConstJson;
 
 import java.util.List;
@@ -13,13 +14,13 @@ public interface SkillService {
 
     ConstJson.Result deleteSkill(Integer skillId, Integer userId);
 
-    List<Skill> getSkillsByUserId(Integer userId);
+    List<SkillTagSet> getSkillsByUserId(Integer userId);
 
-    Skill getSkillDetail(Integer skillId);
+    SkillTagSet getSkillDetail(Integer skillId);
 
-    List<Skill> searchByKeyword(String keyword, Integer subId);
+    List searchByKeyword(String keyword, Integer subId);
 
-    List<Skill> searchByTagId(Integer tagId, Integer subId);
+    List searchByTagId(Integer tagId, Integer subId);
 
     void increaseOrderTimes(Integer skillId);
 

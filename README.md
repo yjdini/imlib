@@ -42,11 +42,18 @@
 ```
 ##### 添加用户
 ```javascript
+request
 {
   url: /api/user/add,
   method: post,
   content-type: application/json; charset=utf-8,
   data: User@object
+}
+ 
+response
+{
+  status: "ok",
+  result: userId
 }
 ```
 ##### 修改资料
@@ -136,11 +143,18 @@ response:User@object
 ```
 ##### 添加技能
 ```javascript
+request
 {
   url: /api/skill/add,
   method: post,
   content-type: application/json; charset=utf-8,
   data: Skill@object
+}
+ 
+response
+{
+  status: "ok",
+  result: userId
 }
 ```
 ##### 删除技能
@@ -212,10 +226,17 @@ response:SKill+User@object[]
 ```
 ##### 添加预约
 ```javascript
+request
 {
   url: /api/order/add,
   method: post,
   data: Order@object
+}
+ 
+response
+{
+  status: "ok",
+  result: userId
 }
 ```
 ##### (发起者)取消预约
@@ -290,6 +311,12 @@ request
     content:
   }
 }
+ 
+response
+{
+  status: "ok",
+  result: userId
+}
 ```
 ##### 查看某个技能的评论列表
 ```javascript
@@ -321,11 +348,18 @@ response:Comment+User@object[](按时间递增排序)
 
 ##### 申请行家认证
 ```javascript
+request
 {
   url: /api/apply/add,
   method: post,
   content-type: application/json; charset=utf-8,
   data: Apply@object
+}
+ 
+response
+{
+  status: "ok",
+  result: userId
 }
 ```
 
@@ -359,7 +393,6 @@ request
   method: get
 }
  
-
 
 response:Apply@object
 ```

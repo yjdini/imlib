@@ -1,8 +1,9 @@
-package com.ini.entity;
+package com.ini.dao.entity;
 
 
 import javax.persistence.*;
 
+import org.hibernate.Interceptor;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -52,6 +53,9 @@ public class User {
     private Integer orderedTimes;
 
     private BigDecimal score;
+
+    private Integer subId;
+
 
     public User() {
         this.setCreateTime(new DateTime());
@@ -209,5 +213,11 @@ public class User {
         this.score = score;
     }
 
+    public Integer getSubId() {
+        return subId;
+    }
 
+    public void setSubId(Integer subId) {
+        this.subId = subId;
+    }
 }

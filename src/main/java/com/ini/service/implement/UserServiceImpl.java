@@ -1,9 +1,8 @@
 package com.ini.service.implement;
 
-import com.ini.entity.User;
+import com.ini.dao.entity.User;
 import com.ini.service.UserService;
 import com.utils.ConstJson;
-import org.joda.time.DateTime;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
             return ConstJson.ERROR;
         }
 
-        return ConstJson.OK;
+        return ConstJson.OK.setResult(user.getUserId().toString());
     }
 
     @Override
@@ -69,14 +68,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void increaseOrderTimes(Integer userId) {
         entityManager.createNativeQuery(
-                "update user set orderTimes = orderTimes+1 where userId = :userId")
+                "update User set orderTimes = orderTimes+1 where userId = :userId")
                 .setParameter("userId", userId).executeUpdate();
     }
 
     @Override
     public void increaseOrderedTimes(Integer userId) {
         entityManager.createNativeQuery(
-                "update user set orderedTimes = orderedTimes+1 where userId = :userId")
+                "update User set orderedTimes = orderedTimes+1 where userId = :userId")
                 .setParameter("userId", userId).executeUpdate();
     }
 

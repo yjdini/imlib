@@ -1,6 +1,6 @@
 package com.ini.service;
 
-import com.ini.entity.Apply;
+import com.ini.dao.entity.Apply;
 import com.utils.ConstJson;
 
 import java.util.List;

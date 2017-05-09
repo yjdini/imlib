@@ -1,9 +1,8 @@
 package com.ini.service.implement;
 
-import com.ini.entity.Comment;
+import com.ini.dao.entity.Comment;
 import com.ini.service.CommentService;
 import com.utils.ConstJson;
-import org.joda.time.DateTime;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -27,13 +26,13 @@ public  class CommentServiceImpl implements CommentService {
             e.printStackTrace();
             return ConstJson.ERROR;
         }
-        return ConstJson.OK;
+        return ConstJson.OK.setResult(comment.getSkillId().toString());
     }
 
     @Override
     public List<?> getCommentsBySkillId(Integer skillId) {
         return entityManager.createQuery(
-                "from comment where skillId = :skillId and status = 1", Comment.class)
+                "from Comment where skillId = :skillId and status = 1", Comment.class)
                 .setParameter("skillId", skillId)
                 .getResultList();
     }

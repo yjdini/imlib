@@ -1,6 +1,6 @@
 package com.ini.controllers;
 
-import com.ini.entity.Comment;
+import com.ini.dao.entity.Comment;
 import com.ini.service.CommentService;
 import com.utils.ConstJson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Somnus`L on 2017/4/5.
  */
 @RestController
-@RequestMapping("/api/comment")
+@RequestMapping("/api/skill")
 public class CommentController {
 
     @Autowired

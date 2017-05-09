@@ -1,6 +1,6 @@
 package com.ini.service;
 
-import com.ini.entity.Orders;
+import com.ini.dao.entity.Orders;
 import com.utils.ConstJson;
 
 import java.util.List;

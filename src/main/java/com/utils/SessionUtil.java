@@ -1,6 +1,6 @@
 package com.utils;
 
-import com.ini.entity.User;
+import com.ini.dao.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 

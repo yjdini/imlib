@@ -1,8 +1,7 @@
 package com.ini.controllers;
 
-import com.ini.entity.User;
+import com.ini.dao.entity.User;
 import com.ini.service.UserService;
-import com.sun.tools.internal.jxc.ap.Const;
 import com.utils.ConstJson;
 import com.utils.Request2Bean;
 import com.utils.SessionUtil;

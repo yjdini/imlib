@@ -1,12 +1,10 @@
 package com.ini.service.implement;
 
-import com.aop.annotation.Authentication;
-import com.ini.entity.Orders;
+import com.ini.dao.entity.Orders;
 import com.ini.service.OrderService;
 import com.ini.service.SkillService;
 import com.ini.service.UserService;
 import com.utils.ConstJson;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
             e.printStackTrace();
             return ConstJson.ERROR;
         }
-        return ConstJson.OK;
+        return ConstJson.OK.setResult(order.getOrderId().toString());
     }
 
 
@@ -63,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Orders> getOrdersByUserId(Integer userId) {
         return entityManager.createQuery(
-                "from orders where (fromUserId = :userId or toUserId = :userId) and status = 1", Orders.class)
+                "from Orders where (fromUserId = :userId or toUserId = :userId) and status = 1", Orders.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }
@@ -142,7 +140,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void rejectAllOrders(Integer skillId) {
-        List<Orders> orderList = entityManager.createQuery("from orders where skillId = :skillId and result = 0", Orders.class)
+        List<Orders> orderList = entityManager.createQuery("from Orders where skillId = :skillId and result = 0", Orders.class)
                 .setParameter("skillId", skillId).getResultList();
         for (Orders order : orderList) {
             order.setResult(2);
