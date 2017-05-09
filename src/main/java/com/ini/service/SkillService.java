@@ -11,13 +11,17 @@ import java.util.List;
 public interface SkillService {
     ConstJson.Result addSkill(Skill skill);
 
-    ConstJson.Result editSkill(Skill skill, Integer userId);
-
     ConstJson.Result deleteSkill(Integer skillId, Integer userId);
 
-    List<Skill> getSkills(Integer sessionUid);
+    List<Skill> getSkillsByUserId(Integer userId);
 
     Skill getSkillDetail(Integer skillId);
 
-    List<Skill> searchSkills(String keyword);
+    List<Skill> searchByKeyword(String keyword, Integer subId);
+
+    List<Skill> searchByTagId(Integer tagId, Integer subId);
+
+    void increaseOrderTimes(Integer skillId);
+
+    void increaseOrderedTimes(Integer skillId);
 }

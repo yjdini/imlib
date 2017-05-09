@@ -6,6 +6,8 @@ import javax.persistence.*;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Somnus`L on 2017/5/4.
  */
@@ -14,25 +16,46 @@ import org.joda.time.DateTime;
 public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer skillId;
 
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime createTime;
 
     private Integer userId;
 
-    private String tag;
+    private String title;
 
-    private String content;
+    private String totleprice;
+
+    private String totletime;
+
+    private Integer orderTimes;
+
+    private Integer orderedTimes;
+
+    private String works;
+
+    private Integer tagId;
+
+    private String description;
+
+    private BigDecimal score;
 
     private Integer status;
 
-    public Integer getId() {
-        return id;
+    public Skill() {
+        this.setCreateTime(new DateTime());
+        this.setStatus(1);
+        this.setOrderedTimes(0);
+        this.setOrderTimes(0);
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getSkillId() {
+        return skillId;
+    }
+
+    public void setSkillId(Integer skillId) {
+        this.skillId = skillId;
     }
 
     public DateTime getCreateTime() {
@@ -51,20 +74,68 @@ public class Skill {
         this.userId = userId;
     }
 
-    public String getTag() {
-        return tag;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getContent() {
-        return content;
+    public String getTotleprice() {
+        return totleprice;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setTotleprice(String totleprice) {
+        this.totleprice = totleprice;
+    }
+
+    public String getTotletime() {
+        return totletime;
+    }
+
+    public void setTotletime(String totletime) {
+        this.totletime = totletime;
+    }
+
+    public Integer getOrderTimes() {
+        return orderTimes;
+    }
+
+    public void setOrderTimes(Integer orderTimes) {
+        this.orderTimes = orderTimes;
+    }
+
+    public Integer getOrderedTimes() {
+        return orderedTimes;
+    }
+
+    public void setOrderedTimes(Integer orderedTimes) {
+        this.orderedTimes = orderedTimes;
+    }
+
+    public String getWorks() {
+        return works;
+    }
+
+    public void setWorks(String works) {
+        this.works = works;
+    }
+
+    public Integer getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(Integer tagId) {
+        this.tagId = tagId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getStatus() {
@@ -73,5 +144,13 @@ public class Skill {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public BigDecimal getScore() {
+        return score;
+    }
+
+    public void setScore(BigDecimal score) {
+        this.score = score;
     }
 }

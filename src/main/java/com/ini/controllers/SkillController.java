@@ -4,6 +4,7 @@ import com.ini.entity.Skill;
 import com.ini.service.SkillService;
 import com.ini.service.UserService;
 import com.utils.ConstJson;
+import com.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -23,40 +24,41 @@ public class SkillController {
     private SkillService skillService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SessionUtil sessionUtil;
 
-    @RequestMapping(value = "/addSkill",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+
+    @RequestMapping(value = "/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ConstJson.Result addSkill(@RequestBody Skill skill, HttpServletRequest request, HttpServletResponse response)
     {
         //防止恶意为别人创建技能
-        skill.setUserId(userService.getSessionUid(request));
+        skill.setUserId(sessionUtil.getUserId(request));
         return skillService.addSkill(skill);
     }
 
-    @RequestMapping(value = "/editSkill",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ConstJson.Result editSkill(@RequestBody Skill skill, HttpServletRequest request)
-    {
-        return skillService.editSkill(skill, userService.getSessionUid(request));
-    }
-
-    @RequestMapping(value ="/deleteSkill/{skillId}")
+    @RequestMapping(value ="/delete/{skillId}")
     public ConstJson.Result deleteSkill(@PathVariable Integer skillId, HttpServletRequest request){
-        return skillService.deleteSkill(skillId, userService.getSessionUid(request));
+        return skillService.deleteSkill(skillId, sessionUtil.getUserId(request));
     }
 
-    @RequestMapping("/getSkills/{userId}")
+    @RequestMapping("/list/{userId}")
     public List<Skill> getSkills(@PathVariable Integer userId){
-        return skillService.getSkills(userId);
+        return skillService.getSkillsByUserId(userId);
     }
 
-    @RequestMapping("/getSkillDetail/{skillId}")
+    @RequestMapping("/info/{skillId}")
     public Skill getSkillDetail(@PathVariable Integer skillId){
         return skillService.getSkillDetail(skillId);
     }
 
-    @RequestMapping("/search")
-    public List<Skill> getSkills(@PathVariable String keyword){
-        return skillService.searchSkills(keyword);
+    @RequestMapping("/search/keyword/{subId}/{keyword}")
+    public List<Skill> searchByKeyword(@PathVariable String keyword, @PathVariable Integer subId){
+        return skillService.searchByKeyword(keyword, subId);
     }
 
+    @RequestMapping("/search/tag/{subId}/{tagId}")
+    public List<Skill> searchByTagId(@PathVariable Integer tagId, @PathVariable Integer subId){
+        return skillService.searchByTagId(tagId, subId);
+    }
 
 }

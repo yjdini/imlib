@@ -3,6 +3,8 @@ package com.ini;
 
 import com.aop.authentication.AuthenticationInterceptor;
 import com.ini.service.*;
+import com.ini.service.implement.*;
+import com.utils.SessionUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,12 +17,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 @SpringBootApplication
-public class WebAppConfig extends WebMvcConfigurerAdapter {
+public class Application extends WebMvcConfigurerAdapter {
 
     public static void main(String[] args) {
-        SpringApplication.run(WebAppConfig.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
+
+    //aop.用户权限验证
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthenticationInterceptor()).addPathPatterns("/**");
     }
@@ -50,6 +54,11 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public StatisticsService statisticsService(){
         return new StatisticsServiceImpl();
+    }
+
+    @Bean
+    public SessionUtil sessionUtil(){
+        return new SessionUtil();
     }
 
 //    @Bean

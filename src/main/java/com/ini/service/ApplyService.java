@@ -11,7 +11,9 @@ import java.util.List;
 public interface ApplyService {
     public ConstJson.Result addApply(Apply apply);
 
-    public List<Apply> getApplys(Integer sessionUid);
+    public List<Apply> getApplys(Integer userId);
 
     public Apply getApplyDetail(Integer applyId);
+
+    public Apply getLatestApply(Integer userId);
 }

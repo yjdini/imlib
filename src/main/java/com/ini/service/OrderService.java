@@ -1,6 +1,6 @@
 package com.ini.service;
 
-import com.ini.entity.Order;
+import com.ini.entity.Orders;
 import com.utils.ConstJson;
 
 import java.util.List;
@@ -10,17 +10,19 @@ import java.util.List;
  */
 public interface OrderService {
 
-    ConstJson.Result addOrder(Order order);
+    ConstJson.Result addOrder(Orders order);
 
-    ConstJson.Result editSkill(Order order, Integer sessionUid);
+    ConstJson.Result cancleOrder(Integer orderId, Integer userId);
 
-    ConstJson.Result cancleOrder(Integer orderId, Integer sessionUid);
+    List<Orders> getOrdersByUserId(Integer userId);
 
-    List<Order> getOrders(Integer sessionUid);
+    Orders getOrderDetail(Integer orderId, Integer userId);
 
-    Order getOrderDetail(Integer orderId, Integer sessionUid);
+    ConstJson.Result rejectOrder(Integer orderId, Integer userId);
 
-    ConstJson.Result rejectOrder(Integer orderId, Integer sessionUid);
+    ConstJson.Result deleteOrder(Integer orderId, Integer userId);
 
-    ConstJson.Result deleteOrder(Integer orderId, Integer sessionUid);
+    ConstJson.Result finishOrder(Integer orderId, Integer userId);
+
+    void rejectAllOrders(Integer skillId);
 }

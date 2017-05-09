@@ -22,6 +22,7 @@
 ```concept
 {
     userId;
+    subId;//所属分站id
     nickname;
     avatar;
     studentCard;
@@ -45,15 +46,7 @@
   url: /api/user/add,
   method: post,
   content-type: application/json; charset=utf-8,
-  data: {
-    name: 姓名,
-    age: 年龄,
-    sex: 性别(1为男，0为女),
-    telephone: 电话,
-    email: 邮箱,
-    password: base64加密后的密码,
-    type: 用户类型(字符型:'m'aster为行家用户，'c'ommon为普通用户.该参数只在添加时有效)  
-  }
+  data: User@object
 }
 ```
 ##### 修改资料
@@ -85,11 +78,7 @@ response
 }
  
 {
-  status: "unRegist"(账号不存在)
-}
- 
-{
-  status: "psdErr"(密码错误)
+  status: "error"(账号或密码错误)
 }
 ```
 
@@ -133,6 +122,7 @@ response:User@object
 {
     skillId;
     userId;
+    subId;
     title;
     description;
     works;
@@ -186,7 +176,7 @@ response:SKill@object
 ```javascript
 request
 {
-  url: /api/skill/search/keyword/{keyword},
+  url: /api/skill/search/keyword/{subId}/{keyword},
   method: get
 }
  
@@ -197,7 +187,7 @@ response:SKill+User@object[]
 ```javascript
 request
 {
-  url: /api/skill/search/tag/{tagId},
+  url: /api/skill/search/tag/{subId}/{tagId},
   method: get
 }
  
@@ -214,9 +204,10 @@ response:SKill+User@object[]
     toUserId;
     skillId;
     introduction;
-    result;//0：申请中；1：同意；2：拒绝；3：已完成
+    result;//0:待审核；1：同意；2：拒绝；3：已完成；4：取消；
     wechart;
     rejectReason;
+    isCommented;//如果已完成，是否评论了0：否，1：是
 }
 ```
 ##### 添加预约
@@ -289,7 +280,7 @@ response:Order@object
 }
 ```
 ##### 对某个技能进行评论
-```javascript
+```javascript  
 request
 {
   url: /api/skill/comment/add,
@@ -338,6 +329,17 @@ response:Comment+User@object[](按时间递增排序)
 }
 ```
 
+##### 查看自己最近一次的认证信息
+```javascript
+request
+{
+  url: /api/apply/latest,
+  method: get
+}
+ 
+response:Apply@object
+```
+
 ##### 查看自己的认证申请列表
 ```javascript
 request
@@ -357,5 +359,9 @@ request
   method: get
 }
  
+
+
 response:Apply@object
 ```
+
+# 7.Tag

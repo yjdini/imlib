@@ -1,9 +1,10 @@
 package com.ini.controllers;
 
-import com.ini.entity.Order;
+import com.ini.entity.Orders;
 import com.ini.service.OrderService;
 import com.ini.service.UserService;
 import com.utils.ConstJson;
+import com.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -22,43 +23,51 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SessionUtil sessionUtil;
 
-    @RequestMapping(value = "/addOrder",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ConstJson.Result addSkill(@RequestBody Order order, HttpServletRequest request, HttpServletResponse response)
+    @RequestMapping(value = "/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ConstJson.Result addSkill(@RequestBody Orders order, HttpServletRequest request, HttpServletResponse response)
     {
         //防止恶意为别人创建预约
-//        order.setUserId(userService.getSessionUid(request));
+        order.setFromUserId(sessionUtil.getUserId(request));
         return orderService.addOrder(order);
     }
 
-    @RequestMapping(value ="/cancleOrder/{orderId}")
+    @RequestMapping(value ="/cancle/{orderId}")
     public ConstJson.Result cancleOrder(@PathVariable Integer orderId, HttpServletRequest request){
         //防止恶意取消别人的预约
-        return orderService.cancleOrder(orderId, userService.getSessionUid(request));
+        return orderService.cancleOrder(orderId, sessionUtil.getUserId(request));
     }
 
-    @RequestMapping(value ="/rejectOrder/{orderId}")
+    @RequestMapping(value ="/reject/{orderId}")
     public ConstJson.Result rejectOrder(@PathVariable Integer orderId, HttpServletRequest request){
         //防止恶意拒绝别人的预约
-        return orderService.rejectOrder(orderId, userService.getSessionUid(request));
+        return orderService.rejectOrder(orderId, sessionUtil.getUserId(request));
     }
 
-    @RequestMapping(value ="/deleteOrder/{orderId}")
+    @RequestMapping(value ="/finish/{orderId}")
+    public ConstJson.Result finishOrder(@PathVariable Integer orderId, HttpServletRequest request){
+        //防止恶意完成别人的预约
+        return orderService.finishOrder(orderId, sessionUtil.getUserId(request));
+    }
+
+    @RequestMapping(value ="/delete/{orderId}")
     public ConstJson.Result deleteOrder(@PathVariable Integer orderId, HttpServletRequest request){
-        //防止恶意拒绝别人的预约
-        return orderService.deleteOrder(orderId, userService.getSessionUid(request));
+        //防止恶意删除别人的预约
+        return orderService.deleteOrder(orderId, sessionUtil.getUserId(request));
     }
 
-    @RequestMapping("/getOrders")
-    public List<Order> getOrders(HttpServletRequest request){
+    @RequestMapping("/list")
+    public List<Orders> getOrders(HttpServletRequest request){
         //用户查看自己的预约列表
-        return orderService.getOrders(userService.getSessionUid(request));
+        return orderService.getOrdersByUserId(sessionUtil.getUserId(request));
     }
 
-    @RequestMapping("/getOrderDetail/{orderId}")
-    public Order getOrderDetail(@PathVariable Integer orderId, HttpServletRequest request){
+    @RequestMapping("/info/{orderId}")
+    public Orders getOrderDetail(@PathVariable Integer orderId, HttpServletRequest request){
         //查看与自己相关的预约详情
-        return orderService.getOrderDetail(orderId, userService.getSessionUid(request));
+        return orderService.getOrderDetail(orderId, sessionUtil.getUserId(request));
     }
 
 

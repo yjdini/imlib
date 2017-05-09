@@ -6,6 +6,8 @@ import javax.persistence.*;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Somnus`L on 2017/5/4.
  */
@@ -14,31 +16,57 @@ import org.joda.time.DateTime;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer userId;
 
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime createTime;
 
-    private String name;
+    private String nickname;
 
-    private String nick;
+    private String avatar;
 
-    private String phone;
+    private String studentCard;
 
     private String password;
 
-    private Integer subId;
+    private Integer grade;
 
     private Integer status;
 
     private char type;
 
-    public Integer getId() {
-        return id;
+    private String major;
+
+    private String phone;
+
+    private String wechart;
+
+    private String introduce;
+
+    private String title;
+
+    private String works;
+
+    private Integer orderTimes;
+
+    private Integer orderedTimes;
+
+    private BigDecimal score;
+
+    public User() {
+        this.setCreateTime(new DateTime());
+        this.setOrderedTimes(0);
+        this.setOrderTimes(0);
+        this.setStatus(1);
+        this.setType('c');
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public DateTime getCreateTime() {
@@ -49,28 +77,28 @@ public class User {
         this.createTime = createTime;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
-    public String getNick() {
-        return nick;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setNick(String nick) {
-        this.nick = nick;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getStudentCard() {
+        return studentCard;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setStudentCard(String studentCard) {
+        this.studentCard = studentCard;
     }
 
     public String getPassword() {
@@ -81,12 +109,12 @@ public class User {
         this.password = password;
     }
 
-    public Integer getSubId() {
-        return subId;
+    public Integer getGrade() {
+        return grade;
     }
 
-    public void setSubId(Integer subId) {
-        this.subId = subId;
+    public void setGrade(Integer grade) {
+        this.grade = grade;
     }
 
     public Integer getStatus() {
@@ -101,7 +129,85 @@ public class User {
         return type;
     }
 
+    /**
+     * 'm'aster; 'c'ommon
+     * @param type
+     */
     public void setType(char type) {
         this.type = type;
     }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getWechart() {
+        return wechart;
+    }
+
+    public void setWechart(String wechart) {
+        this.wechart = wechart;
+    }
+
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getWorks() {
+        return works;
+    }
+
+    public void setWorks(String works) {
+        this.works = works;
+    }
+
+    public Integer getOrderTimes() {
+        return orderTimes;
+    }
+
+    public void setOrderTimes(Integer orderTimes) {
+        this.orderTimes = orderTimes;
+    }
+
+    public Integer getOrderedTimes() {
+        return orderedTimes;
+    }
+
+    public void setOrderedTimes(Integer orderedTimes) {
+        this.orderedTimes = orderedTimes;
+    }
+
+    public BigDecimal getScore() {
+        return score;
+    }
+
+    public void setScore(BigDecimal score) {
+        this.score = score;
+    }
+
+
 }

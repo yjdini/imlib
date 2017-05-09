@@ -14,7 +14,7 @@ import org.joda.time.DateTime;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer commentId;
 
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime createTime;
@@ -23,18 +23,23 @@ public class Comment {
 
     private Integer skillId;
 
-    private Integer commentId;
-
     private String content;
+
+    private Integer score;
 
     private Integer status;
 
-    public Integer getId() {
-        return id;
+    public Comment() {
+        this.setCreateTime(new DateTime());
+        this.setStatus(1);
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 
     public DateTime getCreateTime() {
@@ -61,20 +66,20 @@ public class Comment {
         this.skillId = skillId;
     }
 
-    public Integer getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(Integer commentId) {
-        this.commentId = commentId;
-    }
-
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 
     public Integer getStatus() {
