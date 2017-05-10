@@ -62,4 +62,9 @@ public class SkillController {
         return skillService.searchByTagId(tagId, subId);
     }
 
+    @RequestMapping("/search/all/{subId}")
+    public List searchAll(@PathVariable Integer subId){
+        return skillService.searchAll(subId);
+    }
+
 }

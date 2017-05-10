@@ -25,4 +25,6 @@ public interface SkillService {
     void increaseOrderTimes(Integer skillId);
 
     void increaseOrderedTimes(Integer skillId);
+
+    List searchAll(Integer subId);
 }

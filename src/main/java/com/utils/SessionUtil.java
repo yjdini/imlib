@@ -27,4 +27,8 @@ public class SessionUtil {
     public void setUser(HttpServletRequest request, User user) {
         request.getSession().setAttribute("user", user);
     }
+
+    public boolean logined(HttpServletRequest request) {
+        return !(request.getSession().getAttribute("user") == null);
+    }
 }

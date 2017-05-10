@@ -44,9 +44,9 @@ public class Skill {
 
     private String title;
 
-    private String totleprice;
+    private String totalPrice;
 
-    private String totletime;
+    private String totalTime;
 
     private Integer orderTimes;
 
@@ -101,20 +101,20 @@ public class Skill {
         this.title = title;
     }
 
-    public String getTotleprice() {
-        return totleprice;
+    public String getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setTotleprice(String totleprice) {
-        this.totleprice = totleprice;
+    public void setTotalPrice(String totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
-    public String getTotletime() {
-        return totletime;
+    public String getTotalTime() {
+        return totalTime;
     }
 
-    public void setTotletime(String totletime) {
-        this.totletime = totletime;
+    public void setTotalTime(String totalTime) {
+        this.totalTime = totalTime;
     }
 
     public Integer getOrderTimes() {

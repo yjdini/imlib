@@ -2,6 +2,7 @@ package com.ini.service.implement;
 
 import com.ini.dao.entity.Skill;
 import com.ini.dao.schema.SkillTagSet;
+import com.ini.dao.schema.SkillUserTagSet;
 import com.ini.service.OrderService;
 import com.ini.service.SkillService;
 import com.utils.ConstJson;
@@ -73,25 +74,32 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public List searchByKeyword(String keyword, Integer subId) {
-        return entityManager.createNativeQuery("select  Skill.*, User.*, Tag.name as tagname  from Skill, " +
-                        " User, Tag  where tag.tagId = skill.tagId and skill.userId" +
-                        " = user.userId and skill.status = 1 and user.status = 1 and user.subId = ? and " +
-                        "(user.nickname like BINARY '%"+keyword+"%' or skill.title like BINARY '%"+keyword+"%' )",
-                "SkillUserEntity")
-                .setParameter(1, subId)
+        return entityManager.createQuery("select new com.ini.dao.schema.SkillUserTagSet(s, u, t)" +
+                        " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
+                        " and s.status = 1 and u.status = 1 and u.subId = :subId and " +
+                        "(u.name like '%"+keyword+"%' or s.title like '%"+keyword+"%' )"
+                ,SkillUserTagSet.class)
+                .setParameter("subId", subId)
                 .getResultList();
     }
 
     @Override
     public List searchByTagId(Integer tagId, Integer subId) {
-        return entityManager.createNativeQuery(
-                "select  Skill.*, User.*, Tag.name as tagname  from Skill, User, Tag  where" +
-                        " tag.tagId = skill.tagId and Skill.userId = User.userId" +
-                        " and skill.status = 1 and user.status = 1 and user.subId = :subId " +
-                        " and skill.tagId = :tagId",
-                "SkillUserEntity")
+        return entityManager.createQuery("select new com.ini.dao.schema.SkillUserTagSet(s, u, t)" +
+                " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
+                " and s.status = 1 and u.status = 1 and u.subId = :subId and s.tagId = :tagId"
+                        ,SkillUserTagSet.class)
                 .setParameter("subId", subId)
                 .setParameter("tagId", tagId).getResultList();
+    }
+
+    @Override
+    public List searchAll(Integer subId) {
+        return entityManager.createQuery("select new com.ini.dao.schema.SkillUserTagSet(s, u, t)" +
+                " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
+                " and s.status = 1 and u.status = 1 and u.subId = :subId", SkillUserTagSet.class)
+                .setParameter("subId", subId)
+                .getResultList();
     }
 
     @Override

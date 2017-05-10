@@ -12,12 +12,12 @@ public class ConstJson {
 
     public static class Result {
         private String status;
-        private String result;
+        private Object result;
         public Result(String status) {
             this.status = status;
         }
 
-        public Result(String status, String result) {
+        public Result(String status, Object result) {
             this.status = status;
             this.result = result;
         }
@@ -30,7 +30,7 @@ public class ConstJson {
             this.status = status;
         }
 
-        public ConstJson.Result setResult(String result) {
+        public ConstJson.Result setResult(Object result) {
             return new Result(this.getStatus(), result);
         }
     }

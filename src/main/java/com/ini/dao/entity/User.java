@@ -24,6 +24,8 @@ public class User {
 
     private String nickname;
 
+    private String name;
+
     private String avatar;
 
     private String studentCard;
@@ -87,6 +89,14 @@ public class User {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAvatar() {

@@ -67,6 +67,16 @@ public class UserController
     {
         return userService.uploadAvatar(request.getParameter("image"));
     }
+
+    @RequestMapping(value = "/status")
+    public ConstJson.Result getUserLoginStatus(HttpServletRequest request)
+    {
+        if(sessionUtil.logined(request)) {
+            return ConstJson.OK.setResult(1);
+        } else {
+            return ConstJson.OK.setResult(0);
+        }
+    }
 }
 
 

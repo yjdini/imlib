@@ -121,6 +121,19 @@ response:User@object
 
 ```
 
+##### 获取是否登录
+```javascript
+request
+{
+  url: /api/user/status
+  method: get
+}
+  
+response
+{
+  result : 0: 未登录，1：已登录
+}
+```
 
 
 # 3.Skill
@@ -207,7 +220,16 @@ request
  
 response:SKill+User@object[]
 ```
-
+##### 该分站所有技能列表
+```javascript
+request
+{
+  url: /api/skill/search/all/{subId},
+  method: get
+}
+ 
+response:SKill+User@object[]
+```
 
 # 4.Order
 ##### 数据表
@@ -398,3 +420,26 @@ response:Apply@object
 ```
 
 # 7.Tag
+##### 数据表
+```concept
+{
+tagId;
+name;
+}
+```
+
+# 8.Sub
+##### 数据表
+```concept
+{
+subId;
+schoolName;
+
+}
+```
+
+# 9.Admin
+##### 数据表
+```concept
+
+```
