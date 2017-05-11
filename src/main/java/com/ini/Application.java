@@ -25,7 +25,7 @@ public class Application extends WebMvcConfigurerAdapter {
     }
 
 
-    //aop.用户权限验证
+    //aop.用户权限验证、用户输入验证
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthenticationInterceptor()).addPathPatterns("/**");
     }

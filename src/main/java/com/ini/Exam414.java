@@ -1,4 +1,4 @@
-package com.ini.aop.authentication;
+package com.ini;
 
 import java.util.HashMap;
 

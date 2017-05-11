@@ -1,6 +1,7 @@
 package com.ini.service.implement;
 
 import com.ini.dao.entity.User;
+import com.ini.dao.entity.framework.EntityView;
 import com.ini.service.UserService;
 import com.utils.ConstJson;
 import com.utils.FileUploadUtil;
@@ -42,7 +43,9 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
             return ResultMap.error().setMessage(e.getMessage());
         }
-        return ResultMap.ok().put("result", user.getUserId());
+        return ResultMap.ok().result("userId",user.getUserId())
+                            .result("subId", user.getSubId())
+                            .result("type", user.getType());
     }
 
     private boolean userNameExist(String name) {
@@ -81,7 +84,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultMap getUserById(Integer userId) {
-        return  ResultMap.ok().put("result",entityManager.find(User.class, userId));
+        User user = entityManager.find(User.class, userId);
+        return  ResultMap.ok().result(
+                EntityView.all(user).remove("password").getMap());
     }
 
     @Override

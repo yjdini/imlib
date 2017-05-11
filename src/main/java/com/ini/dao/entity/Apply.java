@@ -34,6 +34,12 @@ public class Apply {
 
     private Integer status;
 
+    private String prize;
+
+    private String phone;
+
+    private String prove;
+
     public Apply() {
         this.setCreateTime(new Date());
         this.setStatus(1);
@@ -70,6 +76,14 @@ public class Apply {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getIntroduce() {
@@ -122,5 +136,21 @@ public class Apply {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getPrize() {
+        return prize;
+    }
+
+    public void setPrize(String prize) {
+        this.prize = prize;
+    }
+
+    public String getProve() {
+        return prove;
+    }
+
+    public void setProve(String prove) {
+        this.prove = prove;
     }
 }

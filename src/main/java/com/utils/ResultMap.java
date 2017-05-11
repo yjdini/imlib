@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class ResultMap {
     private final HashMap<String, Object> map;
-    private Map result;
+    private Object result;
     /**
      * static factory method
      * @return
@@ -46,15 +46,16 @@ public class ResultMap {
     }
 
     public ResultMap result(Object object) {
+        this.result = object;
         this.map.put("result", object);
         return this;
     }
-    public ResultMap result(String key, String value) {
+    public ResultMap result(String key, Object value) {
         if(result == null) {
             result = new HashMap<String, Object>();
             this.map.put("result", result);
         }
-        result.put(key, value);
+        ((Map<String, Object>)result).put(key, value);
         return this;
     }
 

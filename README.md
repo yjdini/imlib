@@ -337,9 +337,21 @@ response
 ```javascript
 {
   url: /api/order/reject/{orderId},
+  method: post,
+  data: {
+    rejectReason;
+  }
+}
+```
+
+##### (行家)同意预约
+```javascript
+{
+  url: /api/order/agree/{orderId},
   method: get
 }
 ```
+
 ##### 完成预约
 ```javascript
 {

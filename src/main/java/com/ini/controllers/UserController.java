@@ -27,7 +27,6 @@ public class UserController
     @Autowired
     private SessionUtil sessionUtil;
 
-
 	@RequestMapping(value = "/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map addUser(@RequestBody User user)
     {
@@ -55,6 +54,7 @@ public class UserController
             Map result = new HashMap<String, Integer>();
             result.put("userId", user.getUserId());
             result.put("subId", user.getSubId());
+            result.put("type", user.getType());
             return ResultMap.ok().put("result", result).getMap();
         }
     }
@@ -99,7 +99,7 @@ public class UserController
     public Map getUserLoginStatus()
     {
         if (sessionUtil.logined()) {
-            return ResultMap.ok().getMap();
+            return getUserById();
         } else {
             return ResultMap.unlogin().getMap();
         }

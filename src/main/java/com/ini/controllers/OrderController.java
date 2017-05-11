@@ -42,9 +42,16 @@ public class OrderController {
 
     @Authentication(value = AuthenticationType.Master)
     @RequestMapping(value ="/reject/{orderId}")
-    public Map rejectOrder(@PathVariable Integer orderId){
+    public Map rejectOrder(@PathVariable Integer orderId, @RequestBody Map<String, String> body){
         //防止恶意拒绝别人的预约
-        return orderService.rejectOrder(orderId).getMap();
+        return orderService.rejectOrder(orderId, body.get("rejectReason")).getMap();
+    }
+
+    @Authentication(value = AuthenticationType.Master)
+    @RequestMapping(value ="/agree/{orderId}")
+    public Map agreeOrder(@PathVariable Integer orderId){
+        //防止恶意同意别人的预约
+        return orderService.agreeOrder(orderId).getMap();
     }
 
     @Authentication(value = AuthenticationType.CommonUser)

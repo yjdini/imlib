@@ -5,8 +5,6 @@ import com.ini.dao.schema.SkillTagSet;
 import com.ini.dao.schema.SkillUserTagSet;
 import com.ini.service.OrderService;
 import com.ini.service.SkillService;
-import com.mysql.cj.api.Session;
-import com.utils.ConstJson;
 import com.utils.ResultMap;
 import com.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +47,7 @@ public class SkillServiceImpl implements SkillService {
             if (!skill.getUserId().equals(sessionUtil.getUserId())) {//没有权限
                 return ResultMap.ok().setMessage("no authority");
             }
-            orderService.rejectAllOrders(skillId);
+            orderService.rejectAllOrdersOfSkill(skillId);
             skill.setStatus(0);
             entityManager.persist(skill);
         } catch (Exception e) {

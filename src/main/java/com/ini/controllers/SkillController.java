@@ -53,7 +53,7 @@ public class SkillController {
 
     @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping("/list")
-    public Map getSkill(@PathVariable Integer userId, @PathVariable Integer exceptSkillId){
+    public Map getSkill(){
         return skillService.getSkillsByUserId(sessionUtil.getUserId()).getMap();
     }
 

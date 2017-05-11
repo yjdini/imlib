@@ -4,7 +4,6 @@ import com.ini.dao.entity.Orders;
 import com.ini.service.OrderService;
 import com.ini.service.SkillService;
 import com.ini.service.UserService;
-import com.utils.ConstJson;
 import com.utils.ResultMap;
 import com.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,15 +83,16 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Transactional
     @Override
-    public ResultMap rejectOrder(Integer orderId) {
+    public ResultMap rejectOrder(Integer orderId, String rejectReason) {
         try {
             Orders order = entityManager.find(Orders.class, orderId);
 
             if(!orderTo(order, sessionUtil.getUserId())) {//没有权限
                 return ResultMap.error().setMessage("no authority");
             }
-
+            order.setRejectReason(rejectReason);
             order.setResult(2);
             entityManager.persist(order);
         } catch (Exception e) {
@@ -102,8 +102,24 @@ public class OrderServiceImpl implements OrderService {
         return ResultMap.ok();
     }
 
+    @Override
+    public ResultMap agreeOrder(Integer orderId) {
+        try {
+            Orders order = entityManager.find(Orders.class, orderId);
 
+            if(!orderTo(order, sessionUtil.getUserId())) {//没有权限
+                return ResultMap.error().setMessage("no authority");
+            }
+            order.setResult(1);
+            entityManager.persist(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultMap.error().setMessage(e.getMessage());
+        }
+        return ResultMap.ok();
+    }
 
+    @Transactional
     @Override
     public ResultMap deleteOrder(Integer orderId) {
         try {
@@ -151,7 +167,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void rejectAllOrders(Integer skillId) {
+    public void rejectAllOrdersOfSkill(Integer skillId) {
         List<Orders> orderList = entityManager.createQuery("from Orders where skillId = :skillId and result = 0", Orders.class)
                 .setParameter("skillId", skillId).getResultList();
         for (Orders order : orderList) {
@@ -162,9 +178,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResultMap getFromOrders() {
-        List orders = entityManager.createQuery("select from new com.ini.dao.schema.OrderUser(o,to,from,t,s)"+
-                " from Orders o,User to,User from, Tag t,Skill s where o.fromStatus = 1 and " +
-                "from.userId = :userId and to.userId = o.toUserId and from.userId = o.fromUserId and " +
+        List orders = entityManager.createQuery("select new com.ini.dao.schema.OrderUser(o,to,fr,t,s)"+
+                " from Orders o,User to,User fr, Tag t,Skill s where o.fromStatus = 1 and " +
+                "fr.userId = :userId and to.userId = o.toUserId and fr.userId = o.fromUserId and " +
                 "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc")
                 .setParameter("userId", sessionUtil.getUserId())
                 .getResultList();
@@ -173,9 +189,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResultMap getToOrders() {
-        List orders = entityManager.createQuery("select from new com.ini.dao.schema.OrderUser(o,to,from,t,s)"+
-                " from Orders o,User to,User from, Tag t,Skill s where o.toStatus = 1 and " +
-                "to.userId = :userId and to.userId = o.toUserId and from.userId = o.fromUserId and " +
+        List orders = entityManager.createQuery("select new com.ini.dao.schema.OrderUser(o,to,fr,t,s)"+
+                " from Orders o,User to,User fr, Tag t,Skill s where o.toStatus = 1 and " +
+                "to.userId = :userId and to.userId = o.toUserId and fr.userId = o.fromUserId and " +
                 "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc")
                 .setParameter("userId", sessionUtil.getUserId())
                 .getResultList();
