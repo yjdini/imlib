@@ -34,6 +34,9 @@ public class OrderServiceImpl implements OrderService {
     public ResultMap addOrder(Orders order) {
         try {
             order.setFromUserId(sessionUtil.getUserId());
+            if (order.getFromUserId().equals(order.getToUserId())) {
+                return ResultMap.error().setMessage("不能自己约自己！");
+            }
             skillService.increaseOrderTimes(order.getSkillId());
             userService.increaseOrderTimes(order.getToUserId());
             entityManager.persist(order);
@@ -107,7 +110,7 @@ public class OrderServiceImpl implements OrderService {
             Orders order = entityManager.find(Orders.class, orderId);
 
             if(order.getResult() == 0) {//待审核的预约不能删除
-                return ResultMap.error().setMessage("待审核的预约不能删除");
+                return ResultMap.error().setMessage("待审核的预约不能删除！");
             }
 
             if(orderFrom(order, sessionUtil.getUserId())) {
@@ -115,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
             } else if (orderTo(order, sessionUtil.getUserId())) {
                 order.setToStatus(0);
             } else {
-                return ResultMap.error().setMessage("该预约不属于你");
+                return ResultMap.error().setMessage("该预约不属于你！");
             }
             entityManager.persist(order);
         } catch (Exception e) {
@@ -160,7 +163,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResultMap getFromOrders() {
         List orders = entityManager.createQuery(
-                "from Orders where fromUserId = :userId and status = 1", Orders.class)
+                "from Orders where fromUserId = :userId and fromStatus = 1", Orders.class)
                 .setParameter("userId", sessionUtil.getUserId())
                 .getResultList();
         return ResultMap.ok().put("result", orders);
@@ -169,7 +172,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResultMap getToOrders() {
         List orders = entityManager.createQuery(
-                "from Orders where toUserId = :userId and status = 1", Orders.class)
+                "from Orders where toUserId = :userId and toStatus = 1", Orders.class)
                 .setParameter("userId", sessionUtil.getUserId())
                 .getResultList();
         return ResultMap.ok().put("result", orders);

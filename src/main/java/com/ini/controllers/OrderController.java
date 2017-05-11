@@ -27,7 +27,7 @@ public class OrderController {
 
     @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map addSkill(@RequestBody Orders order)
+    public Map addOrder(@RequestBody Orders order)
     {
         //防止恶意为别人创建预约
         return orderService.addOrder(order).getMap();

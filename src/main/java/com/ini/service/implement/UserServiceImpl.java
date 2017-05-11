@@ -32,6 +32,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ResultMap addUser(User user) {
         try{
+            if (userNameExist(user.getName()))
+                return ResultMap.error().setMessage("nameExist");
             user.setStudentCard((String) sessionUtil.get("studentCard"));
             sessionUtil.set("studentCard", null);
             entityManager.persist(user);
@@ -40,7 +42,14 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
             return ResultMap.error().setMessage(e.getMessage());
         }
-        return ResultMap.ok().put("userId", user.getUserId());
+        return ResultMap.ok().put("result", user.getUserId());
+    }
+
+    private boolean userNameExist(String name) {
+        List result = entityManager.createQuery("from User where nickname = :nickname")
+                .setParameter("nickname", name)
+                .getResultList();
+        return result.size() != 0;
     }
 
     @Override

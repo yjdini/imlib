@@ -354,6 +354,29 @@ request
  
 response:Order@object[]
 ```
+
+##### 获取自己的预约列表(自己约别人)
+```javascript
+request
+{
+  url: /api/order/from/list,
+  method: get
+}
+ 
+response:Order@object[]
+```
+
+
+##### 获取自己的预约列表(别人约自己)
+```javascript
+request
+{
+  url: /api/order/to/list,
+  method: get
+}
+ 
+response:Order@object[]
+```
 ##### 查看某个预约详细信息
 ```javascript
 request
