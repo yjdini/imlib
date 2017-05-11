@@ -1,9 +1,9 @@
 package com.ini.service.implement;
 
 import com.ini.dao.entity.User;
-import com.ini.service.FileService;
 import com.ini.service.UserService;
 import com.utils.ConstJson;
+import com.utils.FileUploadUtil;
 import com.utils.ResultMap;
 import com.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     @PersistenceContext
     private EntityManager entityManager;
     @Autowired
-    private FileService fileService;
+    private FileUploadUtil fileUploadUtil;
     @Autowired
     private SessionUtil sessionUtil;
 
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
         System.out.print(image.getContentType());
         String fileUrl;
         try {
-            fileUrl = fileService.saveFile(image);
+            fileUrl = fileUploadUtil.saveFile(image);
             setUserAvatar(sessionUtil.getUserId(), fileUrl);
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultMap uploadStudentCard(MultipartFile image) {
         try {
-            String fileUrl = fileService.saveFile(image);
+            String fileUrl = fileUploadUtil.saveFile(image);
             if (sessionUtil.logined()) {
                 User user = entityManager.find(User.class, sessionUtil.getUserId());
                 user.setStudentCard(fileUrl);

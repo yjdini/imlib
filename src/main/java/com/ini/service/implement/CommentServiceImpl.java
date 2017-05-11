@@ -38,11 +38,11 @@ public  class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Query(name = "CommentUserSet", value = )
     public ResultMap getCommentsBySkillId(Integer skillId) {
         List comments =  entityManager.createQuery("select new com.ini.dao.schema.CommentUserSet(c,u) from " +
-                " Comment c, User u where c.userId = u.userId" +
-                " and c.skillId = :skillId");
+                " Comment c, User u where c.userId = u.userId and u.status =1 and c.status = 1 " +
+                " and c.skillId = :skillId")
+                .setParameter("skillId", skillId)
                 .getResultList();
         return ResultMap.ok().put("result", comments);
     }

@@ -162,8 +162,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResultMap getFromOrders() {
-        List orders = entityManager.createQuery(
-                "from Orders where fromUserId = :userId and fromStatus = 1", Orders.class)
+        List orders = entityManager.createQuery("select from new com.ini.dao.schema.OrderUser(o,to,from,t,s)"+
+                " from Orders o,User to,User from, Tag t,Skill s where o.fromStatus = 1 and " +
+                "from.userId = :userId and to.userId = o.toUserId and from.userId = o.fromUserId and " +
+                "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc")
                 .setParameter("userId", sessionUtil.getUserId())
                 .getResultList();
         return ResultMap.ok().put("result", orders);
@@ -171,8 +173,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResultMap getToOrders() {
-        List orders = entityManager.createQuery(
-                "from Orders where toUserId = :userId and toStatus = 1", Orders.class)
+        List orders = entityManager.createQuery("select from new com.ini.dao.schema.OrderUser(o,to,from,t,s)"+
+                " from Orders o,User to,User from, Tag t,Skill s where o.toStatus = 1 and " +
+                "to.userId = :userId and to.userId = o.toUserId and from.userId = o.fromUserId and " +
+                "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc")
                 .setParameter("userId", sessionUtil.getUserId())
                 .getResultList();
         return ResultMap.ok().put("result", orders);

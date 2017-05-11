@@ -4,6 +4,7 @@ package com.ini;
 import com.ini.aop.authentication.AuthenticationInterceptor;
 import com.ini.service.*;
 import com.ini.service.implement.*;
+import com.utils.FileUploadUtil;
 import com.utils.SessionUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -62,8 +63,8 @@ public class Application extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public FileService fileService(){
-        return new FileSerivceImpl();
+    public FileUploadUtil fileUploadUtil(){
+        return new FileUploadUtil();
     }
 
 //    @Bean

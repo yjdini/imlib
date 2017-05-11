@@ -221,6 +221,17 @@ response
 }
 ```
 
+##### 查看自己的技能列表
+```javascript
+request
+{
+  url: /api/skill/list
+  method: get
+}
+ 
+response:SKill@object[]
+```
+
 ##### 查看某用户技能列表
 ```javascript
 request

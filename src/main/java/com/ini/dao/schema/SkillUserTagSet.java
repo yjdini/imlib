@@ -21,7 +21,6 @@ public class SkillUserTagSet {
     private String description;
     private String skillTitle;
 
-
     private Integer userId;
     private String userTitle;
     private String nickName;
