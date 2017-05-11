@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isMaster() {
-        return sessionUtil.getUser().getType() == 'm';
+        return entityManager.find(User.class, sessionUtil.getUserId()).getType() == 'm';
     }
 
     @Transactional

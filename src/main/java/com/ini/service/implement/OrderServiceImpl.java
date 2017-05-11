@@ -159,12 +159,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResultMap getFromOrders() {
-        return null;
+        List orders = entityManager.createQuery(
+                "from Orders where fromUserId = :userId and status = 1", Orders.class)
+                .setParameter("userId", sessionUtil.getUserId())
+                .getResultList();
+        return ResultMap.ok().put("result", orders);
     }
 
     @Override
     public ResultMap getToOrders() {
-        return null;
+        List orders = entityManager.createQuery(
+                "from Orders where toUserId = :userId and status = 1", Orders.class)
+                .setParameter("userId", sessionUtil.getUserId())
+                .getResultList();
+        return ResultMap.ok().put("result", orders);
     }
 
     private boolean orderFrom(Orders order, Integer userId) {

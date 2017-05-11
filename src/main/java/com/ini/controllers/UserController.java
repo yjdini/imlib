@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -51,7 +52,10 @@ public class UserController
             return ResultMap.error().setMessage("昵称或密码错误").getMap();
         } else {
             sessionUtil.setUser(user);
-            return ResultMap.ok().put("result",user.getUserId()).getMap();
+            Map result = new HashMap<String, Integer>();
+            result.put("userId", user.getUserId());
+            result.put("subId", user.getSubId());
+            return ResultMap.ok().put("result", result).getMap();
         }
     }
 
@@ -63,10 +67,18 @@ public class UserController
         return ResultMap.ok().getMap();
     }
 
+
     @RequestMapping(value = "/info/{userId}")
-    public Map getUserById(@PathVariable String userId)
+    public Map getUserById(@PathVariable Integer userId)
     {
-        return userService.getUserById(new Integer(userId)).getMap();
+        return userService.getUserById(userId).getMap();
+    }
+
+    @Authentication(value = AuthenticationType.CommonUser)
+    @RequestMapping(value = "/info")
+    public Map getUserById()
+    {
+        return userService.getUserById(sessionUtil.getUserId()).getMap();
     }
 
     @Authentication(value = AuthenticationType.CommonUser)

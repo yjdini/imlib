@@ -143,6 +143,15 @@ request
  
 response:User@object
 ```
+##### 获取用户自己的基本信息
+```javascript
+request
+{
+  url: /api/user/info,
+  method: get
+}
+
+```
 ##### 更新头像
 ```javascript
 {
@@ -223,7 +232,7 @@ request
 response:SKill@object[]
 ```
 
-##### 查看某用户技能列表
+##### 查看某用户技能列表except
 ```javascript
 request
 {
@@ -255,7 +264,7 @@ request
 response:SKill+User@object[]
 ```
 
-##### 关键字搜索技能列表
+##### 标签搜索技能列表
 ```javascript
 request
 {
