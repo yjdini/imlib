@@ -430,7 +430,10 @@ request
   method: post,
   data: {
     skillId:,
-    content:
+    content:,
+    orderId;
+    score;
+    userId;
   }
 }
  
