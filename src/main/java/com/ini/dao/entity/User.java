@@ -1,13 +1,8 @@
 package com.ini.dao.entity;
 
-
 import javax.persistence.*;
-
-import org.hibernate.Interceptor;
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
-
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created by Somnus`L on 2017/5/4.
@@ -19,8 +14,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime createTime;
+//    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createTime;
 
     private String nickname;
 
@@ -42,7 +38,7 @@ public class User {
 
     private String phone;
 
-    private String wechart;
+    private String wechat;
 
     private String introduce;
 
@@ -60,7 +56,7 @@ public class User {
 
 
     public User() {
-        this.setCreateTime(new DateTime());
+        this.setCreateTime(new Date());
         this.setOrderedTimes(0);
         this.setOrderTimes(0);
         this.setStatus(1);
@@ -75,11 +71,11 @@ public class User {
         this.userId = userId;
     }
 
-    public DateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(DateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
@@ -167,14 +163,6 @@ public class User {
         this.phone = phone;
     }
 
-    public String getWechart() {
-        return wechart;
-    }
-
-    public void setWechart(String wechart) {
-        this.wechart = wechart;
-    }
-
     public String getIntroduce() {
         return introduce;
     }
@@ -229,5 +217,13 @@ public class User {
 
     public void setSubId(Integer subId) {
         this.subId = subId;
+    }
+
+    public String getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
     }
 }

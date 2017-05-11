@@ -3,6 +3,9 @@ package com.ini.service.implement;
 import com.ini.dao.entity.Apply;
 import com.ini.service.ApplyService;
 import com.utils.ConstJson;
+import com.utils.ResultMap;
+import com.utils.SessionUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -16,36 +19,46 @@ import java.util.List;
 public class ApplyServiceImpl implements ApplyService {
     @PersistenceContext
     private EntityManager entityManager;
+    @Autowired
+    private SessionUtil sessionUtil;
 
     @Override
     @Transactional
-    public ConstJson.Result addApply(Apply apply) {
+    public ResultMap addApply(Apply apply) {
         try {
+            apply.setUserId(sessionUtil.getUserId());
             entityManager.persist(apply);
         } catch (Exception e) {
             e.printStackTrace();
-            return ConstJson.ERROR;
+            return ResultMap.error().setMessage(e.getMessage());
         }
-        return ConstJson.OK.setResult(apply.getApplyId().toString());
+        return ResultMap.ok().put("result", apply.getApplyId());
     }
 
     @Override
-    public List<Apply> getApplys(Integer userId) {
-        return entityManager.createQuery(
+    public ResultMap getApplys() {
+        List applys = entityManager.createQuery(
                 "from Apply where userId = :userId and status = 1", Apply.class)
-                .setParameter("userId", userId).getResultList();
+                .setParameter("userId", sessionUtil.getUserId()).getResultList();
+        return ResultMap.ok().put("result", applys);
+
     }
 
     @Override
-    public Apply getApplyDetail(Integer applyId) {
-        return entityManager.find(Apply.class, applyId);
+    public ResultMap getApplyDetail(Integer applyId) {
+        return ResultMap.ok().put("result", entityManager.find(Apply.class, applyId));
     }
 
     @Override
-    public Apply getLatestApply(Integer userId) {
-        return entityManager.createQuery(
+    public ResultMap getLatestApply() {
+        List result = entityManager.createQuery(
                 "from Apply where userId = :userId and status = 1 orderBy applyId desc", Apply.class)
-                .setParameter("userId", userId)
-                .getResultList().get(0);
+                .setParameter("userId", sessionUtil.getUserId())
+                .getResultList();
+        if (result.size() == 0) {
+            return ResultMap.ok().put("result", null);
+        } else {
+            return ResultMap.ok().put("result", result.get(0));
+        }
     }
 }

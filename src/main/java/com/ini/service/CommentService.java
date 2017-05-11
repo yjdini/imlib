@@ -1,15 +1,13 @@
 package com.ini.service;
 
 import com.ini.dao.entity.Comment;
-import com.utils.ConstJson;
-
-import java.util.List;
+import com.utils.ResultMap;
 
 /**
  * Created by Somnus`L on 2017/4/5.
  */
 public interface CommentService {
-    ConstJson.Result addComment(Comment comment);
+    ResultMap addComment(Comment comment);
 
-    List<?> getCommentsBySkillId(Integer skillId);
+    ResultMap getCommentsBySkillId(Integer skillId);
 }

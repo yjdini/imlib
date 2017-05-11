@@ -5,6 +5,8 @@ import com.ini.service.OrderService;
 import com.ini.service.SkillService;
 import com.ini.service.UserService;
 import com.utils.ConstJson;
+import com.utils.ResultMap;
+import com.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,7 @@ import java.util.List;
 
 /**
  * Created by Somnus`L on 2017/4/5.
+ *
  */
 public class OrderServiceImpl implements OrderService {
     @PersistenceContext
@@ -23,107 +26,112 @@ public class OrderServiceImpl implements OrderService {
     SkillService skillService;
     @Autowired
     UserService userService;
+    @Autowired
+    SessionUtil sessionUtil;
 
     @Override
     @Transactional
-    public ConstJson.Result addOrder(Orders order) {
+    public ResultMap addOrder(Orders order) {
         try {
+            order.setFromUserId(sessionUtil.getUserId());
             skillService.increaseOrderTimes(order.getSkillId());
             userService.increaseOrderTimes(order.getToUserId());
             entityManager.persist(order);
         } catch (Exception e) {
             e.printStackTrace();
-            return ConstJson.ERROR;
+            return ResultMap.error().setMessage(e.getMessage());
         }
-        return ConstJson.OK.setResult(order.getOrderId().toString());
+        return ResultMap.ok().put("result", order.getOrderId());
     }
 
 
     @Override
     @Transactional
-    public ConstJson.Result cancleOrder(Integer orderId, Integer userId) {
+    public ResultMap cancleOrder(Integer orderId) {
         try {
             Orders order = entityManager.find(Orders.class, orderId);
-
-            if(!orderFrom(order, userId)) {//没有权限
-                return ConstJson.ERROR;
+            if (!orderFrom(order, sessionUtil.getUserId())) {//没有权限
+                return ResultMap.error().setMessage("no authority");
             }
-
             order.setResult(4);
             entityManager.persist(order);
         } catch (Exception e) {
             e.printStackTrace();
-            return ConstJson.ERROR;
+            return ResultMap.error().setMessage(e.getMessage());
         }
-        return ConstJson.OK;
+        return ResultMap.ok();
     }
 
     @Override
-    public List<Orders> getOrdersByUserId(Integer userId) {
-        return entityManager.createQuery(
+    public ResultMap getOrdersByUserId() {
+        List orders = entityManager.createQuery(
                 "from Orders where (fromUserId = :userId or toUserId = :userId) and status = 1", Orders.class)
-                .setParameter("userId", userId)
+                .setParameter("userId", sessionUtil.getUserId())
                 .getResultList();
+        return ResultMap.ok().put("result", orders);
     }
 
     @Override
-    public Orders getOrderDetail(Integer orderId, Integer userId) {
+    public ResultMap getOrderDetail(Integer orderId) {
         Orders order = entityManager.find(Orders.class, orderId);
-        if (!orderBelongs(order, userId)) {//没有权限
-           return null;
+        if (!orderBelongs(order, sessionUtil.getUserId())) {//没有权限
+           return ResultMap.error().setMessage("no authority");
         } else {
-            return order;
+            return ResultMap.ok().put("result", order);
         }
     }
 
     @Override
-    public ConstJson.Result rejectOrder(Integer orderId, Integer userId) {
+    public ResultMap rejectOrder(Integer orderId) {
         try {
             Orders order = entityManager.find(Orders.class, orderId);
 
-            if(!orderTo(order, userId)) {//没有权限
-                return ConstJson.ERROR;
+            if(!orderTo(order, sessionUtil.getUserId())) {//没有权限
+                return ResultMap.error().setMessage("no authority");
             }
 
             order.setResult(2);
             entityManager.persist(order);
         } catch (Exception e) {
             e.printStackTrace();
-            return ConstJson.ERROR;
+            return ResultMap.error().setMessage(e.getMessage());
         }
-        return ConstJson.OK;
+        return ResultMap.ok();
     }
 
+
+
     @Override
-    public ConstJson.Result deleteOrder(Integer orderId, Integer userId) {
+    public ResultMap deleteOrder(Integer orderId) {
         try {
             Orders order = entityManager.find(Orders.class, orderId);
 
             if(order.getResult() == 0) {//待审核的预约不能删除
-                return ConstJson.ERROR;
+                return ResultMap.error().setMessage("待审核的预约不能删除");
             }
 
-            if(orderFrom(order, userId)) {
+            if(orderFrom(order, sessionUtil.getUserId())) {
                 order.setFromStatus(0);
-            } else if (orderTo(order, userId)) {
+            } else if (orderTo(order, sessionUtil.getUserId())) {
                 order.setToStatus(0);
             } else {
-                return ConstJson.ERROR;
+                return ResultMap.error().setMessage("该预约不属于你");
             }
             entityManager.persist(order);
         } catch (Exception e) {
             e.printStackTrace();
-            return ConstJson.ERROR;
+            return ResultMap.error().setMessage(e.getMessage());
         }
-        return ConstJson.OK;
+        return ResultMap.ok();
     }
 
+    @Transactional
     @Override
-    public ConstJson.Result finishOrder(Integer orderId, Integer userId) {
+    public ResultMap finishOrder(Integer orderId) {
         try {
             Orders order = entityManager.find(Orders.class, orderId);
-            if(!orderBelongs(order, userId)) {//没有权限
-                return ConstJson.ERROR;
+            if(!orderBelongs(order, sessionUtil.getUserId())) {//没有权限
+                return ResultMap.error().setMessage("no authority");
             }
 
             skillService.increaseOrderedTimes(order.getSkillId());
@@ -133,12 +141,13 @@ public class OrderServiceImpl implements OrderService {
             entityManager.persist(order);
         } catch (Exception e) {
             e.printStackTrace();
-            return ConstJson.ERROR;
+            return ResultMap.error().setMessage(e.getMessage());
         }
-        return ConstJson.OK;
+        return ResultMap.ok();
     }
 
     @Override
+    @Transactional
     public void rejectAllOrders(Integer skillId) {
         List<Orders> orderList = entityManager.createQuery("from Orders where skillId = :skillId and result = 0", Orders.class)
                 .setParameter("skillId", skillId).getResultList();
@@ -146,6 +155,16 @@ public class OrderServiceImpl implements OrderService {
             order.setResult(2);
             entityManager.persist(order);
         }
+    }
+
+    @Override
+    public ResultMap getFromOrders() {
+        return null;
+    }
+
+    @Override
+    public ResultMap getToOrders() {
+        return null;
     }
 
     private boolean orderFrom(Orders order, Integer userId) {

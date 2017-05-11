@@ -5,7 +5,10 @@ import com.ini.dao.schema.SkillTagSet;
 import com.ini.dao.schema.SkillUserTagSet;
 import com.ini.service.OrderService;
 import com.ini.service.SkillService;
+import com.mysql.cj.api.Session;
 import com.utils.ConstJson;
+import com.utils.ResultMap;
+import com.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,84 +25,104 @@ public class SkillServiceImpl implements SkillService {
 
     @Autowired
     OrderService orderService;
+    @Autowired
+    SessionUtil sessionUtil;
 
     @Override
     @Transactional
-    public ConstJson.Result addSkill(Skill skill) {
+    public ResultMap addSkill(Skill skill) {
         try {
+            skill.setUserId(sessionUtil.getUserId());
             entityManager.persist(skill);
         } catch (Exception e) {
             e.printStackTrace();
-            return ConstJson.ERROR;
+            return ResultMap.error().setMessage(e.getMessage());
         }
-        return ConstJson.OK.setResult(skill.getSkillId().toString());
+        return  ResultMap.ok().put("result", skill.getSkillId());
     }
 
     @Override
     @Transactional
-    public ConstJson.Result deleteSkill(Integer skillId, Integer userId) {
+    public ResultMap deleteSkill(Integer skillId) {
         try {
             Skill skill = entityManager.find(Skill.class, skillId);
-            if(!skill.getUserId().equals(userId)) {//没有权限
-                return ConstJson.ERROR;
+            if (!skill.getUserId().equals(sessionUtil.getUserId())) {//没有权限
+                return ResultMap.ok().setMessage("no authority");
             }
-
             orderService.rejectAllOrders(skillId);
-
             skill.setStatus(0);
             entityManager.persist(skill);
         } catch (Exception e) {
             e.printStackTrace();
-            return ConstJson.ERROR;
+            return ResultMap.error().setMessage(e.getMessage());
         }
-        return ConstJson.OK;
+        return ResultMap.ok();
     }
 
     @Override
-    public List<SkillTagSet> getSkillsByUserId(Integer userId) {
-        return entityManager.createQuery("select new com.ini.dao.schema.SkillTagSet(s, t)" +
+    public ResultMap getSkillsByUserId(Integer userId) {
+        List skills = entityManager.createQuery("select new com.ini.dao.schema.SkillTagSet(s, t)" +
                 " from Skill s, Tag t where s.userId = :userId and s.status = 1 and s.tagId = t.tagId", SkillTagSet.class)
                 .setParameter("userId", userId)
                 .getResultList();
+        return ResultMap.ok().put("result", skills);
     }
 
     @Override
-    public SkillTagSet getSkillDetail(Integer skillId) {
-        return entityManager.createQuery("select new com.ini.dao.schema.SkillTagSet(s, t)" +
+    public ResultMap getSkillDetail(Integer skillId) {
+        List skills = entityManager.createQuery("select new com.ini.dao.schema.SkillTagSet(s, t)" +
                 " from Skill s, Tag t where s.skillId = :skillId and s.tagId = t.tagId", SkillTagSet.class)
                 .setParameter("skillId", skillId)
-                .getResultList()
-                .get(0);
+                .getResultList();
+        if (skills.size() == 0) {
+            return ResultMap.ok().put("result", null);
+        } else {
+            return ResultMap.ok().put("result", skills.get(0));
+        }
     }
 
     @Override
-    public List searchByKeyword(String keyword, Integer subId) {
-        return entityManager.createQuery("select new com.ini.dao.schema.SkillUserTagSet(s, u, t)" +
+    public ResultMap searchByKeyword(String keyword, Integer subId) {
+        List skills = entityManager.createQuery("select new com.ini.dao.schema.SkillUserTagSet(s, u, t)" +
                         " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
                         " and s.status = 1 and u.status = 1 and u.subId = :subId and " +
                         "(u.name like '%"+keyword+"%' or s.title like '%"+keyword+"%' )"
                 ,SkillUserTagSet.class)
                 .setParameter("subId", subId)
                 .getResultList();
+        return ResultMap.ok().put("result", skills);
     }
 
     @Override
-    public List searchByTagId(Integer tagId, Integer subId) {
-        return entityManager.createQuery("select new com.ini.dao.schema.SkillUserTagSet(s, u, t)" +
+    public ResultMap searchByTagId(Integer tagId, Integer subId) {
+        List skills = entityManager.createQuery("select new com.ini.dao.schema.SkillUserTagSet(s, u, t)" +
                 " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
                 " and s.status = 1 and u.status = 1 and u.subId = :subId and s.tagId = :tagId"
                         ,SkillUserTagSet.class)
                 .setParameter("subId", subId)
                 .setParameter("tagId", tagId).getResultList();
+        return ResultMap.ok().put("result", skills);
     }
 
     @Override
-    public List searchAll(Integer subId) {
-        return entityManager.createQuery("select new com.ini.dao.schema.SkillUserTagSet(s, u, t)" +
+    public ResultMap searchAll(Integer subId) {
+        List skills = entityManager.createQuery("select new com.ini.dao.schema.SkillUserTagSet(s, u, t)" +
                 " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
                 " and s.status = 1 and u.status = 1 and u.subId = :subId", SkillUserTagSet.class)
                 .setParameter("subId", subId)
                 .getResultList();
+        return ResultMap.ok().put("result", skills);
+    }
+
+    @Override
+    public ResultMap getSkillsByUserIdExcept(Integer userId, Integer exceptSkillId) {
+        List skills = entityManager.createQuery("select new com.ini.dao.schema.SkillTagSet(s, t)" +
+                " from Skill s, Tag t where s.userId = :userId and s.status = 1 and s.tagId = t.tagId" +
+                " and s.skillId != :skillId", SkillTagSet.class)
+                .setParameter("userId", userId)
+                .setParameter("skillId", exceptSkillId)
+                .getResultList();
+        return ResultMap.ok().put("result", skills);
     }
 
     @Override

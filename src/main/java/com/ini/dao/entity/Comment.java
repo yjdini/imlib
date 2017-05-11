@@ -2,9 +2,8 @@ package com.ini.dao.entity;
 
 
 import javax.persistence.*;
+import java.util.Date;
 
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
 
 /**
  * Created by Somnus`L on 2017/5/4.
@@ -16,8 +15,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer commentId;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime createTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createTime;
 
     private Integer userId;
 
@@ -30,7 +29,7 @@ public class Comment {
     private Integer status;
 
     public Comment() {
-        this.setCreateTime(new DateTime());
+        this.setCreateTime(new Date());
         this.setStatus(1);
     }
 
@@ -42,11 +41,11 @@ public class Comment {
         this.commentId = commentId;
     }
 
-    public DateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(DateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 

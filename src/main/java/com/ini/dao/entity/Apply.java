@@ -2,9 +2,8 @@ package com.ini.dao.entity;
 
 
 import javax.persistence.*;
+import java.util.Date;
 
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
 
 /**
  * Created by Somnus`L on 2017/5/4.
@@ -16,8 +15,8 @@ public class Apply {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer applyId;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime createTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createTime;
 
     private Integer userId;
 
@@ -29,14 +28,14 @@ public class Apply {
 
     private String rejectReason;
 
-    private String wechart;
+    private String wechat;
 
     private Integer result;
 
     private Integer status;
 
     public Apply() {
-        this.setCreateTime(new DateTime());
+        this.setCreateTime(new Date());
         this.setStatus(1);
         this.setResult(0);
     }
@@ -49,11 +48,11 @@ public class Apply {
         this.applyId = applyId;
     }
 
-    public DateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(DateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
@@ -97,12 +96,12 @@ public class Apply {
         this.rejectReason = rejectReason;
     }
 
-    public String getWechart() {
-        return wechart;
+    public String getWechat() {
+        return wechat;
     }
 
-    public void setWechart(String wechart) {
-        this.wechart = wechart;
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
     }
 
     public Integer getResult() {

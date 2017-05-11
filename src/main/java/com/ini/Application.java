@@ -1,7 +1,7 @@
 package com.ini;
 
 
-import com.aop.authentication.AuthenticationInterceptor;
+import com.ini.aop.authentication.AuthenticationInterceptor;
 import com.ini.service.*;
 import com.ini.service.implement.*;
 import com.utils.SessionUtil;
@@ -59,6 +59,11 @@ public class Application extends WebMvcConfigurerAdapter {
     @Bean
     public SessionUtil sessionUtil(){
         return new SessionUtil();
+    }
+
+    @Bean
+    public FileService fileService(){
+        return new FileSerivceImpl();
     }
 
 //    @Bean

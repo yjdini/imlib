@@ -2,7 +2,9 @@ package com.ini.service.implement;
 
 import com.ini.dao.entity.Comment;
 import com.ini.service.CommentService;
-import com.utils.ConstJson;
+import com.utils.ResultMap;
+import com.utils.SessionUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -16,24 +18,28 @@ import java.util.List;
 public  class CommentServiceImpl implements CommentService {
     @PersistenceContext
     EntityManager entityManager;
+    @Autowired
+    SessionUtil sessionUtil;
 
     @Override
     @Transactional
-    public ConstJson.Result addComment(Comment comment) {
+    public ResultMap addComment(Comment comment) {
         try {
+            comment.setUserId(sessionUtil.getUserId());
             entityManager.persist(comment);
         } catch (Exception e) {
             e.printStackTrace();
-            return ConstJson.ERROR;
+            return ResultMap.error().setMessage(e.getMessage());
         }
-        return ConstJson.OK.setResult(comment.getSkillId().toString());
+        return ResultMap.ok().put("result", comment.getCommentId());
     }
 
     @Override
-    public List<?> getCommentsBySkillId(Integer skillId) {
-        return entityManager.createQuery(
+    public ResultMap getCommentsBySkillId(Integer skillId) {
+        List comments =  entityManager.createQuery(
                 "from Comment where skillId = :skillId and status = 1", Comment.class)
                 .setParameter("skillId", skillId)
                 .getResultList();
+        return ResultMap.ok().put("result", comments);
     }
 }

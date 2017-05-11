@@ -1,17 +1,21 @@
 package com.ini.controllers;
 
+import com.ini.aop.annotation.Authentication;
+import com.ini.aop.authentication.AuthenticationType;
 import com.ini.dao.entity.User;
 import com.ini.service.UserService;
-import com.utils.ConstJson;
 import com.utils.Request2Bean;
+import com.utils.ResultMap;
 import com.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -24,59 +28,82 @@ public class UserController
 
 
 	@RequestMapping(value = "/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ConstJson.Result addUser(@RequestBody User user)
+    public Map addUser(@RequestBody User user)
     {
-        return userService.addUser(user);
+        return userService.addUser(user).getMap();
     }
 
+    @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/edit")
-    public ConstJson.Result editUser(HttpServletRequest request)
+    public Map editUser(HttpServletRequest request)
     {
-        Integer userId = sessionUtil.getUserId(request);
-        User user = userService.getUserById(userId);
+        Integer userId = sessionUtil.getUserId();
+        User user = userService.getUser();
         user = Request2Bean.Convert(request, user);
-        return userService.updateUser(user);
+        return userService.updateUser(user).getMap();
     }
 
-    @RequestMapping(value = "/login")
-    public ConstJson.Result login(HttpServletRequest request, HttpServletResponse response)
+    @RequestMapping(value = "/login", method = RequestMethod.POST , consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map login(HttpServletRequest request, @RequestBody Map<String, String> body)
     {
-        User user = userService.validateUser(request.getParameter("nickname"), request.getParameter("password"));
+        User user = userService.validateUser(body.get("nickname"), body.get("password"));
         if (user == null) {
-            return ConstJson.ERROR;
+            return ResultMap.error().setMessage("昵称或密码错误").getMap();
         } else {
-            sessionUtil.setUser(request, user);
-            return ConstJson.OK;
+            sessionUtil.setUser(user);
+            return ResultMap.ok().put("result",user.getUserId()).getMap();
         }
     }
 
+    @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/logout")
-    public ConstJson.Result logout(HttpServletRequest request, HttpServletResponse response)
+    public Map logout(HttpServletRequest request, HttpServletResponse response)
     {
-        return sessionUtil.clearSession(request);
+        sessionUtil.clearSession();
+        return ResultMap.ok().getMap();
     }
 
     @RequestMapping(value = "/info/{userId}")
-    public User getUserById(@PathVariable String userId)
+    public Map getUserById(@PathVariable String userId)
     {
-        return userService.getUserById(new Integer(userId));
+        return userService.getUserById(new Integer(userId)).getMap();
     }
 
+    @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/avatar/upload",method = RequestMethod.POST , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ConstJson.Result uploadAvatar(HttpServletRequest request, HttpServletResponse response)
+    public Map uploadAvatar(@RequestParam("image") MultipartFile image)
     {
-        return userService.uploadAvatar(request.getParameter("image"));
+        return userService.uploadAvatar(image).getMap();
+    }
+
+    @Authentication(value = AuthenticationType.CommonUser)
+    @RequestMapping(value = "/studentCard/upload",method = RequestMethod.POST , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Map uploadStudentCard(@RequestParam("image") MultipartFile image)
+    {
+            return userService.uploadStudentCard(image).getMap();
     }
 
     @RequestMapping(value = "/status")
-    public ConstJson.Result getUserLoginStatus(HttpServletRequest request)
+    public Map getUserLoginStatus()
     {
-        if(sessionUtil.logined(request)) {
-            return ConstJson.OK.setResult(1);
+        if (sessionUtil.logined()) {
+            return ResultMap.ok().getMap();
         } else {
-            return ConstJson.OK.setResult(0);
+            return ResultMap.unlogin().getMap();
         }
     }
+
+    @Authentication(value = AuthenticationType.CommonUser)
+    @RequestMapping(value = "/isMaster")
+    public Map isMaster()
+    {
+        if(userService.isMaster()) {
+            return ResultMap.ok().put("result", 1).getMap();
+        } else {
+            return ResultMap.ok().put("result", 0).getMap();
+        }
+    }
+
 }
 
 

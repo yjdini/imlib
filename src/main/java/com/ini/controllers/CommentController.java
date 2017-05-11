@@ -1,15 +1,14 @@
 package com.ini.controllers;
 
+import com.ini.aop.annotation.Authentication;
+import com.ini.aop.authentication.AuthenticationType;
 import com.ini.dao.entity.Comment;
 import com.ini.service.CommentService;
-import com.utils.ConstJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Somnus`L on 2017/4/5.
@@ -21,14 +20,15 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/comment/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ConstJson.Result addComment(@RequestBody Comment comment, HttpServletRequest request, HttpServletResponse response)
+    public Map addComment(@RequestBody Comment comment)
     {
-        return commentService.addComment(comment);
+        return commentService.addComment(comment).getMap();
     }
 
     @RequestMapping(value = "/comments/{skillId}")
-    public List<?> getComments(@PathVariable Integer skillId){
-        return commentService.getCommentsBySkillId(skillId);
+    public Map getComments(@PathVariable Integer skillId){
+        return commentService.getCommentsBySkillId(skillId).getMap();
     }
 }

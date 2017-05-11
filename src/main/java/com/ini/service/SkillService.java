@@ -3,6 +3,7 @@ package com.ini.service;
 import com.ini.dao.entity.Skill;
 import com.ini.dao.schema.SkillTagSet;
 import com.utils.ConstJson;
+import com.utils.ResultMap;
 
 import java.util.List;
 
@@ -10,21 +11,23 @@ import java.util.List;
  * Created by Somnus`L on 2017/4/5.
  */
 public interface SkillService {
-    ConstJson.Result addSkill(Skill skill);
+    ResultMap addSkill(Skill skill);
 
-    ConstJson.Result deleteSkill(Integer skillId, Integer userId);
+    ResultMap deleteSkill(Integer skillId);
 
-    List<SkillTagSet> getSkillsByUserId(Integer userId);
+    ResultMap getSkillsByUserId(Integer userId);
 
-    SkillTagSet getSkillDetail(Integer skillId);
+    ResultMap getSkillDetail(Integer skillId);
 
-    List searchByKeyword(String keyword, Integer subId);
+    ResultMap searchByKeyword(String keyword, Integer subId);
 
-    List searchByTagId(Integer tagId, Integer subId);
+    ResultMap searchByTagId(Integer tagId, Integer subId);
 
     void increaseOrderTimes(Integer skillId);
 
     void increaseOrderedTimes(Integer skillId);
 
-    List searchAll(Integer subId);
+    ResultMap searchAll(Integer subId);
+
+    ResultMap getSkillsByUserIdExcept(Integer userId, Integer exceptSkillId);
 }

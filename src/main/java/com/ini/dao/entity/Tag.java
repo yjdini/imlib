@@ -2,9 +2,8 @@ package com.ini.dao.entity;
 
 
 import javax.persistence.*;
+import java.util.Date;
 
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
 
 /**
  * Created by Somnus`L on 2017/5/4.
@@ -16,13 +15,13 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer tagId;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime createTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createTime;
 
     private String name;
 
     public Tag() {
-        this.setCreateTime(new DateTime());
+        this.setCreateTime(new Date());
     }
 
     public Integer getTagId() {
@@ -33,11 +32,11 @@ public class Tag {
         this.tagId = tagId;
     }
 
-    public DateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(DateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 

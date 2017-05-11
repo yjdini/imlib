@@ -2,6 +2,7 @@ package com.ini.service;
 
 import com.ini.dao.entity.Orders;
 import com.utils.ConstJson;
+import com.utils.ResultMap;
 
 import java.util.List;
 
@@ -10,19 +11,23 @@ import java.util.List;
  */
 public interface OrderService {
 
-    ConstJson.Result addOrder(Orders order);
+    ResultMap addOrder(Orders order);
 
-    ConstJson.Result cancleOrder(Integer orderId, Integer userId);
+    ResultMap cancleOrder(Integer orderId);
 
-    List<Orders> getOrdersByUserId(Integer userId);
+    ResultMap getOrdersByUserId();
 
-    Orders getOrderDetail(Integer orderId, Integer userId);
+    ResultMap getOrderDetail(Integer orderId);
 
-    ConstJson.Result rejectOrder(Integer orderId, Integer userId);
+    ResultMap rejectOrder(Integer orderId);
 
-    ConstJson.Result deleteOrder(Integer orderId, Integer userId);
+    ResultMap deleteOrder(Integer orderId);
 
-    ConstJson.Result finishOrder(Integer orderId, Integer userId);
+    ResultMap finishOrder(Integer orderId);
 
     void rejectAllOrders(Integer skillId);
+
+    ResultMap getFromOrders();
+
+    ResultMap getToOrders();
 }

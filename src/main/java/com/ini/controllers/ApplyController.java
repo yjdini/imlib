@@ -1,17 +1,16 @@
 package com.ini.controllers;
 
+import com.ini.aop.annotation.Authentication;
+import com.ini.aop.authentication.AuthenticationType;
 import com.ini.dao.entity.Apply;
 import com.ini.service.ApplyService;
 import com.ini.service.UserService;
-import com.utils.ConstJson;
 import com.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Somnus`L on 2017/5/4.
@@ -26,28 +25,32 @@ public class ApplyController {
     @Autowired
     private SessionUtil sessionUtil;
 
-    @RequestMapping(value = "/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ConstJson.Result addApply(@RequestBody Apply apply, HttpServletRequest request, HttpServletResponse response)
+    @Authentication(value = AuthenticationType.CommonUser)
+    @RequestMapping(value = "/add", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map addApply(@RequestBody Apply apply)
     {
-        //防止恶意为别人创建技能
-        apply.setUserId(sessionUtil.getUserId(request));
-        return applyService.addApply(apply);
+        //防止恶意为别人创建申请
+        apply.setUserId(sessionUtil.getUserId());
+        return applyService.addApply(apply).getMap();
     }
 
+    @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping("/latest")
-    public Apply getLatestApply(HttpServletRequest request){
-        return applyService.getLatestApply(sessionUtil.getUserId(request));
+    public Map getLatestApply(){
+        return applyService.getLatestApply().getMap();
     }
 
+    @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/list")
-    public List<Apply> getApplys(HttpServletRequest request)
+    public Map getApplys()
     {
-        return applyService.getApplys(sessionUtil.getUserId(request));
+        return applyService.getApplys().getMap();
     }
 
+    @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping("/info/{applyId}")
-    public Apply getApplyDetail(@PathVariable Integer applyId){
-        return applyService.getApplyDetail(applyId);
+    public Map getApplyDetail(@PathVariable Integer applyId){
+        return applyService.getApplyDetail(applyId).getMap();
     }
 
 }

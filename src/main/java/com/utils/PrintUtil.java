@@ -3,6 +3,8 @@ package com.utils;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.MethodDescriptor;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -10,8 +12,27 @@ import java.util.List;
 
 import org.apache.catalina.util.Introspection;
 
+import javax.servlet.http.HttpServletResponse;
+
 public class PrintUtil
 {
+
+	public static void responseWithJson(HttpServletResponse response, String str){
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json; charset=utf-8");
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			out.append(str);
+		} catch (IOException e) {
+			System.out.print(e.getMessage());
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
+	}
+
 	public static void print(Object object)
 	{
 		if(object == null)

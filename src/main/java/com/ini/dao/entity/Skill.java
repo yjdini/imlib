@@ -2,11 +2,8 @@ package com.ini.dao.entity;
 
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
-
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created by Somnus`L on 2017/5/4.
@@ -37,8 +34,8 @@ public class Skill {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer skillId;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    private DateTime createTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createTime;
 
     private Integer userId;
 
@@ -63,7 +60,7 @@ public class Skill {
     private Integer status;
 
     public Skill() {
-        this.setCreateTime(new DateTime());
+        this.setCreateTime(new Date());
         this.setStatus(1);
         this.setOrderedTimes(0);
         this.setOrderTimes(0);
@@ -77,11 +74,11 @@ public class Skill {
         this.skillId = skillId;
     }
 
-    public DateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(DateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 

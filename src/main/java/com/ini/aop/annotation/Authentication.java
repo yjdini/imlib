@@ -1,6 +1,6 @@
-package com.aop.annotation;
+package com.ini.aop.annotation;
 
-import com.aop.authentication.AuthenticationType;
+import com.ini.aop.authentication.AuthenticationType;
 
 import java.lang.annotation.*;
 
@@ -9,7 +9,7 @@ import java.lang.annotation.*;
  */
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target(value = {ElementType.METHOD, ElementType.TYPE})
 @Documented
 public @interface Authentication
 {

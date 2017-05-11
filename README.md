@@ -56,6 +56,40 @@ response
   result: userId
 }
 ```
+
+##### 上传学生证照片
+```javascript
+{
+  url: /api/user/studentCard/upload,
+  method: post,
+  data: {
+    image:
+  }
+}
+ 
+response
+{
+  status: "ok",
+  result: studentCardUrl
+}
+```
+
+##### 该用户是否是行家
+```javascript
+request
+{
+  url: /api/user/isMaster,
+  method: get
+}
+ 
+response
+{
+  status: "ok",
+  result: 0:不是；1：是的
+}
+```
+
+
 ##### 修改资料
 ```javascript
 {
@@ -183,6 +217,17 @@ response
 request
 {
   url: /api/skill/list/{userId}
+  method: get
+}
+ 
+response:SKill@object[]
+```
+
+##### 查看某用户技能列表
+```javascript
+request
+{
+  url: /api/skill/list/{userId}/{exceptSkillId}
   method: get
 }
  
