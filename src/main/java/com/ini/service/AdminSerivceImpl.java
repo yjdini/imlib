@@ -106,17 +106,16 @@ public class AdminSerivceImpl implements AdminService {
         }
 
         List<Apply> applys = applyRepository.findByUserId(userId);
-        List<OrderUserSet> fromOrders = orderRepository.getFromOrders();
-        List<OrderUserSet> toOrders = orderRepository.getToOrders();
+        List<OrderUserSet> fromOrders = orderRepository.getFromOrders(userId);
+        List<OrderUserSet> toOrders = orderRepository.getToOrders(userId);
         List<SkillTagSet> skills = skillRepository.getSkillTags();
 
         return ResultMap.ok().result("user", user)
                 .result("applys", applys)
                 .result("fromOrders",fromOrders)
-                .result("fromOrders",fromOrders)
-                .result("fromOrders",fromOrders)
-
-
+                .result("toOrders",toOrders)
+                .result("skills",skills)
+                .getMap();
     }
 
 }

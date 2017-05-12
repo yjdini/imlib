@@ -557,7 +557,7 @@ password;
 {
     url: /api/admin/login
     data: {
-        name;
+        email;
         password
     }
 }

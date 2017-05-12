@@ -19,6 +19,12 @@ public class Admin {
     private Date createTime;
 
     private String name;
+    private String schoolName;
+    private String email;
+    private String mpName;
+    private Integer mpNum;
+    private String wechat;
+
     private String password;
     private Integer subId;
     private Integer status;
@@ -86,5 +92,45 @@ public class Admin {
 
     public void setDeleteReason(String deleteReason) {
         this.deleteReason = deleteReason;
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMpName() {
+        return mpName;
+    }
+
+    public void setMpName(String mpName) {
+        this.mpName = mpName;
+    }
+
+    public Integer getMpNum() {
+        return mpNum;
+    }
+
+    public void setMpNum(Integer mpNum) {
+        this.mpNum = mpNum;
+    }
+
+    public String getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
     }
 }
