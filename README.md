@@ -1,13 +1,13 @@
 # 1.Response
 ##### success
-```javascript
+```
 {
   status: "ok"
 }
 ```
 
 ##### error
-```javascript
+```
 {
   status: "unlogin"(登录过期)
 }
@@ -19,7 +19,7 @@
 
 # 2.User
 ##### 数据表
-```concept
+```
 {
     userId;
     subId;//所属分站id
@@ -41,7 +41,7 @@
 }
 ```
 ##### 添加用户
-```javascript
+```
 request
 {
   url: /api/user/add,
@@ -58,7 +58,7 @@ response
 ```
 
 ##### 上传学生证照片
-```javascript
+```
 {
   url: /api/user/studentCard/upload,
   method: post,
@@ -75,7 +75,7 @@ response
 ```
 
 ##### 该用户是否是行家
-```javascript
+```
 request
 {
   url: /api/user/isMaster,
@@ -91,7 +91,7 @@ response
 
 
 ##### 修改资料
-```javascript
+```
 {
   url: /api/user/edit,
   method: post,
@@ -101,7 +101,7 @@ response
 ```
 
 ##### 登录
-```javascript
+```
 request
 {
   url: /api/user/login,
@@ -124,7 +124,7 @@ response
 ```
 
 ##### 退出登录
-```javascript
+```
 request
 {
   url: /api/user/logout,
@@ -134,7 +134,7 @@ request
 ```
 
 ##### 获取某用户基本信息
-```javascript
+```
 request
 {
   url: /api/user/info/{userId},
@@ -144,7 +144,7 @@ request
 response:User@object
 ```
 ##### 获取用户自己的基本信息
-```javascript
+```
 request
 {
   url: /api/user/info,
@@ -153,7 +153,7 @@ request
 
 ```
 ##### 更新头像
-```javascript
+```
 {
   url: /api/user/avatar/upload,
   method: post,
@@ -165,7 +165,7 @@ request
 ```
 
 ##### 获取是否登录
-```javascript
+```
 request
 {
   url: /api/user/status
@@ -181,7 +181,7 @@ response
 
 # 3.Skill
 ##### 数据表
-```concept
+```
 {
     skillId;
     userId;
@@ -198,7 +198,7 @@ response
 }
 ```
 ##### 添加技能
-```javascript
+```
 request
 {
   url: /api/skill/add,
@@ -214,7 +214,7 @@ response
 }
 ```
 ##### 删除技能
-```javascript
+```
 {
   url: /api/skill/delete/{skillId},
   method: get
@@ -222,7 +222,7 @@ response
 ```
 
 ##### 查看自己的技能列表
-```javascript
+```
 request
 {
   url: /api/skill/list
@@ -233,7 +233,7 @@ response:SKill@object[]
 ```
 
 ##### 查看某用户技能列表
-```javascript
+```
 request
 {
   url: /api/skill/list/{userId}
@@ -244,7 +244,7 @@ response:SKill@object[]
 ```
 
 ##### 查看某用户技能列表except
-```javascript
+```
 request
 {
   url: /api/skill/list/{userId}/{exceptSkillId}
@@ -255,7 +255,7 @@ response:SKill@object[]
 ```
 
 ##### 查看某个技能详细信息
-```javascript
+```
 request
 {
   url: /api/skill/info/{skillId},
@@ -265,7 +265,7 @@ response:SKill@object
 ```
 
 ##### 关键字搜索技能列表
-```javascript
+```
 request
 {
   url: /api/skill/search/keyword/{subId}/{keyword},
@@ -276,7 +276,7 @@ response:SKill+User@object[]
 ```
 
 ##### 标签搜索技能列表
-```javascript
+```
 request
 {
   url: /api/skill/search/tag/{subId}/{tagId},
@@ -286,7 +286,7 @@ request
 response:SKill+User@object[]
 ```
 ##### 该分站所有技能列表
-```javascript
+```
 request
 {
   url: /api/skill/search/all/{subId},
@@ -298,7 +298,7 @@ response:SKill+User@object[]
 
 # 4.Order
 ##### 数据表
-```concept
+```
 {
     orderId;
     fromUserId;
@@ -312,7 +312,7 @@ response:SKill+User@object[]
 }
 ```
 ##### 添加预约
-```javascript
+```
 request
 {
   url: /api/order/add,
@@ -327,14 +327,14 @@ response
 }
 ```
 ##### (发起者)取消预约
-```javascript
+```
 {
   url: /api/order/cancel/{orderId},
   method: get
 }
 ```
 ##### (行家)拒绝预约
-```javascript
+```
 {
   url: /api/order/reject/{orderId},
   method: post,
@@ -345,7 +345,7 @@ response
 ```
 
 ##### (行家)同意预约
-```javascript
+```
 {
   url: /api/order/agree/{orderId},
   method: get
@@ -353,14 +353,14 @@ response
 ```
 
 ##### 完成预约
-```javascript
+```
 {
   url: /api/order/finish/{orderId},
   method: get
 }
 ```
 ##### 删除预约
-```javascript
+```
 {
   url: /api/order/delete/{orderId},
   method: get
@@ -368,7 +368,7 @@ response
 ```
 
 ##### 获取自己的预约列表
-```javascript
+```
 request
 {
   url: /api/order/list,
@@ -379,7 +379,7 @@ response:Order@object[]
 ```
 
 ##### 获取自己的预约列表(自己约别人)
-```javascript
+```
 request
 {
   url: /api/order/from/list,
@@ -391,7 +391,7 @@ response:Order@object[]
 
 
 ##### 获取自己的预约列表(别人约自己)
-```javascript
+```
 request
 {
   url: /api/order/to/list,
@@ -401,7 +401,7 @@ request
 response:Order@object[]
 ```
 ##### 查看某个预约详细信息
-```javascript
+```
 request
 {
   url: /api/order/info/{orderId},
@@ -413,7 +413,7 @@ response:Order@object
 
 # 5.Comment
 ##### 数据表
-```concept
+```
 {
     commentId;
     userId;
@@ -423,7 +423,7 @@ response:Order@object
 }
 ```
 ##### 对某个技能进行评论
-```javascript  
+```  
 request
 {
   url: /api/skill/comment/add,
@@ -444,7 +444,7 @@ response
 }
 ```
 ##### 查看某个技能的评论列表
-```javascript
+```
 request
 {
   url: /api/skill/comments/{skillId},
@@ -457,7 +457,7 @@ response:Comment+User@object[](按时间递增排序)
 
 # 6.Apply
 ##### 数据表
-```concept
+```
 {
     applyId;
     userId;
@@ -472,7 +472,7 @@ response:Comment+User@object[](按时间递增排序)
 ```
 
 ##### 申请行家认证
-```javascript
+```
 request
 {
   url: /api/apply/add,
@@ -489,7 +489,7 @@ response
 ```
 
 ##### 查看自己最近一次的认证信息
-```javascript
+```
 request
 {
   url: /api/apply/latest,
@@ -500,7 +500,7 @@ response:Apply@object
 ```
 
 ##### 查看自己的认证申请列表
-```javascript
+```
 request
 {
   url: /api/apply/list,
@@ -511,7 +511,7 @@ response:Apply@object[]
 ```
 
 ##### 查看某个认证申请的详细信息
-```javascript
+```
 request
 {
   url: /api/apply/info/{applyId},
@@ -524,7 +524,7 @@ response:Apply@object
 
 # 7.Tag
 ##### 数据表
-```concept
+```
 {
 tagId;
 name;
@@ -533,7 +533,7 @@ name;
 
 # 8.Sub
 ##### 数据表
-```concept
+```
 {
 subId;
 schoolName;
@@ -543,6 +543,66 @@ schoolName;
 
 # 9.Admin
 ##### 数据表
-```concept
+```
+{
+adminId;
+subId;
+name;
+password;
+}
+```
 
+##### 登录
+```
+{
+    url: /api/admin/login
+    data: {
+        name;
+        password
+    }
+}
+```
+
+##### 获取行家列表
+```
+{
+  url: /api/admin/list/master,
+  method: get
+}
+```
+##### 获取普通用户列表
+```
+{
+    url: /api/admin/list/common,
+    method: get
+}
+```
+
+##### 冻结用户（删除）
+```
+{
+  url: /api/admin/deleteuser/{userId},
+  method: get
+}
+```
+
+##### 批准申请
+```
+{
+  url: /api/admin/proveapply/{userId}
+  method: get
+}
+```
+
+
+##### 拒绝申请
+```
+{
+  url: /api/admin/proveapply;
+  method: post;
+  data: {
+    userId;
+    rejectReason;
+  }
+}
 ```

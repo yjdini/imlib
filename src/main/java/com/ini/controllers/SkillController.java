@@ -1,10 +1,10 @@
 package com.ini.controllers;
 
-import com.ini.aop.annotation.Authentication;
+import com.ini.aop.authentication.Authentication;
 import com.ini.aop.authentication.AuthenticationType;
 import com.ini.dao.entity.Skill;
-import com.ini.service.SkillService;
-import com.ini.service.UserService;
+import com.ini.service.abstrac.SkillService;
+import com.ini.service.abstrac.UserService;
 import com.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

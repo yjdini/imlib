@@ -1,6 +1,6 @@
-package com.ini.service.implement;
+package com.ini.service;
 
-import com.ini.service.StatisticsService;
+import com.ini.service.abstrac.StatisticsService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

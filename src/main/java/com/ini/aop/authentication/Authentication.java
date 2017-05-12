@@ -1,4 +1,4 @@
-package com.ini.aop.annotation;
+package com.ini.aop.authentication;
 
 import com.ini.aop.authentication.AuthenticationType;
 

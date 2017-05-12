@@ -1,10 +1,10 @@
-package com.ini.service.implement;
+package com.ini.service;
 
 import com.ini.dao.entity.Skill;
 import com.ini.dao.schema.SkillTagSet;
 import com.ini.dao.schema.SkillUserTagSet;
-import com.ini.service.OrderService;
-import com.ini.service.SkillService;
+import com.ini.service.abstrac.OrderService;
+import com.ini.service.abstrac.SkillService;
 import com.utils.ResultMap;
 import com.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
-package com.ini.service.implement;
+package com.ini.service;
 
 import com.ini.dao.entity.User;
-import com.ini.dao.entity.framework.EntityView;
-import com.ini.service.UserService;
-import com.utils.ConstJson;
+import com.ini.dao.schema.UserSet;
+import com.ini.dao.utils.EntityUtil;
+import com.ini.service.abstrac.UserService;
 import com.utils.FileUploadUtil;
 import com.utils.ResultMap;
 import com.utils.SessionUtil;
@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
     public ResultMap getUserById(Integer userId) {
         User user = entityManager.find(User.class, userId);
         return  ResultMap.ok().result(
-                EntityView.all(user).remove("password").getMap());
+                EntityUtil.all(user).remove("password").getMap());
     }
 
     @Override

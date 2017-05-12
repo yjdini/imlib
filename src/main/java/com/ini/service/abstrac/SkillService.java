@@ -1,11 +1,7 @@
-package com.ini.service;
+package com.ini.service.abstrac;
 
 import com.ini.dao.entity.Skill;
-import com.ini.dao.schema.SkillTagSet;
-import com.utils.ConstJson;
 import com.utils.ResultMap;
-
-import java.util.List;
 
 /**
  * Created by Somnus`L on 2017/4/5.

@@ -1,4 +1,4 @@
-package com.ini.service;
+package com.ini.service.abstrac;
 
 import com.ini.dao.entity.Orders;
 import com.utils.ResultMap;

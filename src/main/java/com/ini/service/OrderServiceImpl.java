@@ -1,9 +1,10 @@
-package com.ini.service.implement;
+package com.ini.service;
 
 import com.ini.dao.entity.Orders;
-import com.ini.service.OrderService;
-import com.ini.service.SkillService;
-import com.ini.service.UserService;
+import com.ini.dao.schema.OrderUserSet;
+import com.ini.service.abstrac.OrderService;
+import com.ini.service.abstrac.SkillService;
+import com.ini.service.abstrac.UserService;
 import com.utils.ResultMap;
 import com.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,14 @@ import java.util.List;
  */
 public class OrderServiceImpl implements OrderService {
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Autowired
-    SkillService skillService;
+    private SkillService skillService;
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    SessionUtil sessionUtil;
+    private SessionUtil sessionUtil;
 
     @Override
     @Transactional
@@ -103,6 +104,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public ResultMap agreeOrder(Integer orderId) {
         try {
             Orders order = entityManager.find(Orders.class, orderId);
@@ -149,8 +151,12 @@ public class OrderServiceImpl implements OrderService {
     public ResultMap finishOrder(Integer orderId) {
         try {
             Orders order = entityManager.find(Orders.class, orderId);
-            if(!orderBelongs(order, sessionUtil.getUserId())) {//没有权限
+            if (!orderBelongs(order, sessionUtil.getUserId())) {//没有权限
                 return ResultMap.error().setMessage("no authority");
+            }
+
+            if (!order.getResult().equals(1)) {//不能完成非已同意的预约
+                return ResultMap.error().setMessage("不能完成非同意状态的预约");
             }
 
             skillService.increaseOrderedTimes(order.getSkillId());
@@ -171,6 +177,7 @@ public class OrderServiceImpl implements OrderService {
         List<Orders> orderList = entityManager.createQuery("from Orders where skillId = :skillId and result = 0", Orders.class)
                 .setParameter("skillId", skillId).getResultList();
         for (Orders order : orderList) {
+            order.setRejectReason("该行家删除了这个技能");
             order.setResult(2);
             entityManager.persist(order);
         }
@@ -178,24 +185,42 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResultMap getFromOrders() {
-        List orders = entityManager.createQuery("select new com.ini.dao.schema.OrderUser(o,to,fr,t,s)"+
-                " from Orders o,User to,User fr, Tag t,Skill s where o.fromStatus = 1 and " +
+        List<OrderUserSet> ordersUnCommented = entityManager.createQuery("select new com.ini.dao.schema.OrderUserSet(o,to,fr,t,s)"+
+                " from Orders o,User to,User fr, Tag t,Skill s where o.isCommented = 0 and o.fromStatus = 1 and " +
                 "fr.userId = :userId and to.userId = o.toUserId and fr.userId = o.fromUserId and " +
-                "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc")
+                "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc", OrderUserSet.class)
                 .setParameter("userId", sessionUtil.getUserId())
                 .getResultList();
-        return ResultMap.ok().put("result", orders);
+
+        List<OrderUserSet> ordersCommented = entityManager.createQuery("select new com.ini.dao.schema.OrderUserSet(o,to,fr,t,s,c)"+
+                " from Orders o,User to,User fr, Tag t,Skill s,Comment c where o.isCommented = 1 and c.orderId = o.orderId and o.fromStatus = 1 and " +
+                "fr.userId = :userId and to.userId = o.toUserId and fr.userId = o.fromUserId and " +
+                "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc", OrderUserSet.class)
+                .setParameter("userId", sessionUtil.getUserId())
+                .getResultList();
+
+        ordersUnCommented.addAll(ordersCommented);
+        return ResultMap.ok().put("result", ordersUnCommented);
     }
+
 
     @Override
     public ResultMap getToOrders() {
-        List orders = entityManager.createQuery("select new com.ini.dao.schema.OrderUser(o,to,fr,t,s)"+
-                " from Orders o,User to,User fr, Tag t,Skill s where o.toStatus = 1 and " +
+        List<OrderUserSet> ordersUnCommented = entityManager.createQuery("select new com.ini.dao.schema.OrderUserSet(o,to,fr,t,s)"+
+                " from Orders o,User to,User fr, Tag t,Skill s where o.isCommented = 0 and o.toStatus = 1 and " +
                 "to.userId = :userId and to.userId = o.toUserId and fr.userId = o.fromUserId and " +
-                "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc")
+                "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc", OrderUserSet.class)
                 .setParameter("userId", sessionUtil.getUserId())
                 .getResultList();
-        return ResultMap.ok().put("result", orders);
+        List<OrderUserSet> ordersCommented = entityManager.createQuery("select new com.ini.dao.schema.OrderUserSet(o,to,fr,t,s,c)"+
+                " from Orders o,User to,User fr, Tag t,Skill s,Comment c where o.isCommented = 1 and c.orderId = o.orderId and o.toStatus = 1 and " +
+                "to.userId = :userId and to.userId = o.toUserId and fr.userId = o.fromUserId and " +
+                "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc", OrderUserSet.class)
+                .setParameter("userId", sessionUtil.getUserId())
+                .getResultList();
+
+        ordersUnCommented.addAll(ordersCommented);
+        return ResultMap.ok().put("result", ordersUnCommented);
     }
 
     private boolean orderFrom(Orders order, Integer userId) {

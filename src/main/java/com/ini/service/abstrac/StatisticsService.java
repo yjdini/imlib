@@ -1,4 +1,4 @@
-package com.ini.service;
+package com.ini.service.abstrac;
 
 /**
  * Created by Somnus`L on 2017/4/5.

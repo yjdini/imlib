@@ -1,10 +1,10 @@
 package com.ini.controllers;
 
-import com.ini.aop.annotation.Authentication;
+import com.ini.aop.authentication.Authentication;
 import com.ini.aop.authentication.AuthenticationType;
 import com.ini.dao.entity.User;
-import com.ini.service.UserService;
-import com.utils.Request2Bean;
+import com.ini.service.abstrac.UserService;
+import com.utils.Map2Bean;
 import com.utils.ResultMap;
 import com.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,30 +26,31 @@ public class UserController
     private SessionUtil sessionUtil;
 
 	@RequestMapping(value = "/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map addUser(@RequestBody User user)
+    public Map addUser(@RequestBody Map<String, Object> body)
     {
+        User user = Map2Bean.convert(body, new User());
         return userService.addUser(user).getMap();
     }
 
     @Authentication(value = AuthenticationType.CommonUser)
-    @RequestMapping(value = "/edit")
-    public Map editUser(HttpServletRequest request)
+    @RequestMapping(value = "/edit" ,method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map editUser(@RequestBody Map<String, Object> body)
     {
-        Integer userId = sessionUtil.getUserId();
         User user = userService.getUser();
-        user = Request2Bean.Convert(request, user);
+        user = Map2Bean.convert(body, user);
         return userService.updateUser(user).getMap();
     }
 
+
     @RequestMapping(value = "/login", method = RequestMethod.POST , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map login(HttpServletRequest request, @RequestBody Map<String, String> body)
+    public Map login(@RequestBody Map<String, Object> body)
     {
-        User user = userService.validateUser(body.get("nickname"), body.get("password"));
+        User user = userService.validateUser((String)body.get("nickname"), (String)body.get("password"));
         if (user == null) {
             return ResultMap.error().setMessage("昵称或密码错误").getMap();
         } else {
             sessionUtil.setUser(user);
-            Map result = new HashMap<String, Integer>();
+            HashMap<String, Object> result = new HashMap<String, Object>();
             result.put("userId", user.getUserId());
             result.put("subId", user.getSubId());
             result.put("type", user.getType());
@@ -61,7 +60,7 @@ public class UserController
 
     @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/logout")
-    public Map logout(HttpServletRequest request, HttpServletResponse response)
+    public Map logout()
     {
         sessionUtil.clearSession();
         return ResultMap.ok().getMap();
@@ -115,6 +114,8 @@ public class UserController
             return ResultMap.ok().put("result", 0).getMap();
         }
     }
+
+
 
 }
 

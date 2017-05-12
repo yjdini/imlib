@@ -28,6 +28,8 @@ public class Comment {
 
     private Integer status;
 
+    private Integer orderId;
+
     public Comment() {
         this.setCreateTime(new Date());
         this.setStatus(1);
@@ -87,5 +89,13 @@ public class Comment {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 }

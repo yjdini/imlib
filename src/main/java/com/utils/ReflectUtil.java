@@ -1,5 +1,10 @@
 package com.utils;
 
+import com.ini.aop.authentication.Authentication;
+import org.springframework.web.method.HandlerMethod;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 public class ReflectUtil
@@ -8,6 +13,30 @@ public class ReflectUtil
 	{
 		return ModifierUtil.getModifierStr(modifiers);
 	}
+
+	public static <T extends Annotation> T getAnnotation(Class clazz, Method method, Class<T> annotationClass) {
+		if (method.isAnnotationPresent(annotationClass)) {
+			return method.getAnnotation(annotationClass);
+		}
+
+		if (clazz.isAnnotationPresent(annotationClass)) {
+			return (T)clazz.getAnnotation(annotationClass);
+		}
+
+		return null;
+	}
+
+	public static <T extends Annotation> T getAnnotation(HandlerMethod hm, Class<T> annotationClass) {
+		return getAnnotation(hm.getBeanType(), hm.getMethod(), annotationClass);
+	}
+
+	public static <T extends Annotation> T getMethodAnnotation(Method method, Class<T> annotationClass) {
+		if (method.isAnnotationPresent(annotationClass)) {
+			return method.getAnnotation(annotationClass);
+		}
+		return null;
+	}
+
 
 	private static class ModifierUtil
 	{

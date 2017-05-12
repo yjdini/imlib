@@ -1,9 +1,6 @@
 package com.ini.dao.schema;
 
-import com.ini.dao.entity.Orders;
-import com.ini.dao.entity.Skill;
-import com.ini.dao.entity.Tag;
-import com.ini.dao.entity.User;
+import com.ini.dao.entity.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,7 +8,7 @@ import java.util.Date;
 /**
  * Created by Somnus`L on 2017/5/11.
  */
-public class OrderUser {
+public class OrderUserSet {
     private Integer fromUserId;
     private Integer toUserId;
     private String orderIntroduction;
@@ -33,7 +30,10 @@ public class OrderUser {
     private String skillTitle;
     private BigDecimal skillScore;
 
-    public OrderUser(Orders order, User to, User from, Tag tag, Skill skill) {
+    private Integer commentScore;
+    private String commentContent;
+
+    public OrderUserSet(Orders order, User to, User from, Tag tag, Skill skill, Comment comment) {
         this.createTime = order.getCreateTime();
         this.fromUserId = from.getUserId();
         this.toUserId = to.getUserId();
@@ -54,6 +54,47 @@ public class OrderUser {
         this.skillTagName = tag.getName();
         this.skillTitle = skill.getTitle();
         this.skillScore = skill.getScore();
+        this.commentContent = comment.getContent();
+        this.commentScore = comment.getScore();
+    }
+
+    public OrderUserSet(Orders order, User to, User from, Tag tag, Skill skill) {
+        this.createTime = order.getCreateTime();
+        this.fromUserId = from.getUserId();
+        this.toUserId = to.getUserId();
+        this.orderIntroduction = order.getIntroduction();
+        this.skillId = skill.getSkillId();
+        this.toUserName = to.getName();
+        this.fromUserName = from.getName();
+        this.fromUserNickname = from.getNickname();
+        this.toUserNickname = to.getNickname();
+        this.toUserWeChat = to.getWechat();
+        this.fromUserWeChat = order.getWechat();
+        this.result = order.getResult();
+        this.rejectReason = order.getRejectReason();
+        this.isCommented = order.getIsCommented();
+        this.orderId = order.getOrderId();
+        this.fromUserAvatar = from.getAvatar();
+        this.toUserAvatar = to.getAvatar();
+        this.skillTagName = tag.getName();
+        this.skillTitle = skill.getTitle();
+        this.skillScore = skill.getScore();
+    }
+
+    public Integer getCommentScore() {
+        return commentScore;
+    }
+
+    public void setCommentScore(Integer commentScore) {
+        this.commentScore = commentScore;
+    }
+
+    public String getCommentContent() {
+        return commentContent;
+    }
+
+    public void setCommentContent(String commentContent) {
+        this.commentContent = commentContent;
     }
 
     public Integer getFromUserId() {

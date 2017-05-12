@@ -1,11 +1,11 @@
-package com.ini.service;
+package com.ini.service.abstrac;
 
 import com.ini.dao.entity.User;
-import com.utils.ConstJson;
+import com.ini.dao.schema.UserSet;
 import com.utils.ResultMap;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by Somnus`L on 2017/4/5.
@@ -31,4 +31,5 @@ public interface UserService {
     ResultMap uploadStudentCard(MultipartFile image);
 
     boolean isMaster();
+
 }

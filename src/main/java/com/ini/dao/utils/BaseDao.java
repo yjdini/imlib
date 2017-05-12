@@ -1,4 +1,4 @@
-package com.ini.dao;
+package com.ini.dao.utils;
 
 import static org.hibernate.criterion.Example.create;
 

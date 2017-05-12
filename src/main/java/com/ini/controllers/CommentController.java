@@ -1,9 +1,9 @@
 package com.ini.controllers;
 
-import com.ini.aop.annotation.Authentication;
+import com.ini.aop.authentication.Authentication;
 import com.ini.aop.authentication.AuthenticationType;
 import com.ini.dao.entity.Comment;
-import com.ini.service.CommentService;
+import com.ini.service.abstrac.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.ini.aop.annotation;
+package com.ini.aop.validate;
 
 import java.lang.annotation.*;
 
@@ -7,7 +7,7 @@ import java.lang.annotation.*;
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.METHOD, ElementType.TYPE})
+@Target(value = {ElementType.METHOD})
 @Documented
 public @interface UserInputCriteria {
     String[] forbid() default {};
