@@ -563,18 +563,13 @@ password;
 }
 ```
 
-##### 获取行家列表
+##### 获取用户列表
 ```
 {
-  url: /api/admin/list/master,
-  method: get
-}
-```
-##### 获取普通用户列表
-```
-{
-    url: /api/admin/list/common,
-    method: get
+    url: /api/admin/user/list,
+    method: get,
+    data: {
+    }
 }
 ```
 

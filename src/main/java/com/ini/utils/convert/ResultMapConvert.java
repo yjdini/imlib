@@ -1,12 +1,10 @@
-package com.utils.convert;
+package com.ini.utils.convert;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.utils.ResultMap;
+import com.ini.utils.ResultMap;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

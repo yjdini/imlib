@@ -32,7 +32,7 @@ public class User {
 
     private Integer status;
 
-    private char type;
+    private String type;
 
     private String major;
 
@@ -54,13 +54,18 @@ public class User {
 
     private Integer subId;
 
-
     public User() {
-        this.setCreateTime(new Date());
-        this.setOrderedTimes(0);
-        this.setOrderTimes(0);
-        this.setStatus(1);
-        this.setType('c');
+
+    }
+
+    public User(boolean initial) {
+        if (initial) {
+            this.setCreateTime(new Date());
+            this.setOrderedTimes(0);
+            this.setOrderTimes(0);
+            this.setStatus(1);
+            this.setType("c");
+        }
     }
 
     public Integer getUserId() {
@@ -135,7 +140,7 @@ public class User {
         this.status = status;
     }
 
-    public char getType() {
+    public String getType() {
         return type;
     }
 
@@ -143,7 +148,7 @@ public class User {
      * 'm'aster; 'c'ommon
      * @param type
      */
-    public void setType(char type) {
+    public void setType(String type) {
         this.type = type;
     }
 

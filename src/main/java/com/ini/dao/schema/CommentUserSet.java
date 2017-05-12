@@ -20,7 +20,7 @@ public class CommentUserSet {
     private Integer userId;
     private String userName;
     private String nickName;
-    private char userType;
+    private String userType;
     private String title;
 
     public CommentUserSet(Comment comment, User user) {
@@ -91,11 +91,11 @@ public class CommentUserSet {
         this.nickName = nickName;
     }
 
-    public char getUserType() {
+    public String getUserType() {
         return userType;
     }
 
-    public void setUserType(char userType) {
+    public void setUserType(String userType) {
         this.userType = userType;
     }
 

@@ -27,7 +27,7 @@ public class UserSet {
 
     private Integer status;
 
-    private char type;
+    private String type;
 
     private String major;
 

@@ -4,9 +4,9 @@ import com.ini.aop.authentication.Authentication;
 import com.ini.aop.authentication.AuthenticationType;
 import com.ini.dao.entity.User;
 import com.ini.service.abstrac.UserService;
-import com.utils.Map2Bean;
-import com.utils.ResultMap;
-import com.utils.SessionUtil;
+import com.ini.utils.Map2Bean;
+import com.ini.utils.ResultMap;
+import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ public class UserController
 	@RequestMapping(value = "/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map addUser(@RequestBody Map<String, Object> body)
     {
-        User user = Map2Bean.convert(body, new User());
+        User user = Map2Bean.convert(body, new User(true));
         return userService.addUser(user).getMap();
     }
 

@@ -5,7 +5,7 @@ import com.ini.aop.authentication.AuthenticationType;
 import com.ini.dao.entity.Apply;
 import com.ini.service.abstrac.ApplyService;
 import com.ini.service.abstrac.UserService;
-import com.utils.SessionUtil;
+import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

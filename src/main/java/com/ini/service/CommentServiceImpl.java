@@ -2,8 +2,8 @@ package com.ini.service;
 
 import com.ini.dao.entity.Comment;
 import com.ini.service.abstrac.CommentService;
-import com.utils.ResultMap;
-import com.utils.SessionUtil;
+import com.ini.utils.ResultMap;
+import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 

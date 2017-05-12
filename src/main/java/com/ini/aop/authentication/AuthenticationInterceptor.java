@@ -1,12 +1,11 @@
 package com.ini.aop.authentication;
 
 import com.ini.dao.entity.User;
-import com.utils.PrintUtil;
-import com.utils.ReflectUtil;
-import com.utils.ResultMap;
-import com.utils.SessionUtil;
-import com.utils.convert.ResultMapConvert;
-import org.springframework.stereotype.Component;
+import com.ini.utils.PrintUtil;
+import com.ini.utils.ReflectUtil;
+import com.ini.utils.ResultMap;
+import com.ini.utils.SessionUtil;
+import com.ini.utils.convert.ResultMapConvert;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
 
 /**
  * Created by Somnus`L on 2017/1/12.
@@ -58,7 +56,7 @@ public final class AuthenticationInterceptor extends HandlerInterceptorAdapter
         else if(value == AuthenticationType.Master)
         {
             User user = sessionUtil.getUser();
-            if (user.getType() == 'c') {
+            if (user.getType().equals("c")) {
                 PrintUtil.responseWithJson(response, new ResultMapConvert()
                         .convert(ResultMap.error().setMessage("需要行家用户权限")));
                 return false;

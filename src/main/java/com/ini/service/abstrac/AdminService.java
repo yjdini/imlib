@@ -1,6 +1,7 @@
 package com.ini.service.abstrac;
 
 import com.ini.dao.entity.Admin;
+import com.ini.dao.entity.User;
 import com.ini.dao.schema.UserSet;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface AdminService {
     boolean proveApply(Integer userId);
 
     boolean rejectApply(Integer userId, String rejectReason);
+
+    List<User> getUsersByExample(User user);
 }

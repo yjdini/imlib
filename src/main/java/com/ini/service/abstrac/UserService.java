@@ -1,11 +1,8 @@
 package com.ini.service.abstrac;
 
 import com.ini.dao.entity.User;
-import com.ini.dao.schema.UserSet;
-import com.utils.ResultMap;
+import com.ini.utils.ResultMap;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * Created by Somnus`L on 2017/4/5.

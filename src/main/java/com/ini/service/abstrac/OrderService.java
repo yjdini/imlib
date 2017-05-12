@@ -1,7 +1,7 @@
 package com.ini.service.abstrac;
 
 import com.ini.dao.entity.Orders;
-import com.utils.ResultMap;
+import com.ini.utils.ResultMap;
 
 /**
  * Created by Somnus`L on 2017/4/5.

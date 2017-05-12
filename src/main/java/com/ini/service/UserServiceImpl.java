@@ -1,12 +1,11 @@
 package com.ini.service;
 
 import com.ini.dao.entity.User;
-import com.ini.dao.schema.UserSet;
 import com.ini.dao.utils.EntityUtil;
 import com.ini.service.abstrac.UserService;
-import com.utils.FileUploadUtil;
-import com.utils.ResultMap;
-import com.utils.SessionUtil;
+import com.ini.utils.FileUploadUtil;
+import com.ini.utils.ResultMap;
+import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -148,7 +147,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isMaster() {
-        return entityManager.find(User.class, sessionUtil.getUserId()).getType() == 'm';
+        return entityManager.find(User.class, sessionUtil.getUserId()).getType().equals("m");
     }
 
     @Transactional

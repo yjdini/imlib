@@ -1,4 +1,4 @@
-package com.utils;
+package com.ini.utils;
 
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
 
 import org.apache.catalina.util.Introspection;
 

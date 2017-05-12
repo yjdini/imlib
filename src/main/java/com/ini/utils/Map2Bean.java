@@ -1,15 +1,12 @@
-package com.utils;
+package com.ini.utils;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.BigDecimalConverter;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.IntegerConverter;
 
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
 
 /**

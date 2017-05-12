@@ -3,17 +3,21 @@ package com.ini;
 
 import com.ini.aop.authentication.AuthenticationInterceptor;
 import com.ini.aop.validate.UserInputVerifyInterceptor;
-import com.ini.dao.jpa.UserRepository;
 import com.ini.service.*;
 import com.ini.service.abstrac.*;
-import com.utils.FileUploadUtil;
-import com.utils.SessionUtil;
+import com.ini.utils.FileUploadUtil;
+import com.ini.utils.SessionUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import javax.sql.DataSource;
 
 /**
  * Created by Somnus`L on 2017/4/11.
@@ -75,9 +79,19 @@ public class Application extends WebMvcConfigurerAdapter {
         return new FileUploadUtil();
     }
 
+
     @Bean
-    public UserRepository userRepository() {
-        return new UserRepository();
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(@Autowired DataSource dataSource) {
+
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(true);
+
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setPackagesToScan("com.ini.dao.entity");
+        factory.setDataSource(dataSource);
+        return factory;
     }
+
 
 }

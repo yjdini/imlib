@@ -1,8 +1,8 @@
-package com.utils.convert;
+package com.ini.utils.convert;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.utils.ConstJson;
+import com.ini.utils.ConstJson;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

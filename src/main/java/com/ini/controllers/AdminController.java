@@ -8,8 +8,9 @@ import com.ini.dao.schema.UserSet;
 import com.ini.dao.utils.EntityUtil;
 import com.ini.service.abstrac.AdminService;
 import com.ini.service.abstrac.UserService;
-import com.utils.ConstJson;
-import com.utils.ResultMap;
+import com.ini.utils.Map2Bean;
+import com.ini.utils.ResultMap;
+import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,24 +30,18 @@ import java.util.Map;
 public class AdminController {
     @Autowired
     private AdminService adminService;
-
+    @Autowired
+    private SessionUtil sessionUtil;
     @Autowired
     private UserService userService;
 
-    @Authentication(value = AuthenticationType.Admin)
-    @RequestMapping(value = "/list/master")
-    public Map getMasters()
+//    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/user/list")
+    public Map getUsers(@RequestBody Map<String, Object> body)
     {
-        List<UserSet> masters = adminService.getMasters();
-        return ResultMap.ok().result(masters).getMap();
-    }
-
-    @Authentication(value = AuthenticationType.Admin)
-    @RequestMapping(value = "/list/common")
-    public Map getCommonUsers()
-    {
-        List<UserSet> commonUsers = adminService.getCommonUsers();
-        return ResultMap.ok().result(commonUsers).getMap();
+        User user = Map2Bean.convert(body, new User());
+        List<User> users = adminService.getUsersByExample(user);
+        return ResultMap.ok().result(users).getMap();
     }
 
     @Authentication(value = AuthenticationType.Admin)
@@ -96,6 +91,13 @@ public class AdminController {
             return ResultMap.ok().result(
                     EntityUtil.all(admin).remove("password").getMap()).getMap();
         }
+    }
+
+    @RequestMapping(value = "/list/logout")
+    public Map logout()
+    {
+        sessionUtil.clearSession();
+        return ResultMap.ok().getMap();
     }
 
 }

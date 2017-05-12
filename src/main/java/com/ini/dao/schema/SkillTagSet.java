@@ -2,13 +2,9 @@ package com.ini.dao.schema;
 
 import com.ini.dao.entity.Skill;
 import com.ini.dao.entity.Tag;
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
-
-import java.math.BigDecimal;
-
 /**
  * Created by Somnus`L on 2017/5/10.
+ *
  */
 public class SkillTagSet {
     private Skill skill;

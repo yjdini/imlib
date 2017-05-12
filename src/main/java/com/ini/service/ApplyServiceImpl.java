@@ -2,8 +2,8 @@ package com.ini.service;
 
 import com.ini.dao.entity.Apply;
 import com.ini.service.abstrac.ApplyService;
-import com.utils.ResultMap;
-import com.utils.SessionUtil;
+import com.ini.utils.ResultMap;
+import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 

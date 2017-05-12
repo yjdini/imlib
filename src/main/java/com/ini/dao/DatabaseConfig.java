@@ -14,15 +14,15 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@Configuration
-@EnableTransactionManagement
+//@Configuration
+//@EnableTransactionManagement
 public class DatabaseConfig {
 
     /**
      * DataSource definition for database connection. Settings are read from
      * the application.properties file (using the env object).
      */
-    @Bean
+//    @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getProperty("db.driver"));
@@ -35,7 +35,7 @@ public class DatabaseConfig {
     /**
      * Declare the JPA entity manager factory.
      */
-    @Bean
+//    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactory =
                 new LocalContainerEntityManagerFactoryBean();
@@ -69,7 +69,7 @@ public class DatabaseConfig {
     /**
      * Declare the transaction manager.
      */
-    @Bean
+//    @Bean
     public JpaTransactionManager transactionManager() {
         JpaTransactionManager transactionManager =
                 new JpaTransactionManager();
@@ -85,20 +85,20 @@ public class DatabaseConfig {
      * Spring's unchecked data access exceptions (i.e. a subclass of
      * DataAccessException).
      */
-    @Bean
+//    @Bean
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
     // Private fields
 
-    @Autowired
+//    @Autowired
     private Environment env;
 
-    @Autowired
+//    @Autowired
     private DataSource dataSource;
 
-    @Autowired
+//    @Autowired
     private LocalContainerEntityManagerFactoryBean entityManagerFactory;
 
 }

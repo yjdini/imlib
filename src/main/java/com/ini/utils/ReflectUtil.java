@@ -1,6 +1,5 @@
-package com.utils;
+package com.ini.utils;
 
-import com.ini.aop.authentication.Authentication;
 import org.springframework.web.method.HandlerMethod;
 
 import java.lang.annotation.Annotation;

@@ -5,8 +5,8 @@ import com.ini.dao.schema.SkillTagSet;
 import com.ini.dao.schema.SkillUserTagSet;
 import com.ini.service.abstrac.OrderService;
 import com.ini.service.abstrac.SkillService;
-import com.utils.ResultMap;
-import com.utils.SessionUtil;
+import com.ini.utils.ResultMap;
+import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
