@@ -1,11 +1,5 @@
-package com.ini.dao.utils;
+package com.ini.data.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Value;
 
 /**

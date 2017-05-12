@@ -1,4 +1,4 @@
-package com.ini.dao.entity;
+package com.ini.data.entity;
 
 
 import javax.persistence.*;
@@ -21,6 +21,9 @@ public class Tag {
     private String name;
 
     public Tag() {
+    }
+
+    public Tag(boolean initial) {
         this.setCreateTime(new Date());
     }
 

@@ -2,7 +2,7 @@ package com.ini.controllers;
 
 import com.ini.aop.authentication.Authentication;
 import com.ini.aop.authentication.AuthenticationType;
-import com.ini.dao.entity.User;
+import com.ini.data.entity.User;
 import com.ini.service.abstrac.UserService;
 import com.ini.utils.Map2Bean;
 import com.ini.utils.ResultMap;
@@ -28,7 +28,7 @@ public class UserController
 	@RequestMapping(value = "/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map addUser(@RequestBody Map<String, Object> body)
     {
-        User user = Map2Bean.convert(body, new User(true));
+        User user = Map2Bean.convert(body, new User(true), true);
         return userService.addUser(user).getMap();
     }
 
@@ -37,7 +37,7 @@ public class UserController
     public Map editUser(@RequestBody Map<String, Object> body)
     {
         User user = userService.getUser();
-        user = Map2Bean.convert(body, user);
+        user = Map2Bean.convert(body, user, true);
         return userService.updateUser(user).getMap();
     }
 

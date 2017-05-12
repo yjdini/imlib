@@ -1,6 +1,6 @@
 package com.ini.service.abstrac;
 
-import com.ini.dao.entity.Apply;
+import com.ini.data.entity.Apply;
 import com.ini.utils.ResultMap;
 
 /**

@@ -1,6 +1,6 @@
-package com.ini.dao.schema;
+package com.ini.data.schema;
 
-import com.ini.dao.entity.*;
+import com.ini.data.entity.*;
 
 import java.math.BigDecimal;
 import java.util.Date;

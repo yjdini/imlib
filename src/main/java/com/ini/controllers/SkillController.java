@@ -2,7 +2,7 @@ package com.ini.controllers;
 
 import com.ini.aop.authentication.Authentication;
 import com.ini.aop.authentication.AuthenticationType;
-import com.ini.dao.entity.Skill;
+import com.ini.data.entity.Skill;
 import com.ini.service.abstrac.SkillService;
 import com.ini.service.abstrac.UserService;
 import com.ini.utils.SessionUtil;

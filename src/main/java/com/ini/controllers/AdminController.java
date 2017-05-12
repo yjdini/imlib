@@ -2,10 +2,9 @@ package com.ini.controllers;
 
 import com.ini.aop.authentication.Authentication;
 import com.ini.aop.authentication.AuthenticationType;
-import com.ini.dao.entity.Admin;
-import com.ini.dao.entity.User;
-import com.ini.dao.schema.UserSet;
-import com.ini.dao.utils.EntityUtil;
+import com.ini.data.entity.Admin;
+import com.ini.data.entity.User;
+import com.ini.data.utils.EntityUtil;
 import com.ini.service.abstrac.AdminService;
 import com.ini.service.abstrac.UserService;
 import com.ini.utils.Map2Bean;
@@ -35,20 +34,50 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-//    @Authentication(value = AuthenticationType.Admin)
+
+    @RequestMapping(value = "/login")
+    public Map login(@RequestBody Map<String, Object> body)
+    {
+        String name = (String)body.get("name");
+        String password = (String)body.get("password");
+        Admin admin = adminService.login(name, password);
+        if (admin == null) {
+            return ResultMap.error().setMessage("用户名或密码错误！").getMap();
+        } else if (admin.getStatus() == 0) { //用户被冻结
+            return ResultMap.error()
+                    .setMessage("您的账号已经被冻结，原因为：" + admin.getDeleteReason()).getMap();
+        } else {
+            return ResultMap.ok().result(
+                    EntityUtil.all(admin).remove("password").getMap()).getMap();
+        }
+    }
+
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/list/logout")
+    public Map logout()
+    {
+        sessionUtil.clearSession();
+        return ResultMap.ok().getMap();
+    }
+
+
+    @Authentication(value = AuthenticationType.Admin)
     @RequestMapping(value = "/user/list")
     public Map getUsers(@RequestBody Map<String, Object> body)
     {
-        User user = Map2Bean.convert(body, new User());
+        User user = Map2Bean.convert(body, new User(), true);
+        user.setSubId(sessionUtil.getSubId());
+
         List<User> users = adminService.getUsersByExample(user);
         return ResultMap.ok().result(users).getMap();
     }
 
     @Authentication(value = AuthenticationType.Admin)
     @RequestMapping(value = "/deleteuser/{userId}")
-    public Map deleteUser(@PathVariable Integer userId)
+    public Map deleteUser(@PathVariable Integer userId, @RequestBody Map<String, Object> body)
     {
-        if (adminService.deleteUser(userId)) {
+        String deleteReason = (String) body.get("deleteReason");
+        if (adminService.deleteUser(userId, deleteReason)) {
             return ResultMap.ok().getMap();
         } else {
             return ResultMap.error().setMessage("不能删除该用户！").getMap();
@@ -56,10 +85,10 @@ public class AdminController {
     }
 
     @Authentication(value = AuthenticationType.Admin)
-    @RequestMapping(value = "/proveapply/{userId}")
-    public Map proveApply(@PathVariable Integer userId)
+    @RequestMapping(value = "/proveapply/{applyId}")
+    public Map proveApply(@PathVariable Integer applyId)
     {
-        if (adminService.proveApply(userId)) {
+        if (adminService.proveApply(applyId)) {
             return ResultMap.ok().getMap();
         } else {
             return ResultMap.error().setMessage("不能批准该用户的申请！").getMap();
@@ -79,25 +108,10 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value = "/list/login")
-    public Map login(@RequestBody Map<String, Object> body)
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/userinfo/{userId}")
+    public Map getUserAllInfo(@PathVariable Integer userId)
     {
-        String name = (String)body.get("name");
-        String password = (String)body.get("password");
-        Admin admin = adminService.login(name, password);
-        if (admin == null) {
-            return ResultMap.error().setMessage("用户名或密码错误！").getMap();
-        } else {
-            return ResultMap.ok().result(
-                    EntityUtil.all(admin).remove("password").getMap()).getMap();
-        }
+        return adminService.getUserAllInfo(userId);
     }
-
-    @RequestMapping(value = "/list/logout")
-    public Map logout()
-    {
-        sessionUtil.clearSession();
-        return ResultMap.ok().getMap();
-    }
-
 }

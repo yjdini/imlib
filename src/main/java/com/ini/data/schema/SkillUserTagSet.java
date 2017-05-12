@@ -1,8 +1,8 @@
-package com.ini.dao.schema;
+package com.ini.data.schema;
 
-import com.ini.dao.entity.Skill;
-import com.ini.dao.entity.Tag;
-import com.ini.dao.entity.User;
+import com.ini.data.entity.Skill;
+import com.ini.data.entity.Tag;
+import com.ini.data.entity.User;
 
 import java.math.BigDecimal;
 

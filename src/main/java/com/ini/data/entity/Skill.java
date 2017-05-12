@@ -1,4 +1,4 @@
-package com.ini.dao.entity;
+package com.ini.data.entity;
 
 
 import javax.persistence.*;
@@ -15,11 +15,11 @@ import java.util.Date;
     entities = {
         @EntityResult
         (
-            entityClass = com.ini.dao.entity.Skill.class
+            entityClass = com.ini.data.entity.Skill.class
         ),
         @EntityResult
         (
-            entityClass = com.ini.dao.entity.User.class
+            entityClass = com.ini.data.entity.User.class
         )
     },
     columns = {
@@ -60,6 +60,9 @@ public class Skill {
     private Integer status;
 
     public Skill() {
+    }
+
+    public Skill(boolean initial) {
         this.setCreateTime(new Date());
         this.setStatus(1);
         this.setOrderedTimes(0);

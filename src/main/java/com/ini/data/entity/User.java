@@ -1,4 +1,4 @@
-package com.ini.dao.entity;
+package com.ini.data.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -53,6 +53,8 @@ public class User {
     private BigDecimal score;
 
     private Integer subId;
+
+    private String deleteReason;
 
     public User() {
 
@@ -230,5 +232,13 @@ public class User {
 
     public void setWechat(String wechat) {
         this.wechat = wechat;
+    }
+
+    public String getDeleteReason() {
+        return deleteReason;
+    }
+
+    public void setDeleteReason(String deleteReason) {
+        this.deleteReason = deleteReason;
     }
 }

@@ -1,7 +1,7 @@
 package com.ini.service;
 
-import com.ini.dao.entity.User;
-import com.ini.dao.utils.EntityUtil;
+import com.ini.data.entity.User;
+import com.ini.data.utils.EntityUtil;
 import com.ini.service.abstrac.UserService;
 import com.ini.utils.FileUploadUtil;
 import com.ini.utils.ResultMap;

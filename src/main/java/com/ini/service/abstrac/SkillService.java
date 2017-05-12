@@ -1,6 +1,6 @@
 package com.ini.service.abstrac;
 
-import com.ini.dao.entity.Skill;
+import com.ini.data.entity.Skill;
 import com.ini.utils.ResultMap;
 
 /**

@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -24,6 +25,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @SpringBootApplication
+@EnableJpaRepositories(basePackages = "com.ini.data.jpa")
 public class Application extends WebMvcConfigurerAdapter {
 
     public static void main(String[] args) {
@@ -88,7 +90,7 @@ public class Application extends WebMvcConfigurerAdapter {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("com.ini.dao.entity");
+        factory.setPackagesToScan("com.ini.data.entity");
         factory.setDataSource(dataSource);
         return factory;
     }

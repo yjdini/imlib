@@ -1,4 +1,4 @@
-package com.ini.dao.entity;
+package com.ini.data.entity;
 
 
 import javax.persistence.*;
@@ -30,6 +30,8 @@ public class Apply {
 
     private String wechat;
 
+    private String name;
+
     private Integer result;
 
     private Integer status;
@@ -41,9 +43,14 @@ public class Apply {
     private String prove;
 
     public Apply() {
-        this.setCreateTime(new Date());
-        this.setStatus(1);
-        this.setResult(0);
+    }
+
+    public Apply(boolean initial) {
+        if (initial) {
+            this.setCreateTime(new Date());
+            this.setStatus(1);
+            this.setResult(0);
+        }
     }
 
     public Integer getApplyId() {
@@ -152,5 +159,13 @@ public class Apply {
 
     public void setProve(String prove) {
         this.prove = prove;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

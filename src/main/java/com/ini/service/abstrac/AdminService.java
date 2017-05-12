@@ -1,10 +1,10 @@
 package com.ini.service.abstrac;
 
-import com.ini.dao.entity.Admin;
-import com.ini.dao.entity.User;
-import com.ini.dao.schema.UserSet;
+import com.ini.data.entity.Admin;
+import com.ini.data.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Somnus`L on 2017/5/11.
@@ -13,15 +13,13 @@ public interface AdminService {
 
     Admin login(String name, String password);
 
-    List<UserSet> getMasters();
-
-    List<UserSet> getCommonUsers();
-
-    boolean deleteUser(Integer userId);
+    boolean deleteUser(Integer userId, String deleteReason);
 
     boolean proveApply(Integer userId);
 
-    boolean rejectApply(Integer userId, String rejectReason);
+    boolean rejectApply(Integer applyId, String rejectReason);
 
     List<User> getUsersByExample(User user);
+
+    Map getUserAllInfo(Integer userId);
 }

@@ -1,12 +1,13 @@
 package com.ini.utils;
 
-import com.ini.dao.entity.Admin;
-import com.ini.dao.entity.User;
+import com.ini.data.entity.Admin;
+import com.ini.data.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by Somnus`L on 2017/5/9.
+ *
  */
 public class SessionUtil {
     private static final ThreadLocal<HttpServletRequest> currentRequest = new ThreadLocal<HttpServletRequest>();
@@ -32,9 +33,14 @@ public class SessionUtil {
         currentRequest.get().getSession().setAttribute(key, value);
     }
 
-    public User getUser() {
-        return (User) currentRequest.get().getSession().getAttribute("user");
+    public String getUserType() {
+        User user = (User) currentRequest.get().getSession().getAttribute("user");
+        return user == null ? null : user.getType();
     }
+
+//    public User getUser() {
+//        return (User) currentRequest.get().getSession().getAttribute("user");
+//    }
 
     public void setUser(User user) {
         currentRequest.get().getSession().setAttribute("user", user);
@@ -53,6 +59,10 @@ public class SessionUtil {
     }
     public Admin getAdmin() {
         return (Admin) currentRequest.get().getSession().getAttribute("admin");
+    }
+    public Integer getSubId() {
+        Admin admin = (Admin) currentRequest.get().getSession().getAttribute("admin");
+        return admin == null ? null : admin.getSubId();
     }
     public Integer getAdminId() {
         Admin admin = (Admin) currentRequest.get().getSession().getAttribute("admin");

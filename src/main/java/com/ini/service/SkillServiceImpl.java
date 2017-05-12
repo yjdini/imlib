@@ -1,8 +1,8 @@
 package com.ini.service;
 
-import com.ini.dao.entity.Skill;
-import com.ini.dao.schema.SkillTagSet;
-import com.ini.dao.schema.SkillUserTagSet;
+import com.ini.data.entity.Skill;
+import com.ini.data.schema.SkillTagSet;
+import com.ini.data.schema.SkillUserTagSet;
 import com.ini.service.abstrac.OrderService;
 import com.ini.service.abstrac.SkillService;
 import com.ini.utils.ResultMap;
@@ -59,7 +59,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public ResultMap getSkillsByUserId(Integer userId) {
-        List skills = entityManager.createQuery("select new com.ini.dao.schema.SkillTagSet(s, t)" +
+        List skills = entityManager.createQuery("select new com.ini.data.schema.SkillTagSet(s, t)" +
                 " from Skill s, Tag t where s.userId = :userId and s.status = 1 and s.tagId = t.tagId", SkillTagSet.class)
                 .setParameter("userId", userId)
                 .getResultList();
@@ -68,7 +68,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public ResultMap getSkillDetail(Integer skillId) {
-        List skills = entityManager.createQuery("select new com.ini.dao.schema.SkillTagSet(s, t)" +
+        List skills = entityManager.createQuery("select new com.ini.data.schema.SkillTagSet(s, t)" +
                 " from Skill s, Tag t where s.skillId = :skillId and s.tagId = t.tagId", SkillTagSet.class)
                 .setParameter("skillId", skillId)
                 .getResultList();
@@ -81,7 +81,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public ResultMap searchByKeyword(String keyword, Integer subId) {
-        List skills = entityManager.createQuery("select new com.ini.dao.schema.SkillUserTagSet(s, u, t)" +
+        List skills = entityManager.createQuery("select new com.ini.data.schema.SkillUserTagSet(s, u, t)" +
                         " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
                         " and s.status = 1 and u.status = 1 and u.subId = :subId and " +
                         "(u.name like '%"+keyword+"%' or s.title like '%"+keyword+"%' )"
@@ -93,7 +93,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public ResultMap searchByTagId(Integer tagId, Integer subId) {
-        List skills = entityManager.createQuery("select new com.ini.dao.schema.SkillUserTagSet(s, u, t)" +
+        List skills = entityManager.createQuery("select new com.ini.data.schema.SkillUserTagSet(s, u, t)" +
                 " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
                 " and s.status = 1 and u.status = 1 and u.subId = :subId and s.tagId = :tagId"
                         ,SkillUserTagSet.class)
@@ -104,7 +104,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public ResultMap searchAll(Integer subId) {
-        List skills = entityManager.createQuery("select new com.ini.dao.schema.SkillUserTagSet(s, u, t)" +
+        List skills = entityManager.createQuery("select new com.ini.data.schema.SkillUserTagSet(s, u, t)" +
                 " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
                 " and s.status = 1 and u.status = 1 and u.subId = :subId", SkillUserTagSet.class)
                 .setParameter("subId", subId)
@@ -114,7 +114,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public ResultMap getSkillsByUserIdExcept(Integer userId, Integer exceptSkillId) {
-        List skills = entityManager.createQuery("select new com.ini.dao.schema.SkillTagSet(s, t)" +
+        List skills = entityManager.createQuery("select new com.ini.data.schema.SkillTagSet(s, t)" +
                 " from Skill s, Tag t where s.userId = :userId and s.status = 1 and s.tagId = t.tagId" +
                 " and s.skillId != :skillId", SkillTagSet.class)
                 .setParameter("userId", userId)

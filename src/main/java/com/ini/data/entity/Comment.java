@@ -1,4 +1,4 @@
-package com.ini.dao.entity;
+package com.ini.data.entity;
 
 
 import javax.persistence.*;
@@ -31,6 +31,9 @@ public class Comment {
     private Integer orderId;
 
     public Comment() {
+    }
+
+    public Comment(boolean initial) {
         this.setCreateTime(new Date());
         this.setStatus(1);
     }

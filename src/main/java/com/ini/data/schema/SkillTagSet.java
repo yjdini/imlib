@@ -1,7 +1,7 @@
-package com.ini.dao.schema;
+package com.ini.data.schema;
 
-import com.ini.dao.entity.Skill;
-import com.ini.dao.entity.Tag;
+import com.ini.data.entity.Skill;
+import com.ini.data.entity.Tag;
 /**
  * Created by Somnus`L on 2017/5/10.
  *

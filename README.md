@@ -577,6 +577,17 @@ password;
 ```
 {
   url: /api/admin/deleteuser/{userId},
+  method: post,
+  data:{
+    deleteReason;
+  }
+}
+```
+
+##### 恢复用户
+```
+{
+  url: /api/admin/recoveruser/{userId},
   method: get
 }
 ```
@@ -584,7 +595,7 @@ password;
 ##### 批准申请
 ```
 {
-  url: /api/admin/proveapply/{userId}
+  url: /api/admin/proveapply/{applyId}
   method: get
 }
 ```
@@ -599,5 +610,13 @@ password;
     userId;
     rejectReason;
   }
+}
+```
+
+##### 获取某个用户全部信息
+```
+{
+  url: /api/admin/userinfo/{userId};
+  method: get;
 }
 ```

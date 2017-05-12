@@ -1,6 +1,6 @@
 package com.ini.service;
 
-import com.ini.dao.entity.Apply;
+import com.ini.data.entity.Apply;
 import com.ini.service.abstrac.ApplyService;
 import com.ini.utils.ResultMap;
 import com.ini.utils.SessionUtil;

@@ -1,6 +1,6 @@
 package com.ini.service.abstrac;
 
-import com.ini.dao.entity.User;
+import com.ini.data.entity.User;
 import com.ini.utils.ResultMap;
 import org.springframework.web.multipart.MultipartFile;
 

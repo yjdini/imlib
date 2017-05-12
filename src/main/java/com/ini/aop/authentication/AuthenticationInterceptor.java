@@ -1,6 +1,5 @@
 package com.ini.aop.authentication;
 
-import com.ini.dao.entity.User;
 import com.ini.utils.PrintUtil;
 import com.ini.utils.ReflectUtil;
 import com.ini.utils.ResultMap;
@@ -55,14 +54,15 @@ public final class AuthenticationInterceptor extends HandlerInterceptorAdapter
         }
         else if(value == AuthenticationType.Master)
         {
-            User user = sessionUtil.getUser();
-            if (user.getType().equals("c")) {
+            String userType = sessionUtil.getUserType();
+            if ("c".equals(userType)) {
                 PrintUtil.responseWithJson(response, new ResultMapConvert()
                         .convert(ResultMap.error().setMessage("需要行家用户权限")));
                 return false;
-            } else {
+            } else if("m".equals(userType)) {
                 return true;
             }
+            return false;
         }
 
         return true;

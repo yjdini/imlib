@@ -1,9 +1,7 @@
-package com.ini.dao.entity;
+package com.ini.data.entity;
 
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.Type;
 
 import java.util.Date;
 
@@ -23,6 +21,16 @@ public class Admin {
     private String name;
     private String password;
     private Integer subId;
+    private Integer status;
+    private String deleteReason;
+
+    public Admin() {
+
+    }
+
+    public Admin(boolean initial) {
+
+    }
 
     public Integer getAdminId() {
         return adminId;
@@ -62,5 +70,21 @@ public class Admin {
 
     public void setSubId(Integer subId) {
         this.subId = subId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getDeleteReason() {
+        return deleteReason;
+    }
+
+    public void setDeleteReason(String deleteReason) {
+        this.deleteReason = deleteReason;
     }
 }

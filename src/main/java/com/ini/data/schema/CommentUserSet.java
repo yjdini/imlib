@@ -1,10 +1,8 @@
-package com.ini.dao.schema;
+package com.ini.data.schema;
 
-import com.ini.dao.entity.Comment;
-import com.ini.dao.entity.User;
-import org.hibernate.annotations.NamedNativeQuery;
+import com.ini.data.entity.Comment;
+import com.ini.data.entity.User;
 
-import javax.persistence.NamedQuery;
 import java.util.Date;
 
 /**

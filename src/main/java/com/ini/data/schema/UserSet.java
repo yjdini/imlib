@@ -1,9 +1,7 @@
-package com.ini.dao.schema;
+package com.ini.data.schema;
 
-import com.ini.dao.entity.User;
+import com.ini.data.entity.User;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.math.BigDecimal;
 import java.util.Date;
 
