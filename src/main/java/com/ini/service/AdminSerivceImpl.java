@@ -177,4 +177,26 @@ public class AdminSerivceImpl implements AdminService {
         return false;
     }
 
+    @Override
+    public boolean shelveMaster(Integer userId, String shelveReason) {
+        User user = userRepository.findOne(userId);
+        if (user.getSubId().equals(sessionUtil.getSubId())) {
+            user.setShelveReason(shelveReason);
+            user.setType("m-c");
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean groundMaster(Integer userId) {
+        User user = userRepository.findOne(userId);
+        if (user.getSubId().equals(sessionUtil.getSubId())) {
+            user.setShelveReason("");
+            user.setType("m");
+            return true;
+        }
+        return false;
+    }
+
 }

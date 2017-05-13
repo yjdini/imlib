@@ -20,6 +20,7 @@ public class StatisticSum {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
+    private Integer time;
     private Integer user;
     private Integer master;
     private Integer skill;
@@ -80,5 +81,13 @@ public class StatisticSum {
 
     public void setFinishOrder(Integer finishOrder) {
         this.finishOrder = finishOrder;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
     }
 }

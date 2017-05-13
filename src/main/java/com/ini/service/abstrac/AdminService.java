@@ -34,4 +34,8 @@ public interface AdminService {
     Map getSubUrl();
 
     boolean cancleRejectApply(Integer applyId);
+
+    boolean shelveMaster(Integer userId, String shelveReason);
+
+    boolean groundMaster(Integer userId);
 }

@@ -18,6 +18,8 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
+    private String shelveReason;
+
     private String nickname;
 
     private String name;
@@ -250,5 +252,13 @@ public class User {
 
     public void setApplyId(Integer applyId) {
         this.applyId = applyId;
+    }
+
+    public String getShelveReason() {
+        return shelveReason;
+    }
+
+    public void setShelveReason(String shelveReason) {
+        this.shelveReason = shelveReason;
     }
 }

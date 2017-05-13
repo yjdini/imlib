@@ -20,12 +20,13 @@ public class StatisticIncrement {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
+    private Integer time;
+
     private Integer user;
     private Integer master;
     private Integer skill;
     private Integer orders;
     private Integer finishOrder;
-
     private Integer request;
 
     public Integer getStatisticIncrementId() {
@@ -90,5 +91,13 @@ public class StatisticIncrement {
 
     public void setRequest(Integer request) {
         this.request = request;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
     }
 }

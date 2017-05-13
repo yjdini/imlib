@@ -71,7 +71,7 @@ public class AdminController {
     }
 
     @Authentication(value = AuthenticationType.Admin)
-    @RequestMapping(value = "/api/admin/suburl")
+    @RequestMapping(value = "/api/admin/token")
     public Map getSubUrl()
     {
         return adminService.getSubUrl();
@@ -120,7 +120,7 @@ public class AdminController {
         if (adminService.proveApply(applyId)) {
             return ResultMap.ok().getMap();
         } else {
-            return ResultMap.error().setMessage("不能批准该用户的申请！").getMap();
+            return ResultMap.error().setMessage("该用户不属于这个分站，不能批准该用户的申请！").getMap();
         }
     }
 
@@ -133,7 +133,7 @@ public class AdminController {
         if (adminService.rejectApply(applyId, rejectReason)) {
             return ResultMap.ok().getMap();
         } else {
-            return ResultMap.error().setMessage("不能拒绝该用户的申请！").getMap();
+            return ResultMap.error().setMessage("该用户不属于这个分站，不能拒绝该用户的申请！").getMap();
         }
     }
 
@@ -144,7 +144,7 @@ public class AdminController {
         if (adminService.cancleRejectApply(applyId)) {
             return ResultMap.ok().getMap();
         } else {
-            return ResultMap.error().setMessage("不能撤销！").getMap();
+            return ResultMap.error().setMessage("该用户不属于这个分站，不能撤销！").getMap();
         }
     }
 
@@ -167,6 +167,28 @@ public class AdminController {
     @RequestMapping(value = "/applyinfo/{applyId}")
     public Map getApplyById(@PathVariable Integer applyId) {
         return adminService.getApplyById(applyId);
+    }
+
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/mastershelve/{userId}")
+    public Map shelveMaster(@PathVariable Integer userId, @RequestBody Map<String, Object> body) {
+        String shelveReason = (String) body.get("shelveReason");
+        if (adminService.shelveMaster(userId, shelveReason)) {
+            return ResultMap.ok().getMap();
+        } else {
+            return ResultMap.error().setMessage("该用户不属于这个分站，不能下架！").getMap();
+        }
+    }
+
+
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/masterground/{userId}")
+    public Map groundMaster(@PathVariable Integer userId) {
+        if (adminService.groundMaster(userId)) {
+            return ResultMap.ok().getMap();
+        } else {
+            return ResultMap.error().setMessage("该用户不属于这个分站，不能上架！").getMap();
+        }
     }
 
 

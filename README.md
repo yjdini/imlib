@@ -1,13 +1,10 @@
 # 1.Response
-##### success
+##### status
 ```
 {
   status: "ok"
 }
-```
-
-##### error
-```
+ 
 {
   status: "unlogin"(登录过期)
 }
@@ -42,18 +39,11 @@
 ```
 ##### 添加用户
 ```
-request
 {
   url: /api/user/add,
   method: post,
   content-type: application/json; charset=utf-8,
   data: User@object
-}
- 
-response
-{
-  status: "ok",
-  result: userId
 }
 ```
 
@@ -66,12 +56,6 @@ response
     image:
   }
 }
- 
-response
-{
-  status: "ok",
-  result: studentCardUrl
-}
 ```
 
 ##### 该用户是否是行家
@@ -80,12 +64,6 @@ request
 {
   url: /api/user/isMaster,
   method: get
-}
- 
-response
-{
-  status: "ok",
-  result: 0:不是；1：是的
 }
 ```
 
@@ -112,12 +90,6 @@ request
     password: base64加密后的密码
   }
 }
- 
-response
-{
-  status: "ok"
-}
- 
 {
   status: "error"(账号或密码错误)
 }
@@ -125,7 +97,6 @@ response
 
 ##### 退出登录
 ```
-request
 {
   url: /api/user/logout,
   method: get,
@@ -135,13 +106,10 @@ request
 
 ##### 获取某用户基本信息
 ```
-request
 {
   url: /api/user/info/{userId},
   method: get
 }
- 
-response:User@object
 ```
 ##### 获取用户自己的基本信息
 ```
@@ -172,7 +140,6 @@ request
   method: get
 }
   
-response
 {
   result : 0: 未登录，1：已登录
 }
@@ -206,12 +173,6 @@ request
   content-type: application/json; charset=utf-8,
   data: Skill@object
 }
-
-response
-{
-  status: "ok",
-  result: userId
-}
 ```
 ##### 删除技能
 ```
@@ -228,7 +189,6 @@ request
   url: /api/skill/list
   method: get
 }
-
 ```
 
 ##### 查看某用户技能列表
@@ -238,7 +198,6 @@ request
   url: /api/skill/list/{userId}
   method: get
 }
-
 ```
 
 ##### 查看某用户技能列表except
@@ -248,7 +207,6 @@ request
   url: /api/skill/list/{userId}/{exceptSkillId}
   method: get
 }
-
 ```
 
 ##### 查看某个技能详细信息
@@ -267,7 +225,6 @@ request
   url: /api/skill/search/keyword/{subId}/{keyword},
   method: get
 }
-
 ```
 
 ##### 标签搜索技能列表
@@ -277,8 +234,6 @@ request
   url: /api/skill/search/tag/{subId}/{tagId},
   method: get
 }
- 
-response:SKill+User@object[]
 ```
 ##### 该分站所有技能列表
 ```
@@ -287,8 +242,6 @@ request
   url: /api/skill/search/all/{subId},
   method: get
 }
- 
-response:SKill+User@object[]
 ```
 
 # 4.Order
@@ -313,12 +266,6 @@ request
   url: /api/order/add,
   method: post,
   data: Order@object
-}
- 
-response
-{
-  status: "ok",
-  result: userId
 }
 ```
 ##### (发起者)取消预约
@@ -364,43 +311,34 @@ response
 
 ##### 获取自己的预约列表
 ```
-request
 {
   url: /api/order/list,
   method: get
 }
- 
-response:Order@object[]
 ```
 
 ##### 获取自己的预约列表(自己约别人)
 ```
-request
 {
   url: /api/order/from/list,
   method: get
 }
-
 ```
 
 
 ##### 获取自己的预约列表(别人约自己)
 ```
-request
 {
   url: /api/order/to/list,
   method: get
 }
-
 ```
 ##### 查看某个预约详细信息
 ```
-request
 {
   url: /api/order/info/{orderId},
   method: get
 }
-
 ```
 
 # 5.Comment
@@ -416,7 +354,6 @@ request
 ```
 ##### 对某个技能进行评论
 ```  
-request
 {
   url: /api/skill/comment/add,
   method: post,
@@ -428,16 +365,9 @@ request
     userId;
   }
 }
- 
-response
-{
-  status: "ok",
-  result: userId
-}
 ```
 ##### 查看某个技能的评论列表
 ```
-request
 {
   url: /api/skill/comments/{skillId},
   method: get
@@ -464,7 +394,6 @@ request
 
 ##### 申请行家认证
 ```
-request
 {
   url: /api/apply/add,
   method: post,
@@ -475,7 +404,6 @@ request
 
 ##### 查看自己最近一次的认证信息
 ```
-request
 {
   url: /api/apply/latest,
   method: get
@@ -484,7 +412,6 @@ request
 
 ##### 查看自己的认证申请列表
 ```
-request
 {
   url: /api/apply/list,
   method: get
@@ -493,7 +420,6 @@ request
 
 ##### 查看某个认证申请的详细信息
 ```
-request
 {
   url: /api/apply/info/{applyId},
   method: get
@@ -674,15 +600,15 @@ password;
 ##### 获取分站url
 ```
 {
-  url: /api/admin/suburl
+  url: /api/admin/token
 }
 ```
 
 # 11.statistic
 ##### 获取用户统计
-```concept
+```
 {
-  url: /api/statistic/user
+  url: /api/statistic/{type} (type="user","skill","order","finishOrder","master","master")
   data: {
     startDate:
     endDate
@@ -692,7 +618,7 @@ password;
 
 # 10.OpenSub
 ##### 数据表
-```concept
+```
 {
   email;
   mpName;
@@ -703,7 +629,7 @@ password;
 }
 ```
 ##### 添加申请
-```concept
+```
 {
   url："/api/opensub/add",
   method: post
