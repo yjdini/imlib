@@ -53,12 +53,24 @@ public class AdminController {
     }
 
     @Authentication(value = AuthenticationType.Admin)
-    @RequestMapping(value = "/list/logout")
+    @RequestMapping(value = "/logout")
     public Map logout()
     {
         sessionUtil.clearSession();
         return ResultMap.ok().getMap();
     }
+
+
+    @RequestMapping(value = "/status")
+    public Map status(@RequestBody Map<String, Object> body)
+    {
+        if (sessionUtil.adminLogined()) {
+            return ResultMap.ok().getMap();
+        } else {
+            return  ResultMap.unlogin().getMap();
+        }
+    }
+
 
     @Authentication(value = AuthenticationType.Admin)
     @RequestMapping(value = "/editpassword")
@@ -71,7 +83,7 @@ public class AdminController {
     }
 
     @Authentication(value = AuthenticationType.Admin)
-    @RequestMapping(value = "/api/admin/token")
+    @RequestMapping(value = "/token")
     public Map getSubUrl()
     {
         return adminService.getSubUrl();

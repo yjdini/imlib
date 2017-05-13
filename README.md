@@ -474,6 +474,24 @@ password;
 }
 ```
 
+##### 登出
+```
+{
+    url: /api/admin/logout
+    data: {
+        email;
+        password
+    }
+}
+```
+
+##### 查看登录状态
+```
+{
+    url: /api/admin/status
+}
+```
+
 ##### 获取用户列表
 ```
 {

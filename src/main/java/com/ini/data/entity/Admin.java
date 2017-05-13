@@ -12,7 +12,7 @@ import java.util.Date;
 @Table(name = "Admin")
 public class Admin {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer adminId;
 
     @Temporal(TemporalType.TIMESTAMP)

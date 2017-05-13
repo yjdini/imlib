@@ -2,7 +2,6 @@ package com.ini.controllers;
 
 import com.ini.data.entity.OpenSub;
 import com.ini.data.jpa.OpenSubRepository;
-import com.ini.data.utils.EntityUtil;
 import com.ini.utils.Map2Bean;
 import com.ini.utils.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;

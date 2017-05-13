@@ -14,7 +14,7 @@ import java.util.Date;
 @Table(name = "Sub")
 public class Sub {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer SubId;
 
     @Temporal(TemporalType.TIMESTAMP)

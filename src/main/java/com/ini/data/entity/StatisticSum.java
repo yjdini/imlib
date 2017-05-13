@@ -14,7 +14,7 @@ import java.util.Date;
 @Table(name = "StatisticSum")
 public class StatisticSum {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer statisticSumId;
 
     @Temporal(TemporalType.TIMESTAMP)

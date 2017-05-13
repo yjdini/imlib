@@ -12,7 +12,7 @@ import java.util.Date;
 @Table(name = "Apply")
 public class Apply {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer applyId;
 
     @Temporal(TemporalType.TIMESTAMP)
