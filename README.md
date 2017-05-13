@@ -633,7 +633,7 @@ password;
 ##### 获取各个表的统计 {increment：增长值，sum：总量}
 ```
 {
-  url: /api/statistic/{type} (type="user","skill","order","finishOrder","master")
+  url: /api/statistic/{type} (type="user","skill","order","finishOrder","master","apply")
   data: {
     startDate:
     endDate
@@ -643,7 +643,7 @@ password;
 ##### 获取各个表的记录的当前数量
 ```
 {
-  url: /api/statistic/count/{type} (type="user","skill","order","finishOrder","master")
+  url: /api/statistic/count
 }
 ```
 

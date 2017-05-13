@@ -62,6 +62,25 @@ public class StatisticsServiceImpl implements StatisticsService {
         },10000,1000*60*60*24);
     }
 
+    @Override
+    public Map count(Integer subId) {
+        Integer orderNum = ordersRepository.countBySubId(subId);
+        Integer userNum = userRepository.countBySubId(subId);
+        Integer skillNum = skillRepository.countBySubId(subId);
+        Integer masterNum = userRepository.countBySubIdAndType(subId, "m");
+        Integer finishOrderNum = ordersRepository.countBySubIdAndResult(subId, 3);
+        Integer applyNum = applyRepository.countBySubId(subId);
+
+        HashMap map = new HashMap();
+        map.put("order", orderNum);
+        map.put("user", userNum);
+        map.put("skill", skillNum);
+        map.put("master", masterNum);
+        map.put("finishOrder", finishOrderNum);
+        map.put("apply", applyNum);
+        return map;
+    }
+
     private void startStatistics() {
         Calendar now = Calendar.getInstance();
         now.set(Calendar.DATE, now.get(Calendar.DATE) - 1);
@@ -111,16 +130,16 @@ public class StatisticsServiceImpl implements StatisticsService {
             Integer skillNum = skillRepository.countBySubId(subId);
             Integer masterNum = userRepository.countBySubIdAndType(subId, "m");
             Integer finishOrderNum = ordersRepository.countBySubIdAndResult(subId, 3);
-            Integer applyNum = applyRepository.countBySubId(subId);;
+            Integer applyNum = applyRepository.countBySubId(subId);
 
-            increment.setSubId(subId);
-            increment.setOrders(orderNum);
-            increment.setUser(userNum);
-            increment.setSkill(skillNum);
-            increment.setMaster(masterNum);
-            increment.setFinishOrder(finishOrderNum);
-            increment.setApply(applyNum);
-            incrementRepository.save(increment);
+            sum.setSubId(subId);
+            sum.setOrders(orderNum);
+            sum.setUser(userNum);
+            sum.setSkill(skillNum);
+            sum.setMaster(masterNum);
+            sum.setFinishOrder(finishOrderNum);
+            sum.setApply(applyNum);
+            sumRepository.save(sum);
         }
     }
 

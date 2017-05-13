@@ -27,7 +27,7 @@ public class StatisticController {
 
     @Authentication(value = AuthenticationType.Admin)
     @RequestMapping("/{type}")
-    public Map userStatistic(@RequestBody Map<String, Object> body, @PathVariable String type) {
+    public Map statistic(@RequestBody Map<String, Object> body, @PathVariable String type) {
         Integer endDate = (Integer) body.get("endDate");//20170501
         Integer startDate = (Integer) body.get("startDate");
         Integer subId = sessionUtil.getSubId();
@@ -40,5 +40,13 @@ public class StatisticController {
         Map sums = statisticsService.getStatisticSum(startDate, endDate, type, subId);
         Map increments = statisticsService.getStatisticIncrement(startDate, endDate, type, subId);
         return ResultMap.ok().result("sums", sums).result("increments", increments).getMap();
+    }
+
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping("/count")
+    public Map count() {
+        Integer subId = sessionUtil.getSubId();
+        Map count = statisticsService.count(subId);
+        return ResultMap.ok().result(count).getMap();
     }
 }

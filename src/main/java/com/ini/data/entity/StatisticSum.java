@@ -43,6 +43,9 @@ public class StatisticSum {
         }
     }
 
+    public StatisticSum() {
+    }
+
     public Integer getStatisticSumId() {
         return statisticSumId;
     }

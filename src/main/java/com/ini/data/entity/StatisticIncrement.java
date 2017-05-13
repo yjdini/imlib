@@ -39,6 +39,9 @@ public class StatisticIncrement {
         this.apply = apply;
     }
 
+    public StatisticIncrement() {
+    }
+
     public StatisticIncrement(boolean initial) {
         if (initial) {
             this.createTime = new Date();
