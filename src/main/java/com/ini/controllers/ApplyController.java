@@ -3,8 +3,10 @@ package com.ini.controllers;
 import com.ini.aop.authentication.Authentication;
 import com.ini.aop.authentication.AuthenticationType;
 import com.ini.data.entity.Apply;
+import com.ini.data.entity.User;
 import com.ini.service.abstrac.ApplyService;
 import com.ini.service.abstrac.UserService;
+import com.ini.utils.Map2Bean;
 import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,8 +29,9 @@ public class ApplyController {
 
     @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/add", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map addApply(@RequestBody Apply apply)
+    public Map addApply(@RequestBody Map<String, Object> body)
     {
+        Apply apply = Map2Bean.convert(body, new Apply(true), true);
         //防止恶意为别人创建申请
         apply.setUserId(sessionUtil.getUserId());
         return applyService.addApply(apply).getMap();

@@ -2,9 +2,11 @@ package com.ini.controllers;
 
 import com.ini.aop.authentication.Authentication;
 import com.ini.aop.authentication.AuthenticationType;
+import com.ini.data.entity.Orders;
 import com.ini.data.entity.Skill;
 import com.ini.service.abstrac.SkillService;
 import com.ini.service.abstrac.UserService;
+import com.ini.utils.Map2Bean;
 import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,9 +31,10 @@ public class SkillController {
 
     @Authentication(value = AuthenticationType.Master)
     @RequestMapping(value = "/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map addSkill(@RequestBody Skill skill)
+    public Map addSkill(@RequestBody Map<String, Object> body)
     {
         //防止恶意为别人创建技能
+        Skill skill = Map2Bean.convert(body, new Skill(true), true);
         return skillService.addSkill(skill).getMap();
     }
 

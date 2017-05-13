@@ -3,8 +3,10 @@ package com.ini.controllers;
 import com.ini.aop.authentication.Authentication;
 import com.ini.aop.authentication.AuthenticationType;
 import com.ini.data.entity.Orders;
+import com.ini.data.entity.User;
 import com.ini.service.abstrac.OrderService;
 import com.ini.service.abstrac.UserService;
+import com.ini.utils.Map2Bean;
 import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,8 +29,9 @@ public class OrderController {
 
     @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map addOrder(@RequestBody Orders order)
+    public Map addOrder(@RequestBody Map<String, Object> body)
     {
+        Orders order = Map2Bean.convert(body, new Orders(true), true);
         //防止恶意为别人创建预约
         return orderService.addOrder(order).getMap();
     }

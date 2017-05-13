@@ -1,9 +1,6 @@
 package com.ini.service;
 
-import com.ini.data.entity.Admin;
-import com.ini.data.entity.Apply;
-import com.ini.data.entity.Orders;
-import com.ini.data.entity.User;
+import com.ini.data.entity.*;
 import com.ini.data.jpa.*;
 import com.ini.data.schema.OrderUserSet;
 import com.ini.data.schema.SkillTagSet;
@@ -27,6 +24,7 @@ public class AdminSerivceImpl implements AdminService {
     @Autowired private ApplyRepository applyRepository;
     @Autowired private OrdersRepository orderRepository;
     @Autowired private SkillRepository skillRepository;
+    @Autowired private SubRepository subRepository;
 
     @Autowired
     private SessionUtil sessionUtil;
@@ -143,6 +141,40 @@ public class AdminSerivceImpl implements AdminService {
             return ResultMap.error().setMessage("该申请用户不属于这个子系统，无法查看！").getMap();
         }
         return ResultMap.ok().result("apply", apply).result("user", user).getMap();
+    }
+
+    @Override
+    public Map editPassword(String oldPassword, String newPassword) {
+        Integer adminId = sessionUtil.getAdminId();
+        Admin admin = adminRepository.findOne(adminId);
+
+        if (admin.getPassword().equals(oldPassword)) {
+            admin.setPassword(newPassword);
+            adminRepository.save(admin);
+            return ResultMap.ok().getMap();
+        }
+
+        return ResultMap.error().setMessage("密码错误！").getMap();
+    }
+
+    @Override
+    public Map getSubUrl() {
+        Integer subId = sessionUtil.getSubId();
+        Sub sub = subRepository.findOne(subId);
+        return ResultMap.ok().result(sub.getToken()).getMap();
+    }
+
+    @Override
+    public boolean cancleRejectApply(Integer applyId) {
+        Apply apply = applyRepository.findOne(applyId);
+        User user = userRepository.findOne(apply.getUserId());
+        if (user.getSubId().equals(sessionUtil.getSubId())) {
+            apply.setResult(0);
+            apply.setRejectReason("");
+            applyRepository.save(apply);
+            return true;
+        }
+        return false;
     }
 
 }

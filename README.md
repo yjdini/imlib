@@ -206,7 +206,7 @@ request
   content-type: application/json; charset=utf-8,
   data: Skill@object
 }
- 
+
 response
 {
   status: "ok",
@@ -228,8 +228,7 @@ request
   url: /api/skill/list
   method: get
 }
- 
-response:SKill@object[]
+
 ```
 
 ##### 查看某用户技能列表
@@ -239,8 +238,7 @@ request
   url: /api/skill/list/{userId}
   method: get
 }
- 
-response:SKill@object[]
+
 ```
 
 ##### 查看某用户技能列表except
@@ -250,8 +248,7 @@ request
   url: /api/skill/list/{userId}/{exceptSkillId}
   method: get
 }
- 
-response:SKill@object[]
+
 ```
 
 ##### 查看某个技能详细信息
@@ -261,7 +258,6 @@ request
   url: /api/skill/info/{skillId},
   method: get
 }
-response:SKill@object
 ```
 
 ##### 关键字搜索技能列表
@@ -271,8 +267,7 @@ request
   url: /api/skill/search/keyword/{subId}/{keyword},
   method: get
 }
- 
-response:SKill+User@object[]
+
 ```
 
 ##### 标签搜索技能列表
@@ -385,8 +380,7 @@ request
   url: /api/order/from/list,
   method: get
 }
- 
-response:Order@object[]
+
 ```
 
 
@@ -397,8 +391,7 @@ request
   url: /api/order/to/list,
   method: get
 }
- 
-response:Order@object[]
+
 ```
 ##### 查看某个预约详细信息
 ```
@@ -407,8 +400,7 @@ request
   url: /api/order/info/{orderId},
   method: get
 }
- 
-response:Order@object
+
 ```
 
 # 5.Comment
@@ -450,8 +442,7 @@ request
   url: /api/skill/comments/{skillId},
   method: get
 }
- 
-response:Comment+User@object[](按时间递增排序)
+
 ```
 
 
@@ -480,12 +471,6 @@ request
   content-type: application/json; charset=utf-8,
   data: Apply@object
 }
- 
-response
-{
-  status: "ok",
-  result: userId
-}
 ```
 
 ##### 查看自己最近一次的认证信息
@@ -495,8 +480,6 @@ request
   url: /api/apply/latest,
   method: get
 }
- 
-response:Apply@object
 ```
 
 ##### 查看自己的认证申请列表
@@ -506,8 +489,6 @@ request
   url: /api/apply/list,
   method: get
 }
- 
-response:Apply@object[]
 ```
 
 ##### 查看某个认证申请的详细信息
@@ -517,17 +498,14 @@ request
   url: /api/apply/info/{applyId},
   method: get
 }
- 
-
-response:Apply@object
 ```
 
 # 7.Tag
 ##### 数据表
 ```
 {
-tagId;
-name;
+  tagId;
+  name;
 }
 ```
 
@@ -535,11 +513,18 @@ name;
 ##### 数据表
 ```
 {
-subId;
-schoolName;
-
+  subId;
+  token;
 }
 ```
+##### 根据token获取分站subId
+```
+{
+  url: '/api/user/subid/{token}'
+  method: get
+}
+```
+
 
 # 9.Admin
 ##### 数据表
@@ -584,6 +569,35 @@ password;
 }
 ```
 
+##### 下架行家
+```
+{
+  url: /api/admin/mastershelve/{userId},
+  method: post,
+  data:{
+    shelveReason;
+  }
+}
+```
+
+##### 上架行家
+```
+{
+  url: /api/admin/masterground/{userId},
+}
+```
+##### 冻结
+```
+{
+  url: /api/admin/deleteuser/{userId},
+  method: post,
+  data:{
+    deleteReason;
+  }
+}
+```
+
+
 ##### 恢复用户
 ```
 {
@@ -600,16 +614,23 @@ password;
 }
 ```
 
-
 ##### 拒绝申请
 ```
 {
   url: /api/admin/rejectapply;
   method: post;
   data: {
-    userId;
+    applyId;
     rejectReason;
   }
+}
+```
+
+
+##### 撤销拒绝
+```
+{
+  url: /api/admin/canclereject/{applyId};
 }
 ```
 
@@ -637,5 +658,54 @@ password;
 {
   url: /api/admin/applyinfo/{applyId}
   method: get
+}
+```
+##### 更改管理员密码
+```
+{
+  url: /api/admin/editpassword
+  method: post
+  data:{
+    oldPasswrod
+    newPassword
+  }
+}
+```
+##### 获取分站url
+```
+{
+  url: /api/admin/suburl
+}
+```
+
+# 11.statistic
+##### 获取用户统计
+```concept
+{
+  url: /api/statistic/user
+  data: {
+    startDate:
+    endDate
+  }
+}
+```
+
+# 10.OpenSub
+##### 数据表
+```concept
+{
+  email;
+  mpName;
+  mpNum;
+  phone;
+  schoolName;
+  wechat;
+}
+```
+##### 添加申请
+```concept
+{
+  url："/api/opensub/add",
+  method: post
 }
 ```

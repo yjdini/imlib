@@ -5,6 +5,7 @@ import com.ini.aop.authentication.AuthenticationInterceptor;
 import com.ini.aop.validate.UserInputVerifyInterceptor;
 import com.ini.service.*;
 import com.ini.service.abstrac.*;
+import com.ini.utils.DateUtil;
 import com.ini.utils.FileUploadUtil;
 import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class Application extends WebMvcConfigurerAdapter {
     //aop.用户权限验证、用户输入验证
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthenticationInterceptor()).addPathPatterns("/**");
-        registry.addInterceptor(new UserInputVerifyInterceptor()).addPathPatterns("/**");
+//        registry.addInterceptor(new UserInputVerifyInterceptor()).addPathPatterns("/**");
     }
 
     @Bean
@@ -79,6 +80,11 @@ public class Application extends WebMvcConfigurerAdapter {
     @Bean
     public FileUploadUtil fileUploadUtil(){
         return new FileUploadUtil();
+    }
+
+    @Bean
+    public DateUtil dateUtil() {
+        return new DateUtil();
     }
 
 

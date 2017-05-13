@@ -15,6 +15,7 @@ import java.util.Map;
  * Created by Somnus`L on 2017/5/12.
  * 用户输入检验，
  * 只适用于request.getParameter()中的参数，因此使用的范围很局限
+ * unused
  */
 public class UserInputVerifyInterceptor extends HandlerInterceptorAdapter {
     @Override

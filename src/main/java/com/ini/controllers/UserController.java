@@ -115,6 +115,12 @@ public class UserController
         }
     }
 
+    @RequestMapping(value = "/api/user/subid/{token}")
+    public Map getSubId(@PathVariable String token)
+    {
+        return userService.getSubIdByToken(token);
+    }
+
 
 
 }

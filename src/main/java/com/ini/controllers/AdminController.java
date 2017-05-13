@@ -60,6 +60,24 @@ public class AdminController {
         return ResultMap.ok().getMap();
     }
 
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/editpassword")
+    public Map editPassword(@RequestBody Map<String, String> body)
+    {
+        String oldPassword = body.get("oldPassword");
+        String newPassword = body.get("newPassword");
+
+        return adminService.editPassword(oldPassword, newPassword);
+    }
+
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/api/admin/suburl")
+    public Map getSubUrl()
+    {
+        return adminService.getSubUrl();
+    }
+
+
 
     @Authentication(value = AuthenticationType.Admin)
     @RequestMapping(value = "/user/list")
@@ -86,7 +104,7 @@ public class AdminController {
 
     @Authentication(value = AuthenticationType.Admin)
     @RequestMapping(value = "/recoveruser/{userId}")
-    public Map deleteUser(@PathVariable Integer userId)
+    public Map recoverUser(@PathVariable Integer userId)
     {
         if (adminService.recoverUser(userId)) {
             return ResultMap.ok().getMap();
@@ -110,14 +128,26 @@ public class AdminController {
     @RequestMapping(value = "/rejectapply")
     public Map rejectApply(@RequestBody Map<String, Object> body)
     {
-        Integer userId = (Integer) body.get("userId");
+        Integer applyId = (Integer) body.get("applyId");
         String rejectReason = (String)body.get("rejectReason");
-        if (adminService.rejectApply(userId, rejectReason)) {
+        if (adminService.rejectApply(applyId, rejectReason)) {
             return ResultMap.ok().getMap();
         } else {
             return ResultMap.error().setMessage("不能拒绝该用户的申请！").getMap();
         }
     }
+
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/canclereject")
+    public Map cancleRejectApply(@PathVariable Integer applyId)
+    {
+        if (adminService.cancleRejectApply(applyId)) {
+            return ResultMap.ok().getMap();
+        } else {
+            return ResultMap.error().setMessage("不能撤销！").getMap();
+        }
+    }
+
 
     @Authentication(value = AuthenticationType.Admin)
     @RequestMapping(value = "/userinfo/{userId}")
@@ -138,4 +168,6 @@ public class AdminController {
     public Map getApplyById(@PathVariable Integer applyId) {
         return adminService.getApplyById(applyId);
     }
+
+
 }

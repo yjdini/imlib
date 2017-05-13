@@ -28,4 +28,10 @@ public interface AdminService {
     Map getApplysByResult(Integer result);
 
     Map getApplyById(Integer applyId);
+
+    Map editPassword(String oldPassword, String newPassword);
+
+    Map getSubUrl();
+
+    boolean cancleRejectApply(Integer applyId);
 }

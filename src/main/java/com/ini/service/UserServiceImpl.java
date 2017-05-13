@@ -1,7 +1,9 @@
 package com.ini.service;
 
 import com.ini.data.entity.Skill;
+import com.ini.data.entity.Sub;
 import com.ini.data.entity.User;
+import com.ini.data.jpa.SubRepository;
 import com.ini.data.jpa.UserRepository;
 import com.ini.data.utils.EntityUtil;
 import com.ini.service.abstrac.UserService;
@@ -16,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * see UserService
@@ -28,6 +31,7 @@ public class UserServiceImpl implements UserService {
     @Autowired private FileUploadUtil fileUploadUtil;
     @Autowired private SessionUtil sessionUtil;
     @Autowired private UserRepository userRepository;
+    @Autowired private SubRepository subRepository;
 
     @Override
     @Transactional
@@ -37,7 +41,7 @@ public class UserServiceImpl implements UserService {
                 return ResultMap.error().setMessage("nameExist");
             user.setStudentCard((String) sessionUtil.get("studentCard"));
             sessionUtil.set("studentCard", null);
-            entityManager.persist(user);
+            userRepository.save(user);
             sessionUtil.setUser(user);
         }catch ( Exception e ) {
             e.printStackTrace();
@@ -163,6 +167,12 @@ public class UserServiceImpl implements UserService {
 
         user.setScore(averageScore);
         userRepository.save(user);
+    }
+
+    @Override
+    public Map getSubIdByToken(String token) {
+        Sub sub = subRepository.findByToken(token);
+        return ResultMap.ok().result(sub.getSubId()).getMap();
     }
 
     @Transactional

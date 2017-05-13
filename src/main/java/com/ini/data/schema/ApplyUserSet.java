@@ -26,8 +26,6 @@ public class ApplyUserSet {
 
     private Integer result;
 
-    private String userName;
-
     private String nickname;
 
     private String userType;
@@ -38,8 +36,8 @@ public class ApplyUserSet {
         this.userId = apply.getUserId();
         this.title = apply.getTitle();
         this.wechat = apply.getWechat();
+        this.result = apply.getResult();
         this.name = apply.getName();
-        this.userName = user.getName();
         this.nickname = user.getNickname();
         this.userType = user.getType();
     }
@@ -99,14 +97,6 @@ public class ApplyUserSet {
 
     public void setResult(Integer result) {
         this.result = result;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getNickname() {

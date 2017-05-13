@@ -33,7 +33,8 @@ public class ApplyServiceImpl implements ApplyService {
         user.setApplyId(apply.getApplyId());
         userRepository.save(user);
 
-        return ResultMap.ok().put("result", apply.getApplyId());
+        return ResultMap.ok().result("applyId", apply.getApplyId())
+                .result("avatar", user.getAvatar());
     }
 
     @Override

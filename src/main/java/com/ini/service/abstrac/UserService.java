@@ -4,8 +4,11 @@ import com.ini.data.entity.User;
 import com.ini.utils.ResultMap;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 /**
  * Created by Somnus`L on 2017/4/5.
+ *
  */
 public interface UserService {
 
@@ -30,4 +33,6 @@ public interface UserService {
     boolean isMaster();
 
     void addScore(Integer userId, Integer score);
+
+    Map getSubIdByToken(String token);
 }

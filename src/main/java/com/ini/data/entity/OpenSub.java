@@ -3,17 +3,19 @@ package com.ini.data.entity;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Type;
+
 import java.util.Date;
 
 /**
  * Created by Somnus`L on 2017/5/4.
  */
 @Entity
-@Table(name = "Admin")
-public class Admin {
+@Table(name = "OpenSub")
+public class OpenSub {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer adminId;
+    private Integer OpenSubId;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
@@ -23,26 +25,26 @@ public class Admin {
     private String mpName;
     private Integer mpNum;
     private String wechat;
+    private String phone;
 
-    private String password;
-    private Integer subId;
     private Integer status;
-    private String deleteReason;
 
-    public Admin() {
-
-    }
-
-    public Admin(boolean initial) {
+    public OpenSub() {
 
     }
-
-    public Integer getAdminId() {
-        return adminId;
+    public OpenSub(boolean initial) {
+        if (initial) {
+            this.setCreateTime(new Date());
+            this.setStatus(1);
+        }
     }
 
-    public void setAdminId(Integer adminId) {
-        this.adminId = adminId;
+    public Integer getOpenSubId() {
+        return OpenSubId;
+    }
+
+    public void setOpenSubId(Integer openSubId) {
+        OpenSubId = openSubId;
     }
 
     public Date getCreateTime() {
@@ -51,38 +53,6 @@ public class Admin {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getSubId() {
-        return subId;
-    }
-
-    public void setSubId(Integer subId) {
-        this.subId = subId;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getDeleteReason() {
-        return deleteReason;
-    }
-
-    public void setDeleteReason(String deleteReason) {
-        this.deleteReason = deleteReason;
     }
 
     public String getSchoolName() {
@@ -123,5 +93,21 @@ public class Admin {
 
     public void setWechat(String wechat) {
         this.wechat = wechat;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }
