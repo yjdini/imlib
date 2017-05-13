@@ -38,4 +38,6 @@ public interface AdminService {
     boolean shelveMaster(Integer userId, String shelveReason);
 
     boolean groundMaster(Integer userId);
+
+    Admin getAdminById(Integer adminId);
 }

@@ -25,7 +25,6 @@ public class OpenSub {
     private String mpName;
     private Integer mpNum;
     private String wechat;
-    private String phone;
 
     private Integer status;
 
@@ -93,14 +92,6 @@ public class OpenSub {
 
     public void setWechat(String wechat) {
         this.wechat = wechat;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public Integer getStatus() {

@@ -71,6 +71,15 @@ public class AdminController {
         }
     }
 
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/info")
+    public Map info(@RequestBody Map<String, Object> body)
+    {
+        Admin admin = adminService.getAdminById(sessionUtil.getAdminId());
+        return ResultMap.ok().result(admin).getMap();
+    }
+
+
 
     @Authentication(value = AuthenticationType.Admin)
     @RequestMapping(value = "/editpassword")

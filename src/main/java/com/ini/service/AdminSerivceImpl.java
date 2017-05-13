@@ -199,4 +199,9 @@ public class AdminSerivceImpl implements AdminService {
         return false;
     }
 
+    @Override
+    public Admin getAdminById(Integer adminId) {
+        return adminRepository.findOne(adminId);
+    }
+
 }
