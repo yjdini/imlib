@@ -20,6 +20,7 @@ public class StatisticIncrement {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
+    private Integer subId;
     private Integer time;
 
     private Integer user;
@@ -28,6 +29,21 @@ public class StatisticIncrement {
     private Integer orders;
     private Integer finishOrder;
     private Integer request;
+    private Integer apply;
+
+    public Integer getApply() {
+        return apply;
+    }
+
+    public void setApply(Integer apply) {
+        this.apply = apply;
+    }
+
+    public StatisticIncrement(boolean initial) {
+        if (initial) {
+            this.createTime = new Date();
+        }
+    }
 
     public Integer getStatisticIncrementId() {
         return statisticIncrementId;
@@ -35,6 +51,14 @@ public class StatisticIncrement {
 
     public void setStatisticIncrementId(Integer statisticIncrementId) {
         this.statisticIncrementId = statisticIncrementId;
+    }
+
+    public Integer getSubId() {
+        return subId;
+    }
+
+    public void setSubId(Integer subId) {
+        this.subId = subId;
     }
 
     public Date getCreateTime() {
@@ -100,4 +124,5 @@ public class StatisticIncrement {
     public void setTime(Integer time) {
         this.time = time;
     }
+
 }

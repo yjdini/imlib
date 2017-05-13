@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface StatisticSumRepository extends JpaRepository<StatisticSum, Integer>, QueryByExampleExecutor<StatisticSum> {
 
-    List<StatisticSum> findByTimeBetween(Integer min, Integer max);
+    List<StatisticSum> findBySubIdAndTimeBetween(Integer subId, Integer min, Integer max);
 }

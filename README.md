@@ -630,16 +630,23 @@ password;
 ```
 
 # 11.statistic
-##### 获取用户统计
+##### 获取各个表的统计 {increment：增长值，sum：总量}
 ```
 {
-  url: /api/statistic/{type} (type="user","skill","order","finishOrder","master","master")
+  url: /api/statistic/{type} (type="user","skill","order","finishOrder","master")
   data: {
     startDate:
     endDate
   }
 }
 ```
+##### 获取各个表的记录的当前数量
+```
+{
+  url: /api/statistic/count/{type} (type="user","skill","order","finishOrder","master")
+}
+```
+
 
 # 10.OpenSub
 ##### 数据表
@@ -648,15 +655,29 @@ password;
   email;
   mpName;
   mpNum;
-  phone;
   schoolName;
   wechat;
 }
 ```
-##### 添加申请
+##### 添加开通分站申请
 ```
 {
   url："/api/opensub/add",
+  method: post
+}
+```
+
+##### 同意开通分站申请
+```
+{
+  url："/api/opensub/prove/{openSubId}",
+  method: post
+}
+```
+##### 拒绝开通分站申请
+```
+{
+  url："/api/opensub/reject/{openSubId}",
   method: post
 }
 ```

@@ -34,6 +34,7 @@ public class ApplyController {
         Apply apply = Map2Bean.convert(body, new Apply(true), true);
         //防止恶意为别人创建申请
         apply.setUserId(sessionUtil.getUserId());
+        apply.setSubId(sessionUtil.getSubId());
         return applyService.addApply(apply).getMap();
     }
 

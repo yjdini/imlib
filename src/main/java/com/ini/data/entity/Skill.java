@@ -59,6 +59,16 @@ public class Skill {
 
     private Integer status;
 
+    private Integer subId;
+
+    public Integer getSubId() {
+        return subId;
+    }
+
+    public void setSubId(Integer subId) {
+        this.subId = subId;
+    }
+
     public Skill() {
     }
 

@@ -9,4 +9,7 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
  *
  */
 public interface UserRepository extends JpaRepository<User, Integer>, QueryByExampleExecutor<User> {
+    Integer countBySubId(Integer subId);
+
+    Integer countBySubIdAndType(Integer subId, String type);
 }

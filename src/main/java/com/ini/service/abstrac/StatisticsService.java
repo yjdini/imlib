@@ -11,7 +11,9 @@ import java.util.Map;
  *
  */
 public interface StatisticsService {
-    Map getStatisticSum(Integer startDate, Integer endDate, String type);
+    Map getStatisticSum(Integer startDate, Integer endDate, String type, Integer subId);
 
-    Map getStatisticIncrement(Integer startDate, Integer endDate, String type);
+    Map getStatisticIncrement(Integer startDate, Integer endDate, String type, Integer subId);
+
+    void start();
 }

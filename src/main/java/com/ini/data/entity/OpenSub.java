@@ -27,6 +27,7 @@ public class OpenSub {
     private String wechat;
 
     private Integer status;
+    private Integer result;// 0 待审核 ； 1 同意开通 ； 2 拒绝开通
 
     public OpenSub() {
 
@@ -35,8 +36,18 @@ public class OpenSub {
         if (initial) {
             this.setCreateTime(new Date());
             this.setStatus(1);
+            this.result = 0;
         }
     }
+
+    public Integer getResult() {
+        return result;
+    }
+
+    public void setResult(Integer result) {
+        this.result = result;
+    }
+
 
     public Integer getOpenSubId() {
         return OpenSubId;

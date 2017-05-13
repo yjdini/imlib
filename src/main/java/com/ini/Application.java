@@ -11,6 +11,7 @@ import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -26,6 +27,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @SpringBootApplication
+@ServletComponentScan("com.ini.framework")
 @EnableJpaRepositories(basePackages = "com.ini.data.jpa")
 public class Application extends WebMvcConfigurerAdapter {
 

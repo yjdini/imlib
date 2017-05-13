@@ -14,7 +14,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
-//    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 

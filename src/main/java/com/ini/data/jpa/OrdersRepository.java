@@ -36,4 +36,8 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer>, QueryB
             " to.userId = ?1 and to.userId = o.toUserId and fr.userId = o.fromUserId and " +
             " t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc")
     List<OrderUserSet> getAllToOrders(Integer userId);
+
+    Integer countBySubId(Integer subId);
+
+    Integer countBySubIdAndResult(Integer subId, Integer result);
 }

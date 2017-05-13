@@ -22,12 +22,9 @@ import java.util.Map;
 @RequestMapping("/api/skill")
 public class SkillController {
 
-    @Autowired
-    private SkillService skillService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private SessionUtil sessionUtil;
+    @Autowired private SkillService skillService;
+    @Autowired private UserService userService;
+    @Autowired private SessionUtil sessionUtil;
 
     @Authentication(value = AuthenticationType.Master)
     @RequestMapping(value = "/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)

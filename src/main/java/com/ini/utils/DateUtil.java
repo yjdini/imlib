@@ -2,10 +2,7 @@ package com.ini.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Somnus`L on 2017/5/13.
@@ -57,6 +54,18 @@ public class DateUtil {
             startDate = formatDate(start);
         }
         re.put(startDate, initial);
+        return re;
+    }
+
+    public Set<Integer> getDateSet(Integer startDate, Integer endDate) {
+        Calendar start = parseDate(startDate);
+        Set re = new HashSet<Integer>();
+        while (!startDate.equals(endDate)) {
+            re.add(startDate);
+            start.set(Calendar.DATE, start.get(Calendar.DATE) + 1);
+            startDate = formatDate(start);
+        }
+        re.add(startDate);
         return re;
     }
 }

@@ -15,19 +15,36 @@ import java.util.Date;
 public class Sub {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer SubId;
+    private Integer subId;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
 
     private String token;
 
+    private Integer status;
+
+    public Sub(boolean initial) {
+        if (initial) {
+            createTime = new Date();
+            status = 1;
+        }
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Integer getSubId() {
-        return SubId;
+        return subId;
     }
 
     public void setSubId(Integer subId) {
-        SubId = subId;
+        subId = subId;
     }
 
     public Date getCreateTime() {

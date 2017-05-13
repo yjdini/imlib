@@ -42,6 +42,8 @@ public class Apply {
 
     private String prove;
 
+    private Integer subId;
+
     public Apply() {
     }
 
@@ -51,6 +53,14 @@ public class Apply {
             this.setStatus(1);
             this.setResult(0);
         }
+    }
+
+    public Integer getSubId() {
+        return subId;
+    }
+
+    public void setSubId(Integer subId) {
+        this.subId = subId;
     }
 
     public Integer getApplyId() {

@@ -63,7 +63,13 @@ public class SessionUtil {
     public Integer getSubId() {
         if(true) return 1;
         Admin admin = (Admin) currentRequest.get().getSession().getAttribute("admin");
-        return admin == null ? null : admin.getSubId();
+        User user = (User) currentRequest.get().getSession().getAttribute("user");
+        if (admin != null) {
+            return admin.getSubId();
+        } else if(user != null) {
+            return user.getSubId();
+        }
+        return null;
     }
     public Integer getAdminId() {
         if(true) return 1;

@@ -32,6 +32,7 @@ public class SkillServiceImpl implements SkillService {
     public ResultMap addSkill(Skill skill) {
         try {
             skill.setUserId(sessionUtil.getUserId());
+            skill.setSubId(sessionUtil.getSubId());
             entityManager.persist(skill);
         } catch (Exception e) {
             e.printStackTrace();

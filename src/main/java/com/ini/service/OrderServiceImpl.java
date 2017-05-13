@@ -32,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
     public ResultMap addOrder(Orders order) {
         try {
             order.setFromUserId(sessionUtil.getUserId());
+            order.setSubId(sessionUtil.getSubId());
             if (order.getFromUserId().equals(order.getToUserId())) {
                 return ResultMap.error().setMessage("不能自己约自己！");
             }

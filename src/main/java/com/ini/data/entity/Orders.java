@@ -45,6 +45,8 @@ public class Orders {
 
     private Date commentTime;
 
+    private Integer subId;
+
     private Integer score;
 
     public Orders() {
@@ -90,6 +92,14 @@ public class Orders {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getSubId() {
+        return subId;
+    }
+
+    public void setSubId(Integer subId) {
+        this.subId = subId;
     }
 
     public Integer getFromUserId() {

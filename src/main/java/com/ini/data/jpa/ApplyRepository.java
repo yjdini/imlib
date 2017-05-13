@@ -18,4 +18,6 @@ public interface ApplyRepository extends JpaRepository<Apply, Integer>, QueryByE
     @Query("select new com.ini.data.schema.ApplyUserSet(a,u) from Apply a, User u where " +
             " u.applyId = a.applyId and a.result = ?1 and u.subId = ?2")
     List getApplysByResultSubId(Integer result, Integer subId);
+
+    Integer countBySubId(Integer subId);
 }

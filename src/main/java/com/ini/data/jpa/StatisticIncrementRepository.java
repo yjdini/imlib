@@ -2,6 +2,7 @@ package com.ini.data.jpa;
 
 import com.ini.data.entity.StatisticIncrement;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 import java.util.List;
@@ -11,5 +12,28 @@ import java.util.List;
  *
  */
 public interface StatisticIncrementRepository extends JpaRepository<StatisticIncrement, Integer>, QueryByExampleExecutor<StatisticIncrement> {
-    List<StatisticIncrement> findByTimeBetween(Integer min, Integer max);
+    @Query("select max(time) from StatisticIncrement")
+    Integer getLastTime();
+
+    List<StatisticIncrement> findBySubIdAndTimeBetween(Integer subId, Integer min, Integer max);
+
+    @Query("select count(*) from User where subId = ?1 and date_format(createTime,'%Y%m%d') = ?2")
+    Integer getUserCount(Integer subId, String time);
+
+    @Query("select count(*) from User where subId = ?1 and date_format(createTime,'%Y%m%d') = ?2 " +
+            " and type = 'm'")
+    Integer getMasterCount(Integer subId, String time);
+
+    @Query("select count(*) from Orders where subId = ?1 and date_format(createTime,'%Y%m%d') = ?2 " +
+            " and result = 3")
+    Integer getFinishOrderCount(Integer subId, String time);
+
+    @Query("select count(*) from Orders where subId = ?1 and date_format(createTime,'%Y%m%d') = ?2")
+    Integer getOrderCount(Integer subId, String s);
+
+    @Query("select count(*) from Skill where subId = ?1 and date_format(createTime,'%Y%m%d') = ?2")
+    Integer getSkillCount(Integer subId, String s);
+
+    @Query("select count(*) from Apply where subId = ?1 and date_format(createTime,'%Y%m%d') = ?2")
+    Integer getApplyOrderCount(Integer subId, String s);
 }
