@@ -5,6 +5,7 @@ import com.ini.data.entity.Tag;
 import com.ini.data.entity.User;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created by Somnus`L on 2017/5/10.
@@ -28,12 +29,15 @@ public class SkillUserTagSet {
     private String userName;
     private String avatar;
 
+    private Date createTime;
+
     private String tagName;
 
     public SkillUserTagSet(Skill skill, User user, Tag tag) {
         this.skillId = skill.getSkillId();
         this.skillOrderTimes = skill.getOrderedTimes();
         this.skillOrderedTimes = skill.getOrderedTimes();
+        this.createTime = skill.getCreateTime();
         this.totalTime = skill.getTotalTime();
         this.totalPrice = skill.getTotalPrice();
         this.skillScore = skill.getScore();

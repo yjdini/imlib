@@ -83,7 +83,7 @@ public class SkillServiceImpl implements SkillService {
         List skills = entityManager.createQuery("select new com.ini.data.schema.SkillUserTagSet(s, u, t)" +
                         " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
                         " and s.status = 1 and u.status = 1 and u.subId = :subId and " +
-                        "(u.name like '%"+keyword+"%' or s.title like '%"+keyword+"%' )"
+                        "(u.name like '%"+keyword+"%' or s.title like '%"+keyword+"%' )  order by s.createTime desc"
                 ,SkillUserTagSet.class)
                 .setParameter("subId", subId)
                 .getResultList();
@@ -94,7 +94,8 @@ public class SkillServiceImpl implements SkillService {
     public ResultMap searchByTagId(Integer tagId, Integer subId) {
         List skills = entityManager.createQuery("select new com.ini.data.schema.SkillUserTagSet(s, u, t)" +
                 " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
-                " and s.status = 1 and u.status = 1 and u.subId = :subId and s.tagId = :tagId"
+                " and s.status = 1 and u.status = 1 and u.subId = :subId and s.tagId = :tagId " +
+                        " order by s.createTime desc"
                         ,SkillUserTagSet.class)
                 .setParameter("subId", subId)
                 .setParameter("tagId", tagId).getResultList();
@@ -105,7 +106,8 @@ public class SkillServiceImpl implements SkillService {
     public ResultMap searchAll(Integer subId) {
         List skills = entityManager.createQuery("select new com.ini.data.schema.SkillUserTagSet(s, u, t)" +
                 " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
-                " and s.status = 1 and u.status = 1 and u.subId = :subId", SkillUserTagSet.class)
+                " and s.status = 1 and u.status = 1 and u.subId = :subId" +
+                " order by s.createTime desc", SkillUserTagSet.class)
                 .setParameter("subId", subId)
                 .getResultList();
         return ResultMap.ok().put("result", skills);

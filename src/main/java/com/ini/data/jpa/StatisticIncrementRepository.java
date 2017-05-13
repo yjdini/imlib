@@ -20,7 +20,7 @@ public interface StatisticIncrementRepository extends JpaRepository<StatisticInc
     @Query("select count(*) from User where subId = ?1 and date_format(createTime,'%Y%m%d') = ?2")
     Integer getUserCount(Integer subId, String time);
 
-    @Query("select count(*) from User where subId = ?1 and date_format(createTime,'%Y%m%d') = ?2 " +
+    @Query("select count(*) from User where subId = ?1 and date_format(qualifyTime,'%Y%m%d') = ?2 " +
             " and type = 'm'")
     Integer getMasterCount(Integer subId, String time);
 
@@ -35,5 +35,27 @@ public interface StatisticIncrementRepository extends JpaRepository<StatisticInc
     Integer getSkillCount(Integer subId, String s);
 
     @Query("select count(*) from Apply where subId = ?1 and date_format(createTime,'%Y%m%d') = ?2")
-    Integer getApplyOrderCount(Integer subId, String s);
+    Integer getApplyCount(Integer subId, String s);
+
+
+
+    @Query("select count(*) from Orders where subId = ?1 and date_format(createTime,'%Y%m%d') <= ?2")
+    Integer getAllOrderCount(Integer subId, String s);
+
+    @Query("select count(*) from Skill where subId = ?1 and date_format(createTime,'%Y%m%d') <= ?2")
+    Integer getAllSkillCount(Integer subId, String s);
+
+    @Query("select count(*) from User where subId = ?1 and date_format(qualifyTime,'%Y%m%d') <= ?2 " +
+            " and type = 'm'")
+    Integer getAllMasterCount(Integer subId, String s);
+
+    @Query("select count(*) from User where subId = ?1 and date_format(createTime,'%Y%m%d') <= ?2")
+    Integer getAllUserCount(Integer subId, String s);
+
+    @Query("select count(*) from Orders where subId = ?1 and date_format(createTime,'%Y%m%d') <= ?2 " +
+            " and result = 3")
+    Integer getAllFinishOrderCount(Integer subId, String s);
+
+    @Query("select count(*) from Apply where subId = ?1 and date_format(createTime,'%Y%m%d') <= ?2")
+    Integer getAllApplyCount(Integer subId, String s);
 }

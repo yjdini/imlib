@@ -6,6 +6,7 @@ import java.util.Date;
 
 /**
  * Created by Somnus`L on 2017/5/4.
+ *
  */
 @Entity
 @Table(name = "User")
@@ -16,6 +17,9 @@ public class User {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date qualifyTime;
 
     private String shelveReason;
 
@@ -227,6 +231,14 @@ public class User {
 
     public void setSubId(Integer subId) {
         this.subId = subId;
+    }
+
+    public Date getQualifyTime() {
+        return qualifyTime;
+    }
+
+    public void setQualifyTime(Date qualifyTime) {
+        this.qualifyTime = qualifyTime;
     }
 
     public String getWechat() {

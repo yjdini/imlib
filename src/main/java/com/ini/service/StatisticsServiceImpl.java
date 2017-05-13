@@ -112,7 +112,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             Integer skillNum = incrementRepository.getSkillCount(subId, time.toString());
             Integer masterNum = incrementRepository.getMasterCount(subId, time.toString());
             Integer finishOrderNum = incrementRepository.getFinishOrderCount(subId, time.toString());
-            Integer applyNum = incrementRepository.getApplyOrderCount(subId, time.toString());
+            Integer applyNum = incrementRepository.getApplyCount(subId, time.toString());
 
             increment.setSubId(subId);
             increment.setOrders(orderNum);
@@ -125,12 +125,13 @@ public class StatisticsServiceImpl implements StatisticsService {
         }
 
         for (Integer subId : subIds) {
-            Integer orderNum = ordersRepository.countBySubId(subId);
-            Integer userNum = userRepository.countBySubId(subId);
-            Integer skillNum = skillRepository.countBySubId(subId);
-            Integer masterNum = userRepository.countBySubIdAndType(subId, "m");
-            Integer finishOrderNum = ordersRepository.countBySubIdAndResult(subId, 3);
-            Integer applyNum = applyRepository.countBySubId(subId);
+            Integer orderNum = incrementRepository.getAllOrderCount(subId, time.toString());
+            Integer userNum = incrementRepository.getAllUserCount(subId, time.toString());
+            Integer skillNum = incrementRepository.getAllSkillCount(subId, time.toString());
+            Integer masterNum = incrementRepository.getAllMasterCount(subId, time.toString());
+            Integer finishOrderNum = incrementRepository.getAllFinishOrderCount(subId, time.toString());
+            Integer applyNum = incrementRepository.getAllApplyCount(subId, time.toString());
+
 
             sum.setSubId(subId);
             sum.setOrders(orderNum);

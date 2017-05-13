@@ -202,7 +202,6 @@ request
 
 ##### 查看某用户技能列表except
 ```
-request
 {
   url: /api/skill/list/{userId}/{exceptSkillId}
   method: get
@@ -211,7 +210,6 @@ request
 
 ##### 查看某个技能详细信息
 ```
-request
 {
   url: /api/skill/info/{skillId},
   method: get
@@ -220,7 +218,6 @@ request
 
 ##### 关键字搜索技能列表
 ```
-request
 {
   url: /api/skill/search/keyword/{subId}/{keyword},
   method: get
@@ -229,18 +226,22 @@ request
 
 ##### 标签搜索技能列表
 ```
-request
 {
   url: /api/skill/search/tag/{subId}/{tagId},
   method: get
 }
 ```
-##### 该分站所有技能列表
+
+##### 该分站全部技能列表（最新创建的技能列表）
 ```
-request
 {
   url: /api/skill/search/all/{subId},
-  method: get
+}
+```
+##### 查看热门技能列表
+```
+{
+  url: /api/skill/search/hotest/{subId},
 }
 ```
 
