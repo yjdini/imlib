@@ -38,11 +38,11 @@ public class AdminController {
     @RequestMapping(value = "/login")
     public Map login(@RequestBody Map<String, Object> body)
     {
-        String name = (String)body.get("name");
+        String email = (String)body.get("email");
         String password = (String)body.get("password");
-        Admin admin = adminService.login(name, password);
+        Admin admin = adminService.login(email, password);
         if (admin == null) {
-            return ResultMap.error().setMessage("用户名或密码错误！").getMap();
+            return ResultMap.error().setMessage("邮箱或密码错误！").getMap();
         } else if (admin.getStatus() == 0) { //用户被冻结
             return ResultMap.error()
                     .setMessage("您的账号已经被冻结，原因为：" + admin.getDeleteReason()).getMap();
@@ -80,7 +80,18 @@ public class AdminController {
         if (adminService.deleteUser(userId, deleteReason)) {
             return ResultMap.ok().getMap();
         } else {
-            return ResultMap.error().setMessage("不能删除该用户！").getMap();
+            return ResultMap.error().setMessage("该用户不属于这个分站，不能冻结该用户！").getMap();
+        }
+    }
+
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/recoveruser/{userId}")
+    public Map deleteUser(@PathVariable Integer userId)
+    {
+        if (adminService.recoverUser(userId)) {
+            return ResultMap.ok().getMap();
+        } else {
+            return ResultMap.error().setMessage("该用户不属于这个分站，不能恢复该用户！").getMap();
         }
     }
 
@@ -113,5 +124,18 @@ public class AdminController {
     public Map getUserAllInfo(@PathVariable Integer userId)
     {
         return adminService.getUserAllInfo(userId);
+    }
+
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/applylist")
+    public Map getApplyList(@RequestBody Map<String, Object> body) {
+        Integer result = (Integer) body.get("result");
+        return adminService.getApplysByResult(result);
+    }
+
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/applyinfo/{applyId}")
+    public Map getApplyById(@PathVariable Integer applyId) {
+        return adminService.getApplyById(applyId);
     }
 }

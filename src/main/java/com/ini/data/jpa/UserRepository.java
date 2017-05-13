@@ -9,5 +9,4 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
  *
  */
 public interface UserRepository extends JpaRepository<User, Integer>, QueryByExampleExecutor<User> {
-    User findByUserId(Integer userId);
 }

@@ -41,6 +41,12 @@ public class Orders {
 
     private Integer isCommented;
 
+    private String comment;
+
+    private Date commentTime;
+
+    private Integer score;
+
     public Orders() {
     }
 
@@ -160,5 +166,29 @@ public class Orders {
 
     public void setIsCommented(Integer isCommented) {
         this.isCommented = isCommented;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public Date getCommentTime() {
+        return commentTime;
+    }
+
+    public void setCommentTime(Date commentTime) {
+        this.commentTime = commentTime;
     }
 }

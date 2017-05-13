@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public interface AdminService {
 
-    Admin login(String name, String password);
+    Admin login(String email, String password);
 
     boolean deleteUser(Integer userId, String deleteReason);
 
@@ -22,4 +22,10 @@ public interface AdminService {
     List<User> getUsersByExample(User user);
 
     Map getUserAllInfo(Integer userId);
+
+    boolean recoverUser(Integer userId);
+
+    Map getApplysByResult(Integer result);
+
+    Map getApplyById(Integer applyId);
 }

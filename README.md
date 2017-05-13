@@ -604,7 +604,7 @@ password;
 ##### 拒绝申请
 ```
 {
-  url: /api/admin/proveapply;
+  url: /api/admin/rejectapply;
   method: post;
   data: {
     userId;
@@ -618,5 +618,24 @@ password;
 {
   url: /api/admin/userinfo/{userId};
   method: get;
+}
+```
+
+##### 获取认证申请列表
+```
+{
+  url: /api/admin/applylist
+  method: post
+  data:{
+    result: 0:(审核中的申请列表) 1:（已通过的申请列表）2：（已拒绝的申请列表）
+  }
+}
+```
+
+##### 获取认证申请详情
+```
+{
+  url: /api/admin/applyinfo/{applyId}
+  method: get
 }
 ```

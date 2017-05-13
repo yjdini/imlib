@@ -1,6 +1,8 @@
 package com.ini.service;
 
+import com.ini.data.entity.Skill;
 import com.ini.data.entity.User;
+import com.ini.data.jpa.UserRepository;
 import com.ini.data.utils.EntityUtil;
 import com.ini.service.abstrac.UserService;
 import com.ini.utils.FileUploadUtil;
@@ -12,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -21,12 +24,10 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    @PersistenceContext
-    private EntityManager entityManager;
-    @Autowired
-    private FileUploadUtil fileUploadUtil;
-    @Autowired
-    private SessionUtil sessionUtil;
+    @PersistenceContext private EntityManager entityManager;
+    @Autowired private FileUploadUtil fileUploadUtil;
+    @Autowired private SessionUtil sessionUtil;
+    @Autowired private UserRepository userRepository;
 
     @Override
     @Transactional
@@ -148,6 +149,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isMaster() {
         return entityManager.find(User.class, sessionUtil.getUserId()).getType().equals("m");
+    }
+
+    @Override
+    @Transactional
+    public void addScore(Integer userId, Integer score) {
+        User user = userRepository.findOne(userId);
+        BigDecimal averageScore = user.getScore();
+        averageScore = (averageScore == null) ? new BigDecimal(0) : averageScore;
+        Integer orderedTimes = user.getOrderedTimes() - 1;
+        averageScore = averageScore.multiply(new BigDecimal(orderedTimes))
+                .add(new BigDecimal(score)).divide(new BigDecimal(orderedTimes + 1)).setScale(1);
+
+        user.setScore(averageScore);
+        userRepository.save(user);
     }
 
     @Transactional

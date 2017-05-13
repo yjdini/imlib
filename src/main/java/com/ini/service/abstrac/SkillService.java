@@ -26,4 +26,6 @@ public interface SkillService {
     ResultMap searchAll(Integer subId);
 
     ResultMap getSkillsByUserIdExcept(Integer userId, Integer exceptSkillId);
+
+    void addScore(Integer skillId, Integer score);
 }

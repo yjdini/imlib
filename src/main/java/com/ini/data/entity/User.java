@@ -56,6 +56,8 @@ public class User {
 
     private String deleteReason;
 
+    private Integer applyId;
+
     public User() {
 
     }
@@ -240,5 +242,13 @@ public class User {
 
     public void setDeleteReason(String deleteReason) {
         this.deleteReason = deleteReason;
+    }
+
+    public Integer getApplyId() {
+        return applyId;
+    }
+
+    public void setApplyId(Integer applyId) {
+        this.applyId = applyId;
     }
 }

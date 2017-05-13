@@ -32,10 +32,9 @@ public class AdminSerivceImpl implements AdminService {
     private SessionUtil sessionUtil;
 
 
-
     @Override
-    public Admin login(String name, String password) {
-        Admin admin = adminRepository.findByNameAndPassword(name, password);
+    public Admin login(String email, String password) {
+        Admin admin = adminRepository.findByEmailAndPassword(email, password);
         if (admin != null && admin.getStatus().equals(1)) {
             sessionUtil.setAdmin(admin);
         }
@@ -106,9 +105,9 @@ public class AdminSerivceImpl implements AdminService {
         }
 
         List<Apply> applys = applyRepository.findByUserId(userId);
-        List<OrderUserSet> fromOrders = orderRepository.getFromOrders(userId);
-        List<OrderUserSet> toOrders = orderRepository.getToOrders(userId);
-        List<SkillTagSet> skills = skillRepository.getSkillTags();
+        List<OrderUserSet> fromOrders = orderRepository.getAllFromOrders(userId);
+        List<OrderUserSet> toOrders = orderRepository.getAllToOrders(userId);
+        List<SkillTagSet> skills = skillRepository.getSkillTags(userId);
 
         return ResultMap.ok().result("user", user)
                 .result("applys", applys)
@@ -116,6 +115,34 @@ public class AdminSerivceImpl implements AdminService {
                 .result("toOrders",toOrders)
                 .result("skills",skills)
                 .getMap();
+    }
+
+    @Override
+    public boolean recoverUser(Integer userId) {
+        User user = userRepository.findOne(userId);
+        if (user.getSubId().equals(sessionUtil.getSubId())) {
+            user.setStatus(1);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Map getApplysByResult(Integer result) {
+        Integer subId = sessionUtil.getSubId();
+        List applys = applyRepository.getApplysByResultSubId(result, subId);
+        return ResultMap.ok().result(applys).getMap();
+    }
+
+    @Override
+    public Map getApplyById(Integer applyId) {
+        Apply apply = applyRepository.findOne(applyId);
+        User user = userRepository.findOne(apply.getUserId());
+        if (!user.getSubId().equals(sessionUtil.getSubId())) {
+            return ResultMap.error().setMessage("该申请用户不属于这个子系统，无法查看！").getMap();
+        }
+        return ResultMap.ok().result("apply", apply).result("user", user).getMap();
     }
 
 }

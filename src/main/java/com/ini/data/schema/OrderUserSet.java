@@ -33,31 +33,6 @@ public class OrderUserSet {
     private Integer commentScore;
     private String commentContent;
 
-    public OrderUserSet(Orders order, User to, User from, Tag tag, Skill skill, Comment comment) {
-        this.createTime = order.getCreateTime();
-        this.fromUserId = from.getUserId();
-        this.toUserId = to.getUserId();
-        this.orderIntroduction = order.getIntroduction();
-        this.skillId = skill.getSkillId();
-        this.toUserName = to.getName();
-        this.fromUserName = from.getName();
-        this.fromUserNickname = from.getNickname();
-        this.toUserNickname = to.getNickname();
-        this.toUserWeChat = to.getWechat();
-        this.fromUserWeChat = order.getWechat();
-        this.result = order.getResult();
-        this.rejectReason = order.getRejectReason();
-        this.isCommented = order.getIsCommented();
-        this.orderId = order.getOrderId();
-        this.fromUserAvatar = from.getAvatar();
-        this.toUserAvatar = to.getAvatar();
-        this.skillTagName = tag.getName();
-        this.skillTitle = skill.getTitle();
-        this.skillScore = skill.getScore();
-        this.commentContent = comment.getContent();
-        this.commentScore = comment.getScore();
-    }
-
     public OrderUserSet(Orders order, User to, User from, Tag tag, Skill skill) {
         this.createTime = order.getCreateTime();
         this.fromUserId = from.getUserId();
@@ -79,6 +54,8 @@ public class OrderUserSet {
         this.skillTagName = tag.getName();
         this.skillTitle = skill.getTitle();
         this.skillScore = skill.getScore();
+        this.commentContent = order.getComment();
+        this.commentScore = order.getScore();
     }
 
     public Integer getCommentScore() {

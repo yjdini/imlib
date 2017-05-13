@@ -9,5 +9,5 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
  *
  */
 public interface AdminRepository extends Repository<Admin, Integer>, QueryByExampleExecutor<Admin> {
-    Admin findByNameAndPassword(String name, String password);
+    Admin findByEmailAndPassword(String email, String password);
 }

@@ -2,7 +2,6 @@ package com.ini.controllers;
 
 import com.ini.aop.authentication.Authentication;
 import com.ini.aop.authentication.AuthenticationType;
-import com.ini.data.entity.Comment;
 import com.ini.service.abstrac.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,9 +21,12 @@ public class CommentController {
 
     @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/comment/add",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map addComment(@RequestBody Comment comment)
+    public Map addComment(@RequestBody Map<String, Object> body)
     {
-        return commentService.addComment(comment).getMap();
+        Integer orderId = (Integer) body.get("orderId");
+        Integer score = (Integer) body.get("score");
+        String content = (String) body.get("content");
+        return commentService.addComment(orderId, score, content).getMap();
     }
 
     @RequestMapping(value = "/comments/{skillId}")

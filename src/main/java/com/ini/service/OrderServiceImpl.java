@@ -1,6 +1,7 @@
 package com.ini.service;
 
 import com.ini.data.entity.Orders;
+import com.ini.data.jpa.OrdersRepository;
 import com.ini.data.schema.OrderUserSet;
 import com.ini.service.abstrac.OrderService;
 import com.ini.service.abstrac.SkillService;
@@ -19,15 +20,12 @@ import java.util.List;
  *
  */
 public class OrderServiceImpl implements OrderService {
-    @PersistenceContext
-    private EntityManager entityManager;
+    @PersistenceContext private EntityManager entityManager;
 
-    @Autowired
-    private SkillService skillService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private SessionUtil sessionUtil;
+    @Autowired private SkillService skillService;
+    @Autowired private UserService userService;
+    @Autowired private SessionUtil sessionUtil;
+    @Autowired private OrdersRepository ordersRepository;
 
     @Override
     @Transactional
@@ -185,42 +183,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResultMap getFromOrders() {
-        List<OrderUserSet> ordersUnCommented = entityManager.createQuery("select new com.ini.data.schema.OrderUserSet(o,to,fr,t,s)"+
-                " from Orders o,User to,User fr, Tag t,Skill s where o.isCommented = 0 and o.fromStatus = 1 and " +
-                "fr.userId = :userId and to.userId = o.toUserId and fr.userId = o.fromUserId and " +
-                "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc", OrderUserSet.class)
-                .setParameter("userId", sessionUtil.getUserId())
-                .getResultList();
-
-        List<OrderUserSet> ordersCommented = entityManager.createQuery("select new com.ini.data.schema.OrderUserSet(o,to,fr,t,s,c)"+
-                " from Orders o,User to,User fr, Tag t,Skill s,Comment c where o.isCommented = 1 and c.orderId = o.orderId and o.fromStatus = 1 and " +
-                "fr.userId = :userId and to.userId = o.toUserId and fr.userId = o.fromUserId and " +
-                "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc", OrderUserSet.class)
-                .setParameter("userId", sessionUtil.getUserId())
-                .getResultList();
-
-        ordersUnCommented.addAll(ordersCommented);
-        return ResultMap.ok().put("result", ordersUnCommented);
+        List orders = ordersRepository.getExistFromOrders(sessionUtil.getUserId());
+        return ResultMap.ok().put("result", orders);
     }
 
 
     @Override
     public ResultMap getToOrders() {
-        List<OrderUserSet> ordersUnCommented = entityManager.createQuery("select new com.ini.data.schema.OrderUserSet(o,to,fr,t,s)"+
-                " from Orders o,User to,User fr, Tag t,Skill s where o.isCommented = 0 and o.toStatus = 1 and " +
-                "to.userId = :userId and to.userId = o.toUserId and fr.userId = o.fromUserId and " +
-                "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc", OrderUserSet.class)
-                .setParameter("userId", sessionUtil.getUserId())
-                .getResultList();
-        List<OrderUserSet> ordersCommented = entityManager.createQuery("select new com.ini.data.schema.OrderUserSet(o,to,fr,t,s,c)"+
-                " from Orders o,User to,User fr, Tag t,Skill s,Comment c where o.isCommented = 1 and c.orderId = o.orderId and o.toStatus = 1 and " +
-                "to.userId = :userId and to.userId = o.toUserId and fr.userId = o.fromUserId and " +
-                "t.tagId = s.tagId and s.skillId = o.skillId order by o.createTime desc", OrderUserSet.class)
-                .setParameter("userId", sessionUtil.getUserId())
-                .getResultList();
-
-        ordersUnCommented.addAll(ordersCommented);
-        return ResultMap.ok().put("result", ordersUnCommented);
+        List orders = ordersRepository.getExistToOrders(sessionUtil.getUserId());
+        return ResultMap.ok().put("result", orders);
     }
 
     private boolean orderFrom(Orders order, Integer userId) {

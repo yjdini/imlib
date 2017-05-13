@@ -1,6 +1,7 @@
 package com.ini.service;
 
 import com.ini.data.entity.Skill;
+import com.ini.data.jpa.SkillRepository;
 import com.ini.data.schema.SkillTagSet;
 import com.ini.data.schema.SkillUserTagSet;
 import com.ini.service.abstrac.OrderService;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -18,13 +20,12 @@ import java.util.List;
  * Created by Somnus`L on 2017/4/5.
  */
 public class SkillServiceImpl implements SkillService {
-    @PersistenceContext
-    EntityManager entityManager;
+    @PersistenceContext private EntityManager entityManager;
 
-    @Autowired
-    OrderService orderService;
-    @Autowired
-    SessionUtil sessionUtil;
+    @Autowired private SkillRepository skillRepository;
+
+    @Autowired private OrderService orderService;
+    @Autowired private SessionUtil sessionUtil;
 
     @Override
     @Transactional
@@ -59,10 +60,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public ResultMap getSkillsByUserId(Integer userId) {
-        List skills = entityManager.createQuery("select new com.ini.data.schema.SkillTagSet(s, t)" +
-                " from Skill s, Tag t where s.userId = :userId and s.status = 1 and s.tagId = t.tagId", SkillTagSet.class)
-                .setParameter("userId", userId)
-                .getResultList();
+        List skills = skillRepository.getSkillTags(userId);
         return ResultMap.ok().put("result", skills);
     }
 
@@ -121,6 +119,20 @@ public class SkillServiceImpl implements SkillService {
                 .setParameter("skillId", exceptSkillId)
                 .getResultList();
         return ResultMap.ok().put("result", skills);
+    }
+
+    @Override
+    @Transactional
+    public void addScore(Integer skillId, Integer score) {
+        Skill skill = skillRepository.findOne(skillId);
+        BigDecimal averageScore = skill.getScore();
+        averageScore = (averageScore == null) ? new BigDecimal(0) : averageScore;
+        Integer orderedTimes = skill.getOrderedTimes() - 1;
+        averageScore = averageScore.multiply(new BigDecimal(orderedTimes))
+                .add(new BigDecimal(score)).divide(new BigDecimal(orderedTimes + 1)).setScale(1);
+
+        skill.setScore(averageScore);
+        skillRepository.save(skill);
     }
 
     @Override

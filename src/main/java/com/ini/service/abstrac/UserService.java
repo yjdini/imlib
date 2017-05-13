@@ -29,4 +29,5 @@ public interface UserService {
 
     boolean isMaster();
 
+    void addScore(Integer userId, Integer score);
 }

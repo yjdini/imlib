@@ -1,12 +1,13 @@
 package com.ini.data.schema;
 
-import com.ini.data.entity.Comment;
+import com.ini.data.entity.Orders;
 import com.ini.data.entity.User;
 
 import java.util.Date;
 
 /**
  * Created by Somnus`L on 2017/5/11.
+ *
  */
 
 public class CommentUserSet {
@@ -21,10 +22,10 @@ public class CommentUserSet {
     private String userType;
     private String title;
 
-    public CommentUserSet(Comment comment, User user) {
-        this.createTime = comment.getCreateTime();
-        this.content = comment.getContent();
-        this.score = comment.getScore();
+    public CommentUserSet(Orders order, User user) {
+        this.createTime = order.getCommentTime();
+        this.content = order.getComment();
+        this.score = order.getScore();
         this.avatar = user.getAvatar();
         this.userId = user.getUserId();
         this.userName = user.getName();
