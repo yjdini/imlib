@@ -28,4 +28,8 @@ public interface SkillService {
     ResultMap getSkillsByUserIdExcept(Integer userId, Integer exceptSkillId);
 
     void addScore(Integer skillId, Integer score);
+
+    ResultMap searchHotest(Integer subId);
+
+    void increaseShowTime(Integer skillId);
 }

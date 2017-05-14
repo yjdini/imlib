@@ -60,6 +60,7 @@ public class SkillController {
 
     @RequestMapping("/info/{skillId}")
     public Map getSkillDetail(@PathVariable Integer skillId){
+        skillService.increaseShowTime(skillId);
         return skillService.getSkillDetail(skillId).getMap();
     }
 
@@ -76,6 +77,12 @@ public class SkillController {
     @RequestMapping("/search/all/{subId}")
     public Map searchAll(@PathVariable Integer subId){
         return skillService.searchAll(subId).getMap();
+    }
+
+
+    @RequestMapping("/search/hotest/{subId}")
+    public Map searchHotest(@PathVariable Integer subId){
+        return skillService.searchHotest(subId).getMap();
     }
 
 }

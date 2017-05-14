@@ -26,18 +26,30 @@ public class StatisticsServiceImpl implements StatisticsService {
     public Map getStatisticSum(Integer startDate, Integer endDate, String type, Integer subId) {
         List<StatisticSum> sums = sumRepository.findBySubIdAndTimeBetween(subId, startDate, endDate);
         Integer initial = 0;
-        Map resultMap = dateUtil.getDateValueMap(startDate, endDate, initial);
-        fillSum(sums, resultMap, type);
-        return resultMap;
+        Map result = dateUtil.getDateValueMap(startDate, endDate, initial);
+        Set timesFormat = dateUtil.getDateSet(startDate, endDate, "yyyy/MM/dd");
+        fillSum(sums, result, type);
+        Collection values = result.values();
+
+        Map map = new HashMap();
+        map.put("date", timesFormat);
+        map.put("value", values);
+        return map;
     }
 
     @Override
     public Map getStatisticIncrement(Integer startDate, Integer endDate, String type, Integer subId) {
         List<StatisticIncrement> increments = incrementRepository.findBySubIdAndTimeBetween(subId, startDate, endDate);
         Integer initial = 0;
-        Map resultMap = dateUtil.getDateValueMap(startDate, endDate, initial);
-        fillIncrement(increments, resultMap, type);
-        return resultMap;
+        Map result = dateUtil.getDateValueMap(startDate, endDate, initial);
+        Set timesFormat = dateUtil.getDateSet(startDate, endDate, "yyyy/MM/dd");
+        fillIncrement(increments, result, type);
+        Collection values = result.values();
+
+        Map map = new HashMap();
+        map.put("date", timesFormat);
+        map.put("value", values);
+        return map;
     }
 
     private static Timer timer = null;

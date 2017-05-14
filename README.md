@@ -634,9 +634,9 @@ password;
 ##### 获取各个表的统计 {increment：增长值，sum：总量}
 ```
 {
-  url: /api/statistic/{type} (type="user","skill","order","finishOrder","master","apply")
+  url: /api/statistic/{type} (type="user","skill","order","master","apply")
   data: {
-    startDate:
+    startDate: 20160203@int
     endDate
   }
 }
@@ -680,5 +680,20 @@ password;
 {
   url："/api/opensub/reject/{openSubId}",
   method: post
+}
+```
+
+
+# 11.File
+##### 用户头像图片
+```
+{
+  url："/qujingfile/useravatar/..."
+}
+```
+##### 用户头像图片
+```
+{
+  url："/qujingfile/studentcard/..."
 }
 ```

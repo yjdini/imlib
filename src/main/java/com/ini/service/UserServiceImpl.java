@@ -117,8 +117,8 @@ public class UserServiceImpl implements UserService {
         System.out.print(image.getContentType());
         String fileUrl;
         try {
-            fileUrl = fileUploadUtil.saveFile(image);
-            setUserAvatar(sessionUtil.getUserId(), fileUrl);
+            fileUrl = fileUploadUtil.saveFile(image, "avatar");
+            setUserAvatar(fileUrl);
         } catch (Exception e) {
             e.printStackTrace();
             return ResultMap.error().setMessage(e.getMessage());
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultMap uploadStudentCard(MultipartFile image) {
         try {
-            String fileUrl = fileUploadUtil.saveFile(image);
+            String fileUrl = fileUploadUtil.saveFile(image, "studentCard");
             if (sessionUtil.logined()) {
                 User user = entityManager.find(User.class, sessionUtil.getUserId());
                 user.setStudentCard(fileUrl);
@@ -176,10 +176,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    private void setUserAvatar(Integer userId, String fileUrl) {
-        User user = entityManager.find(User.class, userId);
+    private void setUserAvatar(String fileUrl) {
+        Integer userId = sessionUtil.getUserId();
+        User user = userRepository.findOne(userId);
         user.setAvatar(fileUrl);
-        entityManager.merge(user);
+        userRepository.save(user);
         sessionUtil.setUser(user);
     }
 

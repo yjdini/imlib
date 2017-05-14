@@ -1,6 +1,5 @@
 package com.ini.utils;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -47,7 +46,7 @@ public class DateUtil {
 
     public Map<Integer,Object> getDateValueMap(Integer startDate, Integer endDate, Object initial) {
         Calendar start = parseDate(startDate);
-        HashMap<Integer,Object> re = new HashMap<Integer,Object>();
+        LinkedHashMap<Integer,Object> re = new LinkedHashMap<Integer,Object>();
         while (!startDate.equals(endDate)) {
             re.put(startDate, initial);
             start.set(Calendar.DATE, start.get(Calendar.DATE) + 1);
@@ -66,6 +65,20 @@ public class DateUtil {
             startDate = formatDate(start);
         }
         re.add(startDate);
+        return re;
+    }
+
+    public Set<String> getDateSet(Integer startDate, Integer endDate, String format) {
+        SimpleDateFormat dft = new SimpleDateFormat(format);
+
+        Calendar start = parseDate(startDate);
+        LinkedHashSet<String> re = new LinkedHashSet<String>();
+        while (!startDate.equals(endDate)) {
+            re.add(dft.format(start.getTime()));
+            start.set(Calendar.DATE, start.get(Calendar.DATE) + 1);
+            startDate = formatDate(start);
+        }
+        re.add(dft.format(start.getTime()));
         return re;
     }
 }

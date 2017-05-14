@@ -9,6 +9,8 @@ import java.util.Date;
 
 /**
  * Created by Somnus`L on 2017/5/4.
+ *
+ *
  */
 @Entity
 @Table(name = "StatisticIncrement")

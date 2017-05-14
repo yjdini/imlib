@@ -61,6 +61,18 @@ public class Skill {
 
     private Integer subId;
 
+    private Integer showTimes;
+
+    private Integer seoScore;
+
+    public Integer getShowTimes() {
+        return showTimes;
+    }
+
+    public void setShowTimes(Integer showTimes) {
+        this.showTimes = showTimes;
+    }
+
     public Integer getSubId() {
         return subId;
     }
@@ -70,6 +82,7 @@ public class Skill {
     }
 
     public Skill() {
+
     }
 
     public Skill(boolean initial) {
@@ -77,6 +90,8 @@ public class Skill {
         this.setStatus(1);
         this.setOrderedTimes(0);
         this.setOrderTimes(0);
+        this.setShowTimes(0);
+        this.setSeoScore(0);
     }
 
     public Integer getSkillId() {
@@ -133,6 +148,14 @@ public class Skill {
 
     public void setOrderTimes(Integer orderTimes) {
         this.orderTimes = orderTimes;
+    }
+
+    public Integer getSeoScore() {
+        return seoScore;
+    }
+
+    public void setSeoScore(Integer seoScore) {
+        this.seoScore = seoScore;
     }
 
     public Integer getOrderedTimes() {

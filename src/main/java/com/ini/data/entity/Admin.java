@@ -29,6 +29,8 @@ public class Admin {
     private Integer status;
     private String deleteReason;
 
+    public Admin() {
+    }
 
     public Admin(boolean initial) {
         this.createTime = new Date();

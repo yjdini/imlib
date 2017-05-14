@@ -24,6 +24,9 @@ public class Sub {
 
     private Integer status;
 
+    public Sub() {
+    }
+
     public Sub(boolean initial) {
         if (initial) {
             createTime = new Date();

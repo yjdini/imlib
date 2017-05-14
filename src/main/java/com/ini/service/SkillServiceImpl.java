@@ -128,13 +128,42 @@ public class SkillServiceImpl implements SkillService {
     @Transactional
     public void addScore(Integer skillId, Integer score) {
         Skill skill = skillRepository.findOne(skillId);
-        BigDecimal averageScore = skill.getScore();
-        averageScore = (averageScore == null) ? new BigDecimal(0) : averageScore;
+        BigDecimal oldScore = skill.getScore();
+        oldScore = (oldScore == null) ? new BigDecimal(0) : oldScore;
         Integer orderedTimes = skill.getOrderedTimes() - 1;
-        averageScore = averageScore.multiply(new BigDecimal(orderedTimes))
+        BigDecimal newScore = oldScore.multiply(new BigDecimal(orderedTimes))
                 .add(new BigDecimal(score)).divide(new BigDecimal(orderedTimes + 1)).setScale(1);
 
-        skill.setScore(averageScore);
+        skill.setScore(newScore);
+        skill.setSeoScore(computeSeoScore(skill));
+        skillRepository.save(skill);
+    }
+
+    private Integer computeSeoScore(Skill skill) {
+        BigDecimal score = skill.getScore() == null ? new BigDecimal(3) : skill.getScore();
+        Integer showTimes = skill.getShowTimes();
+        Integer orderTimes = skill.getOrderTimes();
+        Integer orderedTimes = skill.getOrderedTimes();
+
+        return score.multiply(
+                new BigDecimal(showTimes + orderTimes*3 + orderedTimes * 3)).intValue();
+
+    }
+
+    @Override
+    public ResultMap searchHotest(Integer subId) {
+        List<SkillTagSet> list = skillRepository.getHotest(subId);
+        return ResultMap.ok().result(list);
+    }
+
+    @Override
+    public void increaseShowTime(Integer skillId) {
+        Skill skill = skillRepository.findOne(skillId);
+        if (skill == null) {
+            return;
+        }
+        skill.setSeoScore(computeSeoScore(skill));
+        skill.setShowTimes(skill.getShowTimes() + 1);
         skillRepository.save(skill);
     }
 

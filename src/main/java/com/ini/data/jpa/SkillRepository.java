@@ -19,4 +19,9 @@ public interface SkillRepository extends JpaRepository<Skill, Integer>, QueryByE
     List<SkillTagSet> getSkillTags(Integer userId);
 
     Integer countBySubId(Integer subId);
+
+    @Query("select new com.ini.data.schema.SkillTagSet(s, t) " +
+            " from Skill s, Tag t where s.subId = ?1 and s.status = 1 and s.tagId = t.tagId " +
+            "order by seoScore desc")
+    List<SkillTagSet> getHotest(Integer subId);
 }

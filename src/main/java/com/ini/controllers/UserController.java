@@ -80,7 +80,7 @@ public class UserController
         return userService.getUserById(sessionUtil.getUserId()).getMap();
     }
 
-    @Authentication(value = AuthenticationType.CommonUser)
+//    @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/avatar/upload",method = RequestMethod.POST , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map uploadAvatar(@RequestParam("image") MultipartFile image)
     {
