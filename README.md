@@ -668,21 +668,6 @@ password;
 }
 ```
 
-##### 同意开通分站申请
-```
-{
-  url："/api/opensub/prove/{openSubId}",
-  method: post
-}
-```
-##### 拒绝开通分站申请
-```
-{
-  url："/api/opensub/reject/{openSubId}",
-  method: post
-}
-```
-
 
 # 11.File
 ##### 用户头像图片
@@ -695,5 +680,72 @@ password;
 ```
 {
   url："/qujingfile/studentcard/..."
+}
+```
+
+# 12.Root
+
+##### 登录
+```
+{
+  url: /api/root/login
+  method: post
+  data: {
+    name;
+    password;
+  }
+}
+```
+
+##### 登出
+```
+{
+  url: /api/root/logout
+}
+```
+
+##### 获取分站列表
+```
+{
+  url："/api/root/sub/list",
+}
+```
+
+##### 获取分站详情
+```
+{
+  url："/api/root/sub/info",
+}
+```
+
+##### 获取分站详情
+```
+{
+  url："/api/root/sub/info",
+}
+```
+
+
+##### 关闭分站
+```
+{
+  url："/api/root/closesub/{openSubId}",
+  data: {
+    closeReason;
+  }
+}
+```
+
+##### 同意开通分站申请
+```
+{
+  url："/api/root/approve/{openSubId}",
+}
+```
+##### 拒绝开通分站申请
+```
+{
+  url："/api/root/reject/{openSubId}",
+  method: get,
 }
 ```

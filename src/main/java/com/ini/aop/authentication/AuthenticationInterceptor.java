@@ -48,13 +48,13 @@ public final class AuthenticationInterceptor extends HandlerInterceptorAdapter
                 return false;
             }
         }
-        else if(value == AuthenticationType.NoValidate)
+        else if (value == AuthenticationType.NoValidate)
         {
             return true;
         }
         else if(value == AuthenticationType.Master)
         {
-            if(true)
+            if (true)
                 return true;
             String userType = sessionUtil.getUserType();
             if ("c".equals(userType)) {
@@ -66,7 +66,9 @@ public final class AuthenticationInterceptor extends HandlerInterceptorAdapter
             }
             return false;
         }
-
+        else if (value == AuthenticationType.Root) {
+            return true;
+        }
         return true;
     }
 

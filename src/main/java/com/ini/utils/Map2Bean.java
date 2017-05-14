@@ -14,6 +14,15 @@ import java.util.Map;
  *
  */
 public class Map2Bean {
+
+    /**
+     * if filterBlank is true :if map.value == "", the value won't set to the bean
+     * @param map the source data
+     * @param bean the destination object
+     * @param filterBlank should it filter blank filed
+     * @param <T>
+     * @return
+     */
     public static <T> T convert(Map<String, Object> map, T bean, boolean filterBlank) {
         if (!filterBlank)
             return convert(map, bean);
@@ -29,7 +38,7 @@ public class Map2Bean {
 
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 Object value = entry.getValue();
-                if (value.equals("")) {
+                if (value == null || value.equals("")) {
                     continue;
                 }
                 BeanUtils.setProperty(bean, entry.getKey(), value);

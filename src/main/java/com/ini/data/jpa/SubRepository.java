@@ -13,9 +13,8 @@ import java.util.List;
  * Created by Somnus`L on 2017/5/12.
  */
 public interface SubRepository extends JpaRepository<Sub, Integer>, QueryByExampleExecutor<Sub> {
-
     Sub findByToken(String token);
 
-    @Query("select s.subId from Sub s where s.status = 1")
+    @Query("select a.subId from Admin a where a.status = 1")
     List<Integer> getSubIds();
 }

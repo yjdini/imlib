@@ -5,34 +5,56 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 
 /**
  * Created by Somnus`L on 2017/5/11.
  *
  */
 public class FileUploadUtil {
-    private String root;
-    private String avatarPath;
-    private String studentCardPath;
+    private final String rootPath;
+    private final String avatarPath;
+    private final String studentCardPath;
 
-
-    public String saveFile(MultipartFile file, String type) throws Exception {
+    public String uploadFile(MultipartFile file, String type) throws Exception {
         if (type.equals("avatar")) {
-            return saveFile(avatarPath + generateFileName(file.getOriginalFilename()) , file);
+            return saveFile(avatarPath + generateFileName(file.getOriginalFilename()) , file, true);
         } else if (type.equals("studentCard")) {
-            return saveFile(studentCardPath + generateFileName(file.getOriginalFilename()) , file);
+            return saveFile(studentCardPath + generateFileName(file.getOriginalFilename()) , file, true);
         }
         return null;
     }
 
+
+    /**
+     * @param fileName the saved file's name
+     * @param file the file object from request form-data
+     * @param needCut is the picture need to be cutted
+     * @return return file saved file's name
+     */
+    private String saveFile(String fileName, MultipartFile file, boolean needCut) throws Exception {
+        if (!needCut) {
+            return saveFile(fileName, file);
+        } else {
+            BufferedImage bufferedImage = ImageUtil.cutImage(file);
+            if (bufferedImage != null) {
+                ImageIO.write(bufferedImage, ImageUtil.getExt(file.getOriginalFilename()),
+                        new File(rootPath + fileName));
+            } else {
+                BufferedOutputStream stream = new BufferedOutputStream(
+                        new FileOutputStream(new File(rootPath + fileName)));
+                stream.write(file.getBytes());
+            }
+            return fileName;
+        }
+    }
+
     private String saveFile(String fileName, MultipartFile file) throws Exception {
-//        BufferedOutputStream stream = new BufferedOutputStream(
-//                new FileOutputStream(new File(root + fileName)));
-//        stream.write(file.getBytes());
-        BufferedImage bufferedImage = ImageUtil.cutImage(file);
-        ImageIO.write(bufferedImage, ImageUtil.getExt(file.getOriginalFilename()),
-                new File(root + fileName));
+        BufferedOutputStream stream = new BufferedOutputStream(
+                new FileOutputStream(new File(rootPath + fileName)));
+        stream.write(file.getBytes());
         return fileName;
     }
 
@@ -45,8 +67,9 @@ public class FileUploadUtil {
         }
     }
 
+
     public FileUploadUtil(Environment env) {
-        this.root = env.getProperty("app.fileupload.root");
+        this.rootPath = env.getProperty("app.fileupload.root");
         this.avatarPath = env.getProperty("app.avatar.path");
         this.studentCardPath = env.getProperty("app.studentcard.path");
     }

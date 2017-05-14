@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by Somnus`L on 2017/5/9.
  */
-@Component
+//@Component
 public class ResultConvert implements Converter<ConstJson.Result, String> {
 
     @Override

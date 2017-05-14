@@ -74,6 +74,10 @@ public class Application extends WebMvcConfigurerAdapter {
     public StatisticsService statisticsService(){
         return new StatisticsServiceImpl();
     }
+    @Bean
+    public RootService rootService() {
+        return new RootSerivceImpl();
+    }
 
     @Bean
     public SessionUtil sessionUtil(){

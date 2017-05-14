@@ -25,6 +25,7 @@ public class ImageUtil {
         try {
             String ext = getExt(source.getOriginalFilename());
             InputStream is = source.getInputStream();
+
             BufferedImage bufferedImage = ImageIO.read(is);
 
             int width = bufferedImage.getWidth();
@@ -41,21 +42,8 @@ public class ImageUtil {
                 w = width;
                 h = width;
             }
+            return bufferedImage.getSubimage(x,y,w,h);
 
-            Iterator<ImageReader> it = ImageIO.getImageReadersByFormatName(ext);
-            ImageReader reader = it.next();
-            ImageInputStream imageInputStream = ImageIO.createImageInputStream(is);
-            reader.setInput(imageInputStream, true);
-
-            ImageReadParam param = reader.getDefaultReadParam();
-            Rectangle rect = new Rectangle(x, y, w, h);
-            param.setSourceRegion(rect);
-
-            BufferedImage re = reader.read(0, param);
-
-            is.close();
-            imageInputStream.close();
-            return re;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

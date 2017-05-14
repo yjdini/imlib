@@ -1,6 +1,5 @@
 package com.ini.service;
 
-import com.ini.data.entity.Skill;
 import com.ini.data.entity.Sub;
 import com.ini.data.entity.User;
 import com.ini.data.jpa.SubRepository;
@@ -117,7 +116,7 @@ public class UserServiceImpl implements UserService {
         System.out.print(image.getContentType());
         String fileUrl;
         try {
-            fileUrl = fileUploadUtil.saveFile(image, "avatar");
+            fileUrl = fileUploadUtil.uploadFile(image, "avatar");
             setUserAvatar(fileUrl);
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,7 +133,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultMap uploadStudentCard(MultipartFile image) {
         try {
-            String fileUrl = fileUploadUtil.saveFile(image, "studentCard");
+            String fileUrl = fileUploadUtil.uploadFile(image, "studentCard");
             if (sessionUtil.logined()) {
                 User user = entityManager.find(User.class, sessionUtil.getUserId());
                 user.setStudentCard(fileUrl);

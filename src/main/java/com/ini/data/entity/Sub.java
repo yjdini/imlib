@@ -22,24 +22,13 @@ public class Sub {
 
     private String token;
 
-    private Integer status;
-
     public Sub() {
     }
 
     public Sub(boolean initial) {
         if (initial) {
             createTime = new Date();
-            status = 1;
         }
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public Integer getSubId() {

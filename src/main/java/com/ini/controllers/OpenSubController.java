@@ -38,37 +38,4 @@ public class OpenSubController {
         return ResultMap.ok().result(openSub.getOpenSubId()).getMap();
     }
 
-    @Transactional
-    @RequestMapping(value = "/prove/{openSubId}")
-    public Map prove(@PathVariable Integer openSubId)
-    {
-        OpenSub openSub = openSubRepository.findOne(openSubId);
-        Sub sub = new Sub(true);
-        sub.setToken(MD5Util.MD5("sub" + openSub.getOpenSubId()));
-        subRepository.save(sub);
-
-        Admin admin = new Admin(true);
-        admin.setEmail(openSub.getEmail());
-        admin.setMpName(openSub.getMpName());
-        admin.setMpNum(openSub.getMpNum());
-        admin.setSchoolName(openSub.getSchoolName());
-        admin.setWechat(openSub.getWechat());
-        admin.setPassword(openSub.getEmail());
-        admin.setSubId(sub.getSubId());
-        adminRepository.save(admin);
-
-        openSub.setResult(1);
-        openSubRepository.save(openSub);
-
-        return ResultMap.ok().getMap();
-    }
-
-    @RequestMapping(value = "/reject/{openSubId}")
-    public Map reject(@PathVariable Integer openSubId)
-    {
-        OpenSub openSub = openSubRepository.findOne(openSubId);
-        openSub.setResult(2);
-        openSubRepository.save(openSub);
-        return ResultMap.ok().getMap();
-    }
 }
