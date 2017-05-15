@@ -32,14 +32,6 @@ public class UserController
         return userService.addUser(user).getMap();
     }
 
-    @Authentication(value = AuthenticationType.CommonUser)
-    @RequestMapping(value = "/edit" ,method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map editUser(@RequestBody Map<String, Object> body)
-    {
-        User user = userService.getUser();
-        user = Map2Bean.convert(body, user, true);
-        return userService.updateUser(user).getMap();
-    }
 
     @RequestMapping(value = "/comments/{userId}")
     public Map getComments(@PathVariable Integer userId)
@@ -100,6 +92,15 @@ public class UserController
     public Map uploadAvatar(@RequestParam("image") MultipartFile image)
     {
         return userService.uploadAvatar(image).getMap();
+    }
+
+    @Authentication(value = AuthenticationType.CommonUser)
+    @RequestMapping(value = "/edit" ,method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map editUser(@RequestBody Map<String, Object> body)
+    {
+        User user = userService.getUser();
+        user = Map2Bean.convert(body, user, true);
+        return userService.updateUser(user).getMap();
     }
 
     @RequestMapping(value = "/studentCard/upload",method = RequestMethod.POST , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

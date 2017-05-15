@@ -67,17 +67,6 @@ request
 }
 ```
 
-
-##### 修改资料
-```
-{
-  url: /api/user/edit,
-  method: post,
-  content-type: application/json; charset=utf-8,
-  data: User@object
-}
-```
-
 ##### 登录
 ```
 request
@@ -124,6 +113,16 @@ request
 }
 
 ```
+##### 修改资料
+```
+{
+  url: /api/user/edit,
+  method: post,
+  content-type: application/json; charset=utf-8,
+  data: User@object
+}
+```
+
 ##### 更新头像
 ```
 {
@@ -651,7 +650,26 @@ password;
   url: /api/admin/token
 }
 ```
+##### 修改用户资料
+```
+{
+  url: /api/admin/edit/{userId},
+  method: post,
+  content-type: application/json; charset=utf-8,
+}
+```
 
+##### 更新用户头像
+```
+{
+  url: /api/admin/avatar/upload/{userId},
+  method: post,
+  data: {
+    image:
+  }
+}
+
+```
 # 11.statistic
 ##### 获取各个表的统计 {increment：增长值，sum：总量}
 ```

@@ -13,7 +13,7 @@ public interface RootService {
 
     Map closeSub(Integer subId, String reason, String closeReason);
 
-    Map getOpenSubList(Integer result);
+    Map getOpenSubList(Integer status, Integer currentPage);
 
     Map getSystemInfo();
 

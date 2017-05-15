@@ -3,6 +3,7 @@ package com.ini.data.jpa;
 import com.ini.data.entity.Skill;
 import com.ini.data.schema.SkillTagSet;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
 
@@ -30,9 +31,11 @@ public interface SkillRepository extends JpaRepository<Skill, Integer>, QueryByE
             " and t.tagId = ?2 order by seoScore desc")
     List<SkillTagSet> getHotest(Integer subId, Integer tagId);
 
+    @Modifying
     @Query("UPDATE Skill s SET s.status=2 WHERE s.userId=?1 and s.status = 1")
     void shelveSkills(Integer userId);
 
+    @Modifying
     @Query("UPDATE Skill s SET s.status=1 WHERE s.userId=?1 and s.status = 2")
     void groundSkills(Integer userId);
 }

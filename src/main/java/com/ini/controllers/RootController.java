@@ -76,10 +76,12 @@ public class RootController {
         return rootService.startSub(subId);
     }
 
-    @RequestMapping(value = "/opensub/list/{status}")
-    public Map getOpenSubList(Integer status)
+    @RequestMapping(value = "/opensub/list")
+    public Map getOpenSubList(@RequestBody Map<String, Object> body)
     {
-        return rootService.getOpenSubList(status);
+        Integer status = (Integer) body.get("status");
+        Integer currentPage = (Integer) body.get("currentPage");
+        return rootService.getOpenSubList(status, currentPage);
     }
 
 

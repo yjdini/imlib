@@ -42,4 +42,6 @@ public interface UserService {
 
 
     ResultMap getApplyUser();
+
+    ResultMap uploadAvatar(Integer userId, MultipartFile image);
 }

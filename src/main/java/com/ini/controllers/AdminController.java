@@ -11,10 +11,9 @@ import com.ini.utils.Map2Bean;
 import com.ini.utils.ResultMap;
 import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -208,6 +207,27 @@ public class AdminController {
         } else {
             return ResultMap.error().setMessage("该用户不属于这个分站，不能上架！").getMap();
         }
+    }
+
+
+
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/avatar/upload/{userId}",method = RequestMethod.POST , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Map uploadAvatar(@RequestParam("image") MultipartFile image, @PathVariable Integer userId)
+    {
+        return userService.uploadAvatar(userId,image).getMap();
+    }
+
+    @Authentication(value = AuthenticationType.Admin)
+    @RequestMapping(value = "/edit/{userId}" ,method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map editUser(@RequestBody Map<String, Object> body, @PathVariable Integer userId)
+    {
+        User user = (User) userService.getUserById(userId).getMap().get("result");
+        if (!user.getSubId().equals(sessionUtil.getSubId())) {
+            return ResultMap.error().setMessage("该用户不属于这个分站！").getMap();
+        }
+        user = Map2Bean.convert(body, user, true);
+        return userService.updateUser(user).getMap();
     }
 
 

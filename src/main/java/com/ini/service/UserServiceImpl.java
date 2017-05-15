@@ -120,7 +120,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultMap uploadAvatar(MultipartFile image) {
-        System.out.print(image.getContentType());
         String fileUrl;
         try {
             fileUrl = fileUploadUtil.uploadFile(image, "avatar");
@@ -205,7 +204,25 @@ public class UserServiceImpl implements UserService {
         return ResultMap.ok();
     }
 
-    @Transactional
+    @Override
+    public ResultMap uploadAvatar(Integer userId, MultipartFile image) {
+        String fileUrl;
+        User user = userRepository.findOne(userId);
+        if (!user.getSubId().equals(sessionUtil.getSubId())) {
+            return ResultMap.error().setMessage("该用户不属于这个分站！");
+        }
+        try {
+            fileUrl = fileUploadUtil.uploadFile(image, "avatar");
+            user.setAvatar(fileUrl);
+            userRepository.save(user);
+            sessionUtil.setUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultMap.error().setMessage(e.getMessage());
+        }
+        return ResultMap.ok().put("result", fileUrl);
+    }
+
     private void setUserAvatar(String fileUrl) {
         Integer userId = sessionUtil.getUserId();
         User user = userRepository.findOne(userId);

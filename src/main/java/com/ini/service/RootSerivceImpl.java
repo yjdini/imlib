@@ -67,9 +67,9 @@ public class RootSerivceImpl implements RootService {
     }
 
     @Override
-    public Map getOpenSubList(Integer status) {
+    public Map getOpenSubList(Integer status, Integer currentPage) {
+        openSubRepository.findAll();
         List<OpenSub> openSubs = openSubRepository.findByStatus(status);
-
         return null;
     }
 
