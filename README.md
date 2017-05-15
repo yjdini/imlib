@@ -225,46 +225,47 @@ request
 }
 ```
 
-##### 关键字搜索技能列表
-```
-{
-  url: /api/skill/search/keyword/{subId}/{keyword},
-  method: get
-}
-```
-
-##### 标签搜索技能列表
-```
-{
-  url: /api/skill/search/tag/{subId}/{tagId},
-  method: get
-}
-```
-
-##### 该分站全部技能列表（最新创建的技能列表）
-```
-{
-  url: /api/skill/search/all/{subId},
-}
-```
-##### 查看热门技能列表
-```
-{
-  url: /api/skill/search/hotest/{subId},
-}
-```
-
-##### 查看热门技能列表(加标签)
-```
-{
-  url: /api/skill/search/hotest/{subId}/{tagId},
-}
-```
-
 ##### 查看用户的全部评论
 ```
 {
   url: /api/user/comments
+}
+```
+
+
+##### 关键字搜索技能列表(paged)
+```
+{
+  url: /api/skill/search/keyword/{subId}/{keyword}/{currentPage}, currentPage从0开始
+  method: get
+}
+```
+
+##### 标签搜索技能列表(paged)
+```
+{
+  url: /api/skill/search/tag/{subId}/{tagId}/{currentPage},
+  method: get
+}
+```
+
+##### 该分站全部技能列表（最新创建的技能列表）(paged)
+```
+{
+  url: /api/skill/search/all/{subId}/{currentPage},
+}
+```
+##### 查看热门技能列表(paged)
+```
+{
+  url: /api/skill/search/hotest/{subId}/{currentPage},
+}
+```
+
+##### 查看热门技能列表(加标签)(paged)
+```
+{
+  url: /api/skill/search/hotest/{subId}/{tagId}/{currentPage},
 }
 ```
 

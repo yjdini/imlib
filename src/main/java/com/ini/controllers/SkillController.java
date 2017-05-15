@@ -47,7 +47,7 @@ public class SkillController {
     }
 
     @RequestMapping("/list/{userId}/{exceptSkillId}")
-    public Map getSkills(@PathVariable Integer userId, @PathVariable Integer exceptSkillId){
+    public Map getSkillsExcept(@PathVariable Integer userId, @PathVariable Integer exceptSkillId){
         return skillService.getSkillsByUserIdExcept(userId, exceptSkillId).getMap();
     }
 
@@ -64,30 +64,33 @@ public class SkillController {
         return skillService.getSkillDetail(skillId).getMap();
     }
 
-    @RequestMapping("/search/keyword/{subId}/{keyword}")
-    public Map searchByKeyword(@PathVariable String keyword, @PathVariable Integer subId){
-        return skillService.searchByKeyword(keyword, subId).getMap();
+    /**
+     * index interface
+     */
+    @RequestMapping("/search/keyword/{subId}/{keyword}/{currentPage}")
+    public Map searchByKeyword(@PathVariable String keyword, @PathVariable Integer subId, @PathVariable Integer currentPage){
+        return skillService.searchPageByKeyword(keyword, subId, currentPage).getMap();
     }
 
-    @RequestMapping("/search/tag/{subId}/{tagId}")
-    public Map searchByTagId(@PathVariable Integer tagId, @PathVariable Integer subId){
-        return skillService.searchByTagId(tagId, subId).getMap();
+    @RequestMapping("/search/tag/{subId}/{tagId}/{currentPage}")
+    public Map searchByTagId(@PathVariable Integer tagId, @PathVariable Integer subId, @PathVariable Integer currentPage){
+        return skillService.searchPageByTagId(tagId, subId, currentPage).getMap();
     }
 
-    @RequestMapping("/search/all/{subId}")
-    public Map searchAll(@PathVariable Integer subId){
-        return skillService.searchAll(subId).getMap();
+    @RequestMapping("/search/all/{subId}/{currentPage}")
+    public Map searchAll(@PathVariable Integer subId, @PathVariable Integer currentPage){
+        return skillService.searchPageAll(subId, currentPage).getMap();
     }
 
 
-    @RequestMapping("/search/hotest/{subId}")
-    public Map searchHotest(@PathVariable Integer subId){
-        return skillService.searchHotest(subId).getMap();
+    @RequestMapping("/search/hotest/{subId}/{currentPage}")
+    public Map searchHotest(@PathVariable Integer subId, @PathVariable Integer currentPage) {
+        return skillService.searchPageHotest(subId, currentPage).getMap();
     }
 
-    @RequestMapping("/search/hotest/{subId}/{tagId}")
-    public Map searchHotest(@PathVariable Integer subId, @PathVariable Integer tagId){
-        return skillService.searchHotest(subId, tagId).getMap();
+    @RequestMapping("/search/hotest/{subId}/{tagId}/{currentPage}")
+    public Map searchHotest(@PathVariable Integer subId, @PathVariable Integer tagId, @PathVariable Integer currentPage){
+        return skillService.searchPageHotest(subId, tagId, currentPage).getMap();
     }
 
 }

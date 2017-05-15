@@ -11,6 +11,7 @@ import com.ini.data.jpa.SubRepository;
 import com.ini.service.abstrac.AdminService;
 import com.ini.service.abstrac.RootService;
 import com.ini.utils.MD5Util;
+import com.ini.utils.Map2Bean;
 import com.ini.utils.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -79,9 +80,9 @@ public class RootController {
     @RequestMapping(value = "/opensub/list")
     public Map getOpenSubList(@RequestBody Map<String, Object> body)
     {
-        Integer status = (Integer) body.get("status");
-        Integer currentPage = (Integer) body.get("currentPage");
-        return rootService.getOpenSubList(status, currentPage);
+        OpenSub openSub = Map2Bean.convert(body, new OpenSub(), true);
+        Integer currentPage = new Integer((String)body.get("currentPage"));
+        return rootService.getOpenSubList(openSub, currentPage);
     }
 
 
@@ -106,6 +107,7 @@ public class RootController {
         adminRepository.save(admin);
 
         openSub.setResult(1);
+        openSub.setStatus(0);//处理后默认删除
         openSubRepository.save(openSub);
 
         return ResultMap.ok().getMap();
@@ -116,6 +118,7 @@ public class RootController {
     {
         OpenSub openSub = openSubRepository.findOne(openSubId);
         openSub.setResult(2);
+        openSub.setStatus(0);//处理后默认删除
         openSubRepository.save(openSub);
         return ResultMap.ok().getMap();
     }

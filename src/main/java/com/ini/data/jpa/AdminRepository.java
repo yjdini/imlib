@@ -18,7 +18,7 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>, QueryByE
     @Query("select m from Admin m order by m.status desc")
     List<Admin> getAll();
 
-    @Query("select new com.ini.data.schema.SubSet(a) from Admin a")
+    @Query("select new com.ini.data.schema.SubSet(a) from Admin a where a.status = 1")
     List<SubSet> getSubTokenList();
 
     Admin findBySubId(Integer subId);

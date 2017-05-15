@@ -43,9 +43,8 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer>, QueryB
 
     Integer countBySubIdAndResult(Integer subId, Integer result);
 
-
-    @Query("select new com.ini.data.schema.CommentUserSkillSet(o,u,s) from " +
-            " Orders o, User u, Skill s where u.userId = ?1 and o.toUserId=u.userId and o.skillId = s.skillId order " +
-            " by o.commentTime desc")
+    @Query("select new com.ini.data.schema.CommentUserSkillSet(o,f,s) from " +
+            " Orders o, User u, Skill s, User f where u.userId = ?1 and o.toUserId=u.userId and o.skillId = s.skillId " +
+            " and f.userId = o.fromUserId order by o.commentTime desc")
     List<CommentUserSkillSet> getCommentsByUserId(Integer userId);
 }

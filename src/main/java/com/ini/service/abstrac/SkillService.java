@@ -15,24 +15,26 @@ public interface SkillService {
 
     ResultMap getSkillDetail(Integer skillId);
 
-    ResultMap searchByKeyword(String keyword, Integer subId);
-
-    ResultMap searchByTagId(Integer tagId, Integer subId);
-
     void increaseOrderTimes(Integer skillId);
 
     void increaseOrderedTimes(Integer skillId);
 
-    ResultMap searchAll(Integer subId);
 
     ResultMap getSkillsByUserIdExcept(Integer userId, Integer exceptSkillId);
 
     void addScore(Integer skillId, Integer score);
 
-    ResultMap searchHotest(Integer subId);
 
     void increaseShowTime(Integer skillId);
 
-    ResultMap searchHotest(Integer subId, Integer tagId);
 
+    ResultMap searchPageByTagId(Integer tagId, Integer subId, Integer currentPage);
+
+    ResultMap searchPageAll(Integer subId, Integer currentPage);
+
+    ResultMap searchPageHotest(Integer subId, Integer currentPage);
+
+    ResultMap searchPageHotest(Integer subId, Integer tagId, Integer currentPage);
+
+    ResultMap searchPageByKeyword(String keyword, Integer subId, Integer currentPage);
 }

@@ -136,8 +136,6 @@ public class UserController
         return userService.getSubIdByToken(token);
     }
 
-
-
 }
 
 

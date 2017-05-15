@@ -7,8 +7,10 @@ import com.ini.service.abstrac.RootService;
 import com.ini.utils.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,10 +69,15 @@ public class RootSerivceImpl implements RootService {
     }
 
     @Override
-    public Map getOpenSubList(Integer status, Integer currentPage) {
-        openSubRepository.findAll();
-        List<OpenSub> openSubs = openSubRepository.findByStatus(status);
-        return null;
+    public Map getOpenSubList(OpenSub openSub, Integer currentPage) {
+        Pageable pageRequest = new PageRequest(currentPage,10);
+        Page<OpenSub> openSubs = openSubRepository.findAll(Example.of(openSub), pageRequest);
+        List<OpenSub> list = new ArrayList<OpenSub>();
+        for (OpenSub os: openSubs) {
+            list.add(os);
+        }
+        Long count = openSubRepository.count(Example.of(openSub));
+        return ResultMap.ok().result("list", list).result("recordsNum", count).getMap();
     }
 
     @Override

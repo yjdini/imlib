@@ -1,5 +1,7 @@
 package com.ini.service.abstrac;
 
+import com.ini.data.entity.OpenSub;
+
 import java.util.Map;
 
 /**
@@ -13,7 +15,7 @@ public interface RootService {
 
     Map closeSub(Integer subId, String reason, String closeReason);
 
-    Map getOpenSubList(Integer status, Integer currentPage);
+    Map getOpenSubList(OpenSub openSub, Integer currentPage);
 
     Map getSystemInfo();
 

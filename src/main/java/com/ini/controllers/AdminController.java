@@ -4,6 +4,7 @@ import com.ini.aop.authentication.Authentication;
 import com.ini.aop.authentication.AuthenticationType;
 import com.ini.data.entity.Admin;
 import com.ini.data.entity.User;
+import com.ini.data.jpa.UserRepository;
 import com.ini.data.utils.EntityUtil;
 import com.ini.service.abstrac.AdminService;
 import com.ini.service.abstrac.UserService;
@@ -32,6 +33,8 @@ public class AdminController {
     private SessionUtil sessionUtil;
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
 
     @RequestMapping(value = "/login")
@@ -222,7 +225,7 @@ public class AdminController {
     @RequestMapping(value = "/edit/{userId}" ,method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map editUser(@RequestBody Map<String, Object> body, @PathVariable Integer userId)
     {
-        User user = (User) userService.getUserById(userId).getMap().get("result");
+        User user = userRepository.findOne(userId);
         if (!user.getSubId().equals(sessionUtil.getSubId())) {
             return ResultMap.error().setMessage("该用户不属于这个分站！").getMap();
         }

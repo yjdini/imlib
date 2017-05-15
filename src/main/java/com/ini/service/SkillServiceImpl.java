@@ -9,6 +9,8 @@ import com.ini.service.abstrac.SkillService;
 import com.ini.utils.ResultMap;
 import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
@@ -61,7 +63,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public ResultMap getSkillsByUserId(Integer userId) {
-        List skills = skillRepository.getSkillTags(userId);
+        List skills = skillRepository.getSkillsByUserId(userId);
         return ResultMap.ok().put("result", skills);
     }
 
@@ -78,49 +80,10 @@ public class SkillServiceImpl implements SkillService {
         }
     }
 
-    @Override
-    public ResultMap searchByKeyword(String keyword, Integer subId) {
-        List skills = entityManager.createQuery("select new com.ini.data.schema.SkillUserTagSet(s, u, t)" +
-                        " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
-                        " and s.status = 1 and u.status = 1 and u.subId = :subId and " +
-                        "(u.name like '%"+keyword+"%' or s.title like '%"+keyword+"%' )  order by s.createTime desc"
-                ,SkillUserTagSet.class)
-                .setParameter("subId", subId)
-                .getResultList();
-        return ResultMap.ok().put("result", skills);
-    }
-
-    @Override
-    public ResultMap searchByTagId(Integer tagId, Integer subId) {
-        List skills = entityManager.createQuery("select new com.ini.data.schema.SkillUserTagSet(s, u, t)" +
-                " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
-                " and s.status = 1 and u.status = 1 and u.subId = :subId and s.tagId = :tagId " +
-                        " order by s.createTime desc"
-                        ,SkillUserTagSet.class)
-                .setParameter("subId", subId)
-                .setParameter("tagId", tagId).getResultList();
-        return ResultMap.ok().put("result", skills);
-    }
-
-    @Override
-    public ResultMap searchAll(Integer subId) {
-        List skills = entityManager.createQuery("select new com.ini.data.schema.SkillUserTagSet(s, u, t)" +
-                " from Skill s, Tag t, User u where s.tagId = t.tagId and s.userId = u.userId " +
-                " and s.status = 1 and u.status = 1 and u.subId = :subId" +
-                " order by s.createTime desc", SkillUserTagSet.class)
-                .setParameter("subId", subId)
-                .getResultList();
-        return ResultMap.ok().put("result", skills);
-    }
 
     @Override
     public ResultMap getSkillsByUserIdExcept(Integer userId, Integer exceptSkillId) {
-        List skills = entityManager.createQuery("select new com.ini.data.schema.SkillTagSet(s, t)" +
-                " from Skill s, Tag t where s.userId = :userId and s.status = 1 and s.tagId = t.tagId" +
-                " and s.skillId != :skillId", SkillTagSet.class)
-                .setParameter("userId", userId)
-                .setParameter("skillId", exceptSkillId)
-                .getResultList();
+        List skills = skillRepository.getSkillsByUserIdExcept(userId, exceptSkillId);
         return ResultMap.ok().put("result", skills);
     }
 
@@ -156,29 +119,6 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public ResultMap searchHotest(Integer subId) {
-        List<SkillTagSet> list = skillRepository.getHotest(subId);
-        return ResultMap.ok().result(list);
-    }
-
-    @Override
-    public void increaseShowTime(Integer skillId) {
-        Skill skill = skillRepository.findOne(skillId);
-        if (skill == null) {
-            return;
-        }
-        skill.setSeoScore(computeSeoScore(skill));
-        skill.setShowTimes(skill.getShowTimes() + 1);
-        skillRepository.save(skill);
-    }
-
-    @Override
-    public ResultMap searchHotest(Integer subId, Integer tagId) {
-        List<SkillTagSet> list = skillRepository.getHotest(subId, tagId);
-        return ResultMap.ok().result(list);
-    }
-
-    @Override
     public void increaseOrderTimes(Integer skillId) {
         entityManager.createNativeQuery(
                 "update Skill set orderTimes = orderTimes+1 where skillId = :skillId")
@@ -191,5 +131,56 @@ public class SkillServiceImpl implements SkillService {
                 "update Skill set orderedTimes = orderedTimes+1 where skillId = :skillId")
                 .setParameter("skillId", skillId).executeUpdate();
     }
+
+
+    @Override
+    public void increaseShowTime(Integer skillId) {
+        Skill skill = skillRepository.findOne(skillId);
+        if (skill == null) {
+            return;
+        }
+        skill.setSeoScore(computeSeoScore(skill));
+        skill.setShowTimes(skill.getShowTimes() + 1);
+        skillRepository.save(skill);
+    }
+
+    /**
+     * index interface impl
+     */
+    @Override
+    public ResultMap searchPageHotest(Integer subId, Integer tagId, Integer currentPage) {
+        Pageable pageRequest = new PageRequest(currentPage,10);
+        List<SkillUserTagSet> list = skillRepository.getHotest(subId, tagId, pageRequest);
+        return ResultMap.ok().result(list);
+    }
+
+    @Override
+    public ResultMap searchPageHotest(Integer subId, Integer currentPage) {
+        Pageable pageRequest = new PageRequest(currentPage,10);
+        List<SkillUserTagSet> list = skillRepository.getHotest(subId, pageRequest);
+        return ResultMap.ok().result(list);
+    }
+
+    @Override
+    public ResultMap searchPageByKeyword(String keyword, Integer subId, Integer currentPage) {
+        Pageable pageRequest = new PageRequest(currentPage,10);
+        List<SkillUserTagSet> skills = skillRepository.pageQueryByKeyword(keyword, subId, pageRequest);
+        return ResultMap.ok().put("result", skills);
+    }
+
+    @Override
+    public ResultMap searchPageByTagId(Integer tagId, Integer subId, Integer currentPage) {
+        Pageable pageRequest = new PageRequest(currentPage,10);
+        List<SkillUserTagSet> skills = skillRepository.pageQueryByTagId(tagId, subId, pageRequest);
+        return ResultMap.ok().put("result", skills);
+    }
+
+    @Override
+    public ResultMap searchPageAll(Integer subId, Integer currentPage) {
+        Pageable pageRequest = new PageRequest(currentPage,10);
+        List<SkillUserTagSet> skills = skillRepository.pageQueryBySubId(subId, pageRequest);
+        return ResultMap.ok().put("result", skills);
+    }
+
 
 }
