@@ -3,8 +3,6 @@ package com.ini.data.entity;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Type;
-
 import java.util.Date;
 
 /**
@@ -15,7 +13,7 @@ import java.util.Date;
 public class OpenSub {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer OpenSubId;
+    private Integer openSubId;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
@@ -26,7 +24,7 @@ public class OpenSub {
     private Integer mpNum;
     private String wechat;
 
-    private Integer status;
+    private Integer status;// 1 审核中 ， 0 已完成
     private Integer result;// 0 待审核 ； 1 同意开通 ； 2 拒绝开通
 
     public OpenSub() {
@@ -50,11 +48,11 @@ public class OpenSub {
 
 
     public Integer getOpenSubId() {
-        return OpenSubId;
+        return openSubId;
     }
 
     public void setOpenSubId(Integer openSubId) {
-        OpenSubId = openSubId;
+        this.openSubId = openSubId;
     }
 
     public Date getCreateTime() {

@@ -22,7 +22,7 @@ public class FileUploadUtil {
         if (type.equals("avatar")) {
             return saveFile(avatarPath + generateFileName(file.getOriginalFilename()) , file, true);
         } else if (type.equals("studentCard")) {
-            return saveFile(studentCardPath + generateFileName(file.getOriginalFilename()) , file, true);
+            return saveFile(studentCardPath + generateFileName(file.getOriginalFilename()) , file, false);
         }
         return null;
     }

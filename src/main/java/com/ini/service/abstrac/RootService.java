@@ -11,9 +11,11 @@ public interface RootService {
 
     Map getSubList();
 
-    Map closeSub(Integer subId, String closeReason);
+    Map closeSub(Integer subId, String reason, String closeReason);
 
-    Map getOpenSubList();
+    Map getOpenSubList(Integer result);
 
     Map getSystemInfo();
+
+    Map startSub(Integer subId);
 }

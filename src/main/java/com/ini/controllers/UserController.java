@@ -41,7 +41,6 @@ public class UserController
         return userService.updateUser(user).getMap();
     }
 
-    @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/comments/{userId}")
     public Map getComments(@PathVariable Integer userId)
     {

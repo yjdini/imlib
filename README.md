@@ -757,7 +757,12 @@ password;
   }
 }
 ```
-
+##### 启动分站
+```
+{
+  url："/api/root/startsub/{openSubId}"
+}
+```
 ##### 同意开通分站申请
 ```
 {
@@ -768,6 +773,11 @@ password;
 ```
 {
   url："/api/root/rejectopen/{openSubId}",
-  method: get,
+}
+```
+#####获取开通分站申请列表
+```
+{
+  url："/api/root/opensub/list/{result}"
 }
 ```

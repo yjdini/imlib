@@ -43,6 +43,7 @@ public class RootController {
     @RequestMapping(value = "/sub/list")
     public Map getSubList()
     {
+
         return rootService.getSubList();
     }
 
@@ -65,13 +66,20 @@ public class RootController {
     public Map closeSub(@PathVariable Integer subId, @RequestBody Map<String, Object> body)
     {
         String closeReason = (String) body.get("closeReason");
-        return rootService.closeSub(subId, closeReason);
+        String password = (String) body.get("password");
+        return rootService.closeSub(subId, closeReason, password);
     }
 
-    @RequestMapping(value = "/opensub/list")
-    public Map getOpenSubList()
+    @RequestMapping(value = "/startsub/{subId}")
+    public Map startSub(@PathVariable Integer subId)
     {
-        return rootService.getOpenSubList();
+        return rootService.startSub(subId);
+    }
+
+    @RequestMapping(value = "/opensub/list/{status}")
+    public Map getOpenSubList(Integer status)
+    {
+        return rootService.getOpenSubList(status);
     }
 
 

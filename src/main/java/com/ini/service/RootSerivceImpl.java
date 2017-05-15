@@ -1,17 +1,16 @@
 package com.ini.service;
 
 import com.ini.data.entity.Admin;
+import com.ini.data.entity.OpenSub;
 import com.ini.data.jpa.*;
 import com.ini.service.abstrac.RootService;
-import com.ini.utils.ConstJson;
 import com.ini.utils.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -33,12 +32,15 @@ public class RootSerivceImpl implements RootService {
 
     @Override
     public Map login(String name, String password) {
-        if ("root@hust".equals(name) &&
-                environment.getProperty("app.root.password").equals(password)) {
+        if ("root@hust".equals(name) && validatePassword(password)) {
             return ResultMap.ok().result("name", name).getMap();
         } else {
             return ResultMap.error().setMessage("用户名或密码错误！").getMap();
         }
+    }
+
+    private boolean validatePassword(String password) {
+        return environment.getProperty("app.root.password").equals(password);
     }
 
     @Override
@@ -50,12 +52,24 @@ public class RootSerivceImpl implements RootService {
 
 
     @Override
-    public Map closeSub(Integer subId, String closeReason) {
-        return null;
+    @Transactional
+    public Map closeSub(Integer subId, String closeReason, String password) {
+        if (validatePassword(password)) {
+            Admin admin = adminRepository.findBySubId(subId);
+            admin.setStatus(0);
+            admin.setDeleteReason(closeReason);
+
+            adminRepository.save(admin);
+            return ResultMap.ok().getMap();
+        } else {
+            return ResultMap.error().setMessage("密码错误！").getMap();
+        }
     }
 
     @Override
-    public Map getOpenSubList() {
+    public Map getOpenSubList(Integer status) {
+        List<OpenSub> openSubs = openSubRepository.findByStatus(status);
+
         return null;
     }
 
@@ -75,5 +89,14 @@ public class RootSerivceImpl implements RootService {
         result.put("orderNum", orderNum);
 
         return ResultMap.ok().result(result).getMap();
+    }
+
+    @Override
+    public Map startSub(Integer subId) {
+        Admin admin = adminRepository.findBySubId(subId);
+        admin.setStatus(1);
+        admin.setDeleteReason("");
+        adminRepository.save(admin);
+        return ResultMap.ok().getMap();
     }
 }
