@@ -1,15 +1,15 @@
 package com.ini.service;
 
+import com.ini.data.entity.Apply;
 import com.ini.data.entity.Sub;
 import com.ini.data.entity.User;
-import com.ini.data.jpa.AdminRepository;
-import com.ini.data.jpa.OrdersRepository;
-import com.ini.data.jpa.SubRepository;
-import com.ini.data.jpa.UserRepository;
+import com.ini.data.jpa.*;
+import com.ini.data.schema.ApplyUserSet;
 import com.ini.data.schema.CommentUserSkillSet;
 import com.ini.data.utils.EntityUtil;
 import com.ini.service.abstrac.UserService;
 import com.ini.utils.FileUploadUtil;
+import com.ini.utils.Map2Bean;
 import com.ini.utils.ResultMap;
 import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ public class UserServiceImpl implements UserService {
     @Autowired private SubRepository subRepository;
     @Autowired private AdminRepository adminRepository;
     @Autowired private OrdersRepository ordersRepository;
+    @Autowired private ApplyRepository applyRepository;
 
     @Override
     @Transactional
@@ -189,6 +191,18 @@ public class UserServiceImpl implements UserService {
     public Map getComments(Integer userId) {
         List<CommentUserSkillSet> list = ordersRepository.getCommentsByUserId(userId);
         return ResultMap.ok().result(list).getMap();
+    }
+
+    @Override
+    public ResultMap getApplyUser() {
+        User user = getUser();
+        if (user.getApplyId() == null) {
+            return ResultMap.ok().result(user);
+        } else {
+            Map u = EntityUtil.all(user).getMap();
+            Apply apply = applyRepository.findOne(user.getApplyId());
+        }
+        return ResultMap.ok();
     }
 
     @Transactional

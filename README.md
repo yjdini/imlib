@@ -775,9 +775,15 @@ password;
   url："/api/root/rejectopen/{openSubId}",
 }
 ```
-#####获取开通分站申请列表
+##### 获取开通分站申请列表
 ```
 {
-  url："/api/root/opensub/list/{result}"
+  url："/api/root/opensub/list",
+  type:'post'
+  data:{
+    status;
+    currentPage;
+    pageSize;
+  }
 }
 ```

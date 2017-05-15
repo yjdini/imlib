@@ -39,4 +39,7 @@ public interface UserService {
     ResultMap getSubList();
 
     Map getComments(Integer userId);
+
+
+    ResultMap getApplyUser();
 }
