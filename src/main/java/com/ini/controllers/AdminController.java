@@ -60,7 +60,7 @@ public class AdminController {
         return ResultMap.ok().getMap();
     }
 
-
+    @Authentication(value = AuthenticationType.Admin)
     @RequestMapping(value = "/status")
     public Map status(@RequestBody Map<String, Object> body)
     {
@@ -78,7 +78,6 @@ public class AdminController {
         Admin admin = adminService.getAdminById(sessionUtil.getAdminId());
         return ResultMap.ok().result(admin).getMap();
     }
-
 
 
     @Authentication(value = AuthenticationType.Admin)
@@ -159,7 +158,7 @@ public class AdminController {
     }
 
     @Authentication(value = AuthenticationType.Admin)
-    @RequestMapping(value = "/canclereject")
+    @RequestMapping(value = "/cancelreject/{applyId}")
     public Map cancleRejectApply(@PathVariable Integer applyId)
     {
         if (adminService.cancleRejectApply(applyId)) {

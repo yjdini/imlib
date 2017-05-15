@@ -125,16 +125,17 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    @Transactional
     public void addScore(Integer skillId, Integer score) {
         Skill skill = skillRepository.findOne(skillId);
         BigDecimal oldScore = skill.getScore();
         oldScore = (oldScore == null) ? new BigDecimal(0) : oldScore;
-        Integer orderedTimes = skill.getOrderedTimes() - 1;
+        Integer orderedTimes = skill.getOrderedTimes();
+        orderedTimes = (orderedTimes == null) ? 0 : orderedTimes;
         BigDecimal newScore = oldScore.multiply(new BigDecimal(orderedTimes))
-                .add(new BigDecimal(score)).divide(new BigDecimal(orderedTimes + 1)).setScale(1);
+                .add(new BigDecimal(score))
+                .divide(new BigDecimal(orderedTimes + 1))
+                .setScale(1,BigDecimal.ROUND_DOWN);
 
-        skill.setScore(newScore);
         skill.setSeoScore(computeSeoScore(skill));
         skillRepository.save(skill);
     }
@@ -142,11 +143,15 @@ public class SkillServiceImpl implements SkillService {
     private Integer computeSeoScore(Skill skill) {
         BigDecimal score = skill.getScore() == null ? new BigDecimal(3) : skill.getScore();
         Integer showTimes = skill.getShowTimes();
+        showTimes = (showTimes == null) ? 0 : showTimes;
         Integer orderTimes = skill.getOrderTimes();
+        orderTimes = (orderTimes == null) ? 0 : orderTimes;
         Integer orderedTimes = skill.getOrderedTimes();
+        orderedTimes = (orderedTimes == null) ? 0 : orderedTimes;
 
         return score.multiply(
-                new BigDecimal(showTimes + orderTimes*3 + orderedTimes * 3)).intValue();
+                new BigDecimal(showTimes + orderTimes*3 + orderedTimes * 3))
+                .intValue();
 
     }
 
@@ -165,6 +170,12 @@ public class SkillServiceImpl implements SkillService {
         skill.setSeoScore(computeSeoScore(skill));
         skill.setShowTimes(skill.getShowTimes() + 1);
         skillRepository.save(skill);
+    }
+
+    @Override
+    public ResultMap searchHotest(Integer subId, Integer tagId) {
+        List<SkillTagSet> list = skillRepository.getHotest(subId, tagId);
+        return ResultMap.ok().result(list);
     }
 
     @Override

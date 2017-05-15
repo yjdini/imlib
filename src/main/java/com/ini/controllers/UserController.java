@@ -41,6 +41,12 @@ public class UserController
         return userService.updateUser(user).getMap();
     }
 
+    @Authentication(value = AuthenticationType.CommonUser)
+    @RequestMapping(value = "/comments")
+    public Map getComments()
+    {
+        return userService.getComments();
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST , consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map login(@RequestBody Map<String, Object> body)
@@ -80,14 +86,19 @@ public class UserController
         return userService.getUserById(sessionUtil.getUserId()).getMap();
     }
 
-//    @Authentication(value = AuthenticationType.CommonUser)
+    @RequestMapping(value = "/sub/list")
+    public Map getSubList()
+    {
+        return userService.getSubList().getMap();
+    }
+
+    @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/avatar/upload",method = RequestMethod.POST , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map uploadAvatar(@RequestParam("image") MultipartFile image)
     {
         return userService.uploadAvatar(image).getMap();
     }
 
-    @Authentication(value = AuthenticationType.CommonUser)
     @RequestMapping(value = "/studentCard/upload",method = RequestMethod.POST , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map uploadStudentCard(@RequestParam("image") MultipartFile image)
     {
@@ -115,7 +126,7 @@ public class UserController
         }
     }
 
-    @RequestMapping(value = "/api/user/subid/{token}")
+    @RequestMapping(value = "/subid/{token}")
     public Map getSubId(@PathVariable String token)
     {
         return userService.getSubIdByToken(token);

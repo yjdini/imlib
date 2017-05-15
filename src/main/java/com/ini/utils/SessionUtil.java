@@ -17,7 +17,6 @@ public class SessionUtil {
     }
 
     public Integer getUserId() {
-        if(true) return 1;
         User user = (User) currentRequest.get().getSession().getAttribute("user");
         if(user != null) {
             return user.getUserId();
@@ -62,7 +61,6 @@ public class SessionUtil {
         return (Admin) currentRequest.get().getSession().getAttribute("admin");
     }
     public Integer getSubId() {
-        if(true) return 1;
         Admin admin = (Admin) currentRequest.get().getSession().getAttribute("admin");
         User user = (User) currentRequest.get().getSession().getAttribute("user");
         if (admin != null) {
@@ -73,7 +71,6 @@ public class SessionUtil {
         return null;
     }
     public Integer getAdminId() {
-        if(true) return 1;
         Admin admin = (Admin) currentRequest.get().getSession().getAttribute("admin");
         if(admin != null) {
             return admin.getAdminId();

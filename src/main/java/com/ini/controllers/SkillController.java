@@ -85,4 +85,9 @@ public class SkillController {
         return skillService.searchHotest(subId).getMap();
     }
 
+    @RequestMapping("/search/hotest/{subId}/{tagId}")
+    public Map searchHotest(@PathVariable Integer subId, @PathVariable Integer tagId){
+        return skillService.searchHotest(subId, tagId).getMap();
+    }
+
 }

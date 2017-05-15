@@ -20,8 +20,7 @@ import java.util.List;
  *
  */
 public  class CommentServiceImpl implements CommentService {
-    @PersistenceContext
-    EntityManager entityManager;
+    @PersistenceContext EntityManager entityManager;
     @Autowired private SessionUtil sessionUtil;
     @Autowired private OrdersRepository ordersRepository;
     @Autowired private SkillService skillService;
@@ -30,22 +29,22 @@ public  class CommentServiceImpl implements CommentService {
     @Override
     public ResultMap getCommentsBySkillId(Integer skillId) {
         List comments =  entityManager.createQuery("select new com.ini.data.schema.CommentUserSet(o,u) from " +
-                " Orders o, User u where o.userId = u.userId and u.status =1 and o.isCommented = 1 " +
+                " Orders o, User u where o.fromUserId = u.userId and u.status =1 and o.isCommented = 1 " +
                 " and o.skillId = :skillId")
                 .setParameter("skillId", skillId)
                 .getResultList();
         return ResultMap.ok().put("result", comments);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public ResultMap addComment(Integer orderId, Integer score, String content) {
         Orders order = ordersRepository.findOne(orderId);
         Integer userId = sessionUtil.getUserId();
         if (!order.getFromUserId().equals(userId)) {
             return ResultMap.error().setMessage("你不是预约的发起者，无法评论！");
         }
-        if (!order.getResult().equals(3)) {
+        if (!order.getResult().equals(1)) {
             return ResultMap.error().setMessage("该预约还未完成，无法评论！");
         }
         if (order.getIsCommented().equals(1)) {
@@ -59,8 +58,8 @@ public  class CommentServiceImpl implements CommentService {
         ordersRepository.save(order);
 
         skillService.addScore(order.getSkillId(), score);
-        userService.addScore(userId, score);
+        userService.addScore(order.getToUserId(), score);
 
-        return null;
+        return ResultMap.ok();
     }
 }

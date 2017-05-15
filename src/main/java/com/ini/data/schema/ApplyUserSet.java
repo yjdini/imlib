@@ -26,11 +26,14 @@ public class ApplyUserSet {
 
     private Integer result;
 
+    private String avatar;
+
     private String nickname;
 
     private String userType;
 
     public ApplyUserSet(Apply apply, User user) {
+        this.avatar = user.getAvatar();
         this.applyId = apply.getApplyId();
         this.createTime = apply.getCreateTime();
         this.userId = apply.getUserId();
@@ -44,6 +47,14 @@ public class ApplyUserSet {
 
     public Integer getApplyId() {
         return applyId;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public void setApplyId(Integer applyId) {

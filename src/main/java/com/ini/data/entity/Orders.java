@@ -59,7 +59,6 @@ public class Orders {
         this.setStatus(1);
         this.setResult(0);
         this.setIsCommented(0);
-
     }
 
     public Integer getFromStatus() {

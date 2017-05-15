@@ -92,6 +92,8 @@ public class Skill {
         this.setOrderTimes(0);
         this.setShowTimes(0);
         this.setSeoScore(0);
+        this.setOrderTimes(0);
+        this.setOrderedTimes(0);
     }
 
     public Integer getSkillId() {

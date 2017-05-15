@@ -9,4 +9,5 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
  */
 public interface OpenSubRepository extends JpaRepository<OpenSub, Integer>, QueryByExampleExecutor<OpenSub> {
 
+    Long countByResult(int result);
 }

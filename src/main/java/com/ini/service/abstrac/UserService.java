@@ -35,4 +35,8 @@ public interface UserService {
     void addScore(Integer userId, Integer score);
 
     Map getSubIdByToken(String token);
+
+    ResultMap getSubList();
+
+    Map getComments();
 }

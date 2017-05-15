@@ -12,4 +12,6 @@ public interface UserRepository extends JpaRepository<User, Integer>, QueryByExa
     Integer countBySubId(Integer subId);
 
     Integer countBySubIdAndType(Integer subId, String type);
+
+    Long countByType(String type);
 }

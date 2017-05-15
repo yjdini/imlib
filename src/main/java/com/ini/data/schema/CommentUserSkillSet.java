@@ -1,6 +1,7 @@
 package com.ini.data.schema;
 
 import com.ini.data.entity.Orders;
+import com.ini.data.entity.Skill;
 import com.ini.data.entity.User;
 
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.Date;
  *
  */
 
-public class CommentUserSet {
+public class CommentUserSkillSet {
     private Date createTime;
     private String content;
     private Integer score;
@@ -20,10 +21,11 @@ public class CommentUserSet {
     private String userName;
     private String nickName;
     private String userType;
-    private String title;
+    private String userTitle;
 
+    private String skillTitle;
 
-    public CommentUserSet(Orders order, User user) {
+    public CommentUserSkillSet(Orders order, User user, Skill skill) {
         this.createTime = order.getCommentTime();
         this.content = order.getComment();
         this.score = order.getScore();
@@ -32,7 +34,24 @@ public class CommentUserSet {
         this.userName = user.getName();
         this.nickName = user.getNickname();
         this.userType = user.getType();
-        this.title = user.getTitle();
+        this.userTitle = user.getTitle();
+        this.skillTitle = skill.getTitle();
+    }
+
+    public String getUserTitle() {
+        return userTitle;
+    }
+
+    public void setUserTitle(String userTitle) {
+        this.userTitle = userTitle;
+    }
+
+    public String getSkillTitle() {
+        return skillTitle;
+    }
+
+    public void setSkillTitle(String skillTitle) {
+        this.skillTitle = skillTitle;
     }
 
     public Date getCreateTime() {
@@ -99,11 +118,4 @@ public class CommentUserSet {
         this.userType = userType;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 }

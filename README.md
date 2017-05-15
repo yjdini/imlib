@@ -134,7 +134,6 @@ request
 
 ##### 获取是否登录
 ```
-request
 {
   url: /api/user/status
   method: get
@@ -142,6 +141,13 @@ request
   
 {
   result : 0: 未登录，1：已登录
+}
+```
+
+##### 获取分站列表
+```
+{
+  url: /api/user/sub/list
 }
 ```
 
@@ -242,6 +248,20 @@ request
 ```
 {
   url: /api/skill/search/hotest/{subId},
+}
+```
+
+##### 查看热门技能列表(加标签)
+```
+{
+  url: /api/skill/search/hotest/{subId}/{tagId},
+}
+```
+
+##### 查看用户的全部评论
+```
+{
+  url: /api/user/comments
 }
 ```
 
@@ -359,11 +379,9 @@ request
   url: /api/skill/comment/add,
   method: post,
   data: {
-    skillId:,
     content:,
     orderId;
     score;
-    userId;
   }
 }
 ```
@@ -718,10 +736,10 @@ password;
 }
 ```
 
-##### 获取分站详情
+##### 获取平台信息概览
 ```
 {
-  url："/api/root/sub/info",
+  url："/api/root/sys/info",
 }
 ```
 
@@ -739,13 +757,13 @@ password;
 ##### 同意开通分站申请
 ```
 {
-  url："/api/root/approve/{openSubId}",
+  url："/api/root/approveopen/{openSubId}",
 }
 ```
 ##### 拒绝开通分站申请
 ```
 {
-  url："/api/root/reject/{openSubId}",
+  url："/api/root/rejectopen/{openSubId}",
   method: get,
 }
 ```

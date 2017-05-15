@@ -48,9 +48,15 @@ public final class AuthenticationInterceptor extends HandlerInterceptorAdapter
                 return false;
             }
         }
-        else if (value == AuthenticationType.NoValidate)
+        else if (value == AuthenticationType.Admin)
         {
-            return true;
+            if (sessionUtil.adminLogined()) {
+                return true;
+            } else {
+                PrintUtil.responseWithJson(response, new ResultMapConvert()
+                        .convert(ResultMap.unlogin().setMessage("用户未登录")));
+                return false;
+            }
         }
         else if(value == AuthenticationType.Master)
         {

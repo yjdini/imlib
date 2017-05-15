@@ -14,4 +14,6 @@ public interface RootService {
     Map closeSub(Integer subId, String closeReason);
 
     Map getOpenSubList();
+
+    Map getSystemInfo();
 }

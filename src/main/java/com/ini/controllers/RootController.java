@@ -46,6 +46,21 @@ public class RootController {
         return rootService.getSubList();
     }
 
+
+    @RequestMapping(value = "/sys/info")
+    public Map getSystemInfo()
+    {
+        return rootService.getSystemInfo();
+    }
+
+
+    @RequestMapping(value = "/sub/info/{subId}")
+    public Map getSubInfo(@PathVariable Integer subId)
+    {
+        Admin admin = adminRepository.findBySubId(subId);
+        return ResultMap.ok().result(admin).getMap();
+    }
+
     @RequestMapping(value = "/closesub/{subId}", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map closeSub(@PathVariable Integer subId, @RequestBody Map<String, Object> body)
     {
@@ -58,6 +73,7 @@ public class RootController {
     {
         return rootService.getOpenSubList();
     }
+
 
     @Transactional
     @RequestMapping(value = "/approveopen/{openSubId}")
@@ -76,6 +92,7 @@ public class RootController {
         admin.setWechat(openSub.getWechat());
         admin.setPassword(openSub.getEmail());
         admin.setSubId(sub.getSubId());
+        admin.setToken(sub.getToken());
         adminRepository.save(admin);
 
         openSub.setResult(1);

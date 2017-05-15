@@ -29,6 +29,16 @@ public class Admin {
     private Integer status;
     private String deleteReason;
 
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public Admin() {
     }
 

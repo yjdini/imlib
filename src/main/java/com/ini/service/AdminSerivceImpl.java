@@ -118,6 +118,7 @@ public class AdminSerivceImpl implements AdminService {
     }
 
     @Override
+    @Transactional
     public boolean recoverUser(Integer userId) {
         User user = userRepository.findOne(userId);
         if (user.getSubId().equals(sessionUtil.getSubId())) {
@@ -146,6 +147,7 @@ public class AdminSerivceImpl implements AdminService {
     }
 
     @Override
+    @Transactional
     public Map editPassword(String oldPassword, String newPassword) {
         Integer adminId = sessionUtil.getAdminId();
         Admin admin = adminRepository.findOne(adminId);
@@ -167,6 +169,7 @@ public class AdminSerivceImpl implements AdminService {
     }
 
     @Override
+    @Transactional
     public boolean cancleRejectApply(Integer applyId) {
         Apply apply = applyRepository.findOne(applyId);
         User user = userRepository.findOne(apply.getUserId());
@@ -180,22 +183,26 @@ public class AdminSerivceImpl implements AdminService {
     }
 
     @Override
+    @Transactional
     public boolean shelveMaster(Integer userId, String shelveReason) {
         User user = userRepository.findOne(userId);
         if (user.getSubId().equals(sessionUtil.getSubId())) {
             user.setShelveReason(shelveReason);
             user.setType("m-c");
+            userRepository.save(user);
             return true;
         }
         return false;
     }
 
     @Override
+    @Transactional
     public boolean groundMaster(Integer userId) {
         User user = userRepository.findOne(userId);
         if (user.getSubId().equals(sessionUtil.getSubId())) {
             user.setShelveReason("");
             user.setType("m");
+            userRepository.save(user);
             return true;
         }
         return false;

@@ -2,8 +2,11 @@ package com.ini.service;
 
 import com.ini.data.entity.Sub;
 import com.ini.data.entity.User;
+import com.ini.data.jpa.AdminRepository;
+import com.ini.data.jpa.OrdersRepository;
 import com.ini.data.jpa.SubRepository;
 import com.ini.data.jpa.UserRepository;
+import com.ini.data.schema.CommentUserSkillSet;
 import com.ini.data.utils.EntityUtil;
 import com.ini.service.abstrac.UserService;
 import com.ini.utils.FileUploadUtil;
@@ -31,6 +34,8 @@ public class UserServiceImpl implements UserService {
     @Autowired private SessionUtil sessionUtil;
     @Autowired private UserRepository userRepository;
     @Autowired private SubRepository subRepository;
+    @Autowired private AdminRepository adminRepository;
+    @Autowired private OrdersRepository ordersRepository;
 
     @Override
     @Transactional
@@ -155,14 +160,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public void addScore(Integer userId, Integer score) {
         User user = userRepository.findOne(userId);
         BigDecimal averageScore = user.getScore();
         averageScore = (averageScore == null) ? new BigDecimal(0) : averageScore;
-        Integer orderedTimes = user.getOrderedTimes() - 1;
-        averageScore = averageScore.multiply(new BigDecimal(orderedTimes))
-                .add(new BigDecimal(score)).divide(new BigDecimal(orderedTimes + 1)).setScale(1);
+        Integer orderedTimes = user.getOrderedTimes();
+        orderedTimes = (orderedTimes == null) ? 0 : orderedTimes;
+        averageScore = (averageScore.multiply(new BigDecimal(orderedTimes))
+                .add(new BigDecimal(score)).divide(new BigDecimal(orderedTimes + 1))).setScale(1, BigDecimal.ROUND_DOWN);
 
         user.setScore(averageScore);
         userRepository.save(user);
@@ -172,6 +177,19 @@ public class UserServiceImpl implements UserService {
     public Map getSubIdByToken(String token) {
         Sub sub = subRepository.findByToken(token);
         return ResultMap.ok().result(sub.getSubId()).getMap();
+    }
+
+    @Override
+    public ResultMap getSubList() {
+        List l = adminRepository.getSubTokenList();
+        return ResultMap.ok().result(l);
+    }
+
+    @Override
+    public Map getComments() {
+        Integer userId = sessionUtil.getUserId();
+        List<CommentUserSkillSet> list = ordersRepository.getCommentsByUserId(userId);
+        return ResultMap.ok().result(list).getMap();
     }
 
     @Transactional

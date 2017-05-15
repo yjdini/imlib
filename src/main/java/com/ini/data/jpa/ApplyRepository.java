@@ -20,4 +20,6 @@ public interface ApplyRepository extends JpaRepository<Apply, Integer>, QueryByE
     List getApplysByResultSubId(Integer result, Integer subId);
 
     Integer countBySubId(Integer subId);
+
+    Long countByResult(int i);
 }

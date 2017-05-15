@@ -1,7 +1,9 @@
 package com.ini.data.jpa;
 
 import com.ini.data.entity.Orders;
+import com.ini.data.schema.CommentUserSkillSet;
 import com.ini.data.schema.OrderUserSet;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
@@ -40,4 +42,10 @@ public interface OrdersRepository extends JpaRepository<Orders, Integer>, QueryB
     Integer countBySubId(Integer subId);
 
     Integer countBySubIdAndResult(Integer subId, Integer result);
+
+
+    @Query("select new com.ini.data.schema.CommentUserSkillSet(o,u,s) from " +
+            " Orders o, User u, Skill s where u.userId = ?1 and o.toUserId=u.userId and o.skillId = s.skillId order " +
+            " by o.commentTime desc")
+    List<CommentUserSkillSet> getCommentsByUserId(Integer userId);
 }
