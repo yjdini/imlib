@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User validateUser(String nickname, String password) {
         List users = entityManager.createQuery(
-                "from User where nickname = :nickname and password = :password and status = 1")
+                "from User where nickname = :nickname and password = :password ")
                 .setParameter("nickname", nickname)
                 .setParameter("password", password)
                 .getResultList();
@@ -186,8 +186,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map getComments() {
-        Integer userId = sessionUtil.getUserId();
+    public Map getComments(Integer userId) {
         List<CommentUserSkillSet> list = ordersRepository.getCommentsByUserId(userId);
         return ResultMap.ok().result(list).getMap();
     }

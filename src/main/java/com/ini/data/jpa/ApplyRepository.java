@@ -21,5 +21,6 @@ public interface ApplyRepository extends JpaRepository<Apply, Integer>, QueryByE
 
     Integer countBySubId(Integer subId);
 
-    Long countByResult(int i);
+
+    Integer countBySubIdAndResult(Integer subId, Integer result);
 }

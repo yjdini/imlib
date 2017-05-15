@@ -86,7 +86,6 @@ public class AdminController {
     {
         String oldPassword = body.get("oldPassword");
         String newPassword = body.get("newPassword");
-
         return adminService.editPassword(oldPassword, newPassword);
     }
 

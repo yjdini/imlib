@@ -42,10 +42,10 @@ public class UserController
     }
 
     @Authentication(value = AuthenticationType.CommonUser)
-    @RequestMapping(value = "/comments")
-    public Map getComments()
+    @RequestMapping(value = "/comments/{userId}")
+    public Map getComments(@PathVariable Integer userId)
     {
-        return userService.getComments();
+        return userService.getComments(userId);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST , consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -54,6 +54,10 @@ public class UserController
         User user = userService.validateUser((String)body.get("nickname"), (String)body.get("password"));
         if (user == null) {
             return ResultMap.error().setMessage("昵称或密码错误").getMap();
+        } else if (user.getStatus().equals(0)) {
+            String deleteReason = user.getDeleteReason();
+            return ResultMap.error()
+                    .setMessage("您的账号已被加入黑名单，原因为：" + deleteReason).getMap();
         } else {
             sessionUtil.setUser(user);
             HashMap<String, Object> result = new HashMap<String, Object>();

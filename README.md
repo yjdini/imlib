@@ -93,6 +93,10 @@ request
 {
   status: "error"(账号或密码错误)
 }
+
+{
+  status: "black"(黑名单)
+}
 ```
 
 ##### 退出登录

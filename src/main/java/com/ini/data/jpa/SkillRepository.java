@@ -29,4 +29,10 @@ public interface SkillRepository extends JpaRepository<Skill, Integer>, QueryByE
             " from Skill s, Tag t where s.subId = ?1 and s.status = 1 and s.tagId = t.tagId " +
             " and t.tagId = ?2 order by seoScore desc")
     List<SkillTagSet> getHotest(Integer subId, Integer tagId);
+
+    @Query("UPDATE Skill s SET s.status=2 WHERE s.userId=?1 and s.status = 1")
+    void shelveSkills(Integer userId);
+
+    @Query("UPDATE Skill s SET s.status=1 WHERE s.userId=?1 and s.status = 2")
+    void groundSkills(Integer userId);
 }

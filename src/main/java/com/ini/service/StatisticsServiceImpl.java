@@ -81,7 +81,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         Integer skillNum = skillRepository.countBySubId(subId);
         Integer masterNum = userRepository.countBySubIdAndType(subId, "m");
         Integer finishOrderNum = ordersRepository.countBySubIdAndResult(subId, 3);
-        Integer applyNum = applyRepository.countBySubId(subId);
+        Integer applyNum = applyRepository.countBySubIdAndResult(subId, 0);
 
         HashMap map = new HashMap();
         map.put("order", orderNum);

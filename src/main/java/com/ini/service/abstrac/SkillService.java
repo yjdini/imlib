@@ -34,4 +34,5 @@ public interface SkillService {
     void increaseShowTime(Integer skillId);
 
     ResultMap searchHotest(Integer subId, Integer tagId);
+
 }

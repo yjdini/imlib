@@ -5,6 +5,7 @@ import com.ini.data.jpa.*;
 import com.ini.data.schema.OrderUserSet;
 import com.ini.data.schema.SkillTagSet;
 import com.ini.service.abstrac.AdminService;
+import com.ini.service.abstrac.SkillService;
 import com.ini.utils.ResultMap;
 import com.ini.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class AdminSerivceImpl implements AdminService {
     @Autowired private OrdersRepository orderRepository;
     @Autowired private SkillRepository skillRepository;
     @Autowired private SubRepository subRepository;
+    @Autowired private SkillService skillService;
 
-    @Autowired
-    private SessionUtil sessionUtil;
+    @Autowired private SessionUtil sessionUtil;
 
 
     @Override
@@ -190,6 +191,7 @@ public class AdminSerivceImpl implements AdminService {
             user.setShelveReason(shelveReason);
             user.setType("m-c");
             userRepository.save(user);
+            skillRepository.shelveSkills(userId);
             return true;
         }
         return false;
@@ -203,6 +205,7 @@ public class AdminSerivceImpl implements AdminService {
             user.setShelveReason("");
             user.setType("m");
             userRepository.save(user);
+            skillRepository.groundSkills(userId);
             return true;
         }
         return false;
