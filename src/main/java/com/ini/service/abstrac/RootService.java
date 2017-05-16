@@ -20,4 +20,8 @@ public interface RootService {
     Map getSystemInfo();
 
     Map startSub(Integer subId);
+
+    Map getMasterList(Integer subId, Integer currentPage);
+
+    Map getUserList(Integer subId, Integer currentPage);
 }

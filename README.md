@@ -804,5 +804,30 @@ password;
     currentPage;
     pageSize;
   }
+}`
+```
+
+##### 获取分站的各个数据表数据总量的曲线统计
+```
+{
+  url："/api/root/statisticsum"
+  data:{
+    endDate:20150506
+    startDate:20150605
+    subId;
+    dataId:"user,apply,...";
+  }
+}
+```
+##### 获取分站的各个数据表数据增量的曲线统计
+```
+{
+  url："/api/root/statisticincre"
+  data:{
+    endDate:20150506
+    startDate:20150605
+    subId;
+    dataId:"user,apply,...";
+  }
 }
 ```

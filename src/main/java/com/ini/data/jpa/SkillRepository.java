@@ -72,4 +72,9 @@ public interface SkillRepository extends JpaRepository<Skill, Integer>, QueryByE
             " and s.status = 1 and u.status = 1 and u.subId = ?1" +
             " order by s.createTime desc")
     List<SkillUserTagSet> pageQueryBySubId(Integer subId, Pageable pageRequest);
+
+    @Query("select new com.ini.data.schema.SkillUserTagSet(s, u, t) from Skill s, Tag t, User u " +
+            " where s.tagId = t.tagId and s.userId = u.userId and s.skillId=?1 " +
+            " order by s.createTime desc")
+    SkillUserTagSet getSkillBySkillId(Integer skillId);
 }

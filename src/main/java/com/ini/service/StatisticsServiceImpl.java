@@ -7,6 +7,8 @@ import com.ini.service.abstrac.StatisticsService;
 import com.ini.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -82,6 +84,46 @@ public class StatisticsServiceImpl implements StatisticsService {
         Integer masterNum = userRepository.countBySubIdAndType(subId, "m");
         Integer finishOrderNum = ordersRepository.countBySubIdAndResult(subId, 3);
         Integer applyNum = applyRepository.countBySubIdAndResult(subId, 0);
+
+        HashMap map = new HashMap();
+        map.put("order", orderNum);
+        map.put("user", userNum);
+        map.put("skill", skillNum);
+        map.put("master", masterNum);
+        map.put("finishOrder", finishOrderNum);
+        map.put("apply", applyNum);
+        return map;
+    }
+
+    @Override
+    public Map rootCount(Integer subId) {
+        Integer orderNum = ordersRepository.countBySubId(subId);
+        Integer userNum = userRepository.countBySubId(subId);
+        Integer skillNum = skillRepository.countBySubId(subId);
+        Integer masterNum = userRepository.countBySubIdAndType(subId, "m");
+        Integer finishOrderNum = ordersRepository.countBySubIdAndResult(subId, 3);
+        Integer applyNum = applyRepository.countBySubId(subId);
+
+        HashMap map = new HashMap();
+        map.put("order", orderNum);
+        map.put("user", userNum);
+        map.put("skill", skillNum);
+        map.put("master", masterNum);
+        map.put("finishOrder", finishOrderNum);
+        map.put("apply", applyNum);
+        return map;
+    }
+
+    @Override
+    public Map rootIncre(Integer subId) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String time = dateFormat.format(new Date());
+        Integer orderNum = incrementRepository.getOrderCount(subId, time.toString());
+        Integer userNum = incrementRepository.getUserCount(subId, time.toString());
+        Integer skillNum = incrementRepository.getSkillCount(subId, time.toString());
+        Integer masterNum = incrementRepository.getMasterCount(subId, time.toString());
+        Integer finishOrderNum = incrementRepository.getFinishOrderCount(subId, time.toString());
+        Integer applyNum = incrementRepository.getApplyCount(subId, time.toString());
 
         HashMap map = new HashMap();
         map.put("order", orderNum);
@@ -176,6 +218,10 @@ public class StatisticsServiceImpl implements StatisticsService {
         } else if ("master".equals(type)) {
             for (StatisticSum sum : sums) {
                 resultMap.put(sum.getTime(), sum.getMaster());
+            }
+        } else if ("apply".equals(type)) {
+            for (StatisticSum sum : sums) {
+                resultMap.put(sum.getTime(), sum.getApply());
             }
         }
     }

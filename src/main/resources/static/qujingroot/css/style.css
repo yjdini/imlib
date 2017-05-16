@@ -1,0 +1,18 @@
+.bg-header-cloud{
+	background: url(../img/pub/bg_header.jpg) no-repeat top center;
+}
+
+.toast-content{
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 25px;
+}
+
+.pull-left{
+	float: left;
+}
+.pull-right{
+	float: right;
+}

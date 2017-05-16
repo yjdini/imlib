@@ -5,11 +5,13 @@ import com.ini.aop.authentication.AuthenticationType;
 import com.ini.data.entity.Admin;
 import com.ini.data.entity.OpenSub;
 import com.ini.data.entity.Sub;
+import com.ini.data.entity.User;
 import com.ini.data.jpa.AdminRepository;
 import com.ini.data.jpa.OpenSubRepository;
 import com.ini.data.jpa.SubRepository;
 import com.ini.service.abstrac.AdminService;
 import com.ini.service.abstrac.RootService;
+import com.ini.service.abstrac.StatisticsService;
 import com.ini.utils.MD5Util;
 import com.ini.utils.Map2Bean;
 import com.ini.utils.ResultMap;
@@ -18,6 +20,8 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,6 +36,7 @@ public class RootController {
     @Autowired private OpenSubRepository openSubRepository;
     @Autowired private SubRepository subRepository;
     @Autowired private AdminRepository adminRepository;
+    @Autowired private StatisticsService statisticsService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map login(@RequestBody Map<String, Object> body)
@@ -84,6 +89,71 @@ public class RootController {
         Integer currentPage = new Integer((String)body.get("currentPage"));
         return rootService.getOpenSubList(openSub, currentPage);
     }
+
+    @RequestMapping(value = "/master/list")
+    public Map getMasterList(@RequestBody Map<String, Object> body)
+    {
+        Integer currentPage = new Integer((String)body.get("currentPage"));
+        Integer subId = new Integer((String)body.get("subId"));
+        return rootService.getMasterList(subId, currentPage);
+    }
+
+    @RequestMapping(value = "/user/list")
+    public Map getUserList(@RequestBody Map<String, Object> body)
+    {
+        Integer currentPage = new Integer((String)body.get("currentPage"));
+        Integer subId = new Integer((String)body.get("subId"));
+        return rootService.getUserList(subId, currentPage);
+    }
+
+    @RequestMapping("/statistic/sum")
+    public Map statisticSum(@RequestBody Map<String, Object> body) {
+        Integer endDate = (Integer) body.get("endDate");//20170501
+        Integer startDate = (Integer) body.get("startDate");
+        Integer subId = (Integer) body.get("subId");
+
+        String types = (String) body.get("dataId");
+
+        if (startDate > endDate) {
+            return ResultMap.error().setMessage("开始日期大于结束日期").getMap();
+        } else if ((startDate + 10000) < endDate) {
+            return ResultMap.error().setMessage("最多只能查询一年内的结果").getMap();
+        }
+        String[] typess = types.split(",");
+        List result = new ArrayList();
+
+        for (String t : typess) {
+            Map sums = statisticsService.getStatisticSum(startDate, endDate, t, subId);
+            sums.put("name", t);
+            result.add(sums);
+        }
+        return ResultMap.ok().result(result).getMap();
+    }
+
+    @RequestMapping("/statistic/incre")
+    public Map statisticIncre(@RequestBody Map<String, Object> body) {
+        Integer endDate = (Integer) body.get("endDate");//20170501
+        Integer startDate = (Integer) body.get("startDate");
+        Integer subId = (Integer) body.get("subId");
+
+        String types = (String) body.get("dataId");
+
+        if (startDate > endDate) {
+            return ResultMap.error().setMessage("开始日期大于结束日期").getMap();
+        } else if ((startDate + 10000) < endDate) {
+            return ResultMap.error().setMessage("最多只能查询一年内的结果").getMap();
+        }
+        String[] typess = types.split(",");
+        List result = new ArrayList();
+
+        for (String t : typess) {
+            Map sums = statisticsService.getStatisticIncrement(startDate, endDate, t, subId);
+            sums.put("name", t);
+            result.add(sums);
+        }
+        return ResultMap.ok().result(result).getMap();
+    }
+
 
 
     @Transactional

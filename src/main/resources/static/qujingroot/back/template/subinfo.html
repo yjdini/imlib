@@ -1,0 +1,52 @@
+<div id="js-view">
+</div>
+<div id="js-detail" class="detail-container am-form-group none">
+</div>
+
+<script type="text/template" id="subclose">
+	<form id="subclose-form">
+		<ul class="one-field">
+			<div class="clear"></div>
+			<li>
+				<div><input name="closeReason" autocomplete="off" type="text" class="am-form-field am-input-sm" placeholder="请输入关闭分站的原因"/></div>
+			</li>
+			<li>
+				<div><input name="password" autocomplete="off" type="password" class="am-form-field am-input-sm" placeholder="请输入密码"/></div>
+			</li>
+			<li style="text-align: left;float:left;margin-top: 10px;">
+				<button type="button" id="subclose-save" class="am-btn am-btn-danger am-btn-sm" style="margin-right: 10px;">确认关闭</button>
+				<button  type="button" id="subclose-cancel" class="am-btn am-btn-secondary am-btn-sm">取消</button>
+			</li>
+		</ul>
+	</form>
+</script>
+<script type="text/template" id="subinfo">
+	<div class="am-panel am-panel-default">
+		<div class="am-panel-hd">
+			<h3 class="am-panel-title">
+				分站信息
+			</h3>
+		</div>
+	
+		<ul class="am-list am-list-static key-value">
+			<li><span>学校名称</span><p><%=schoolName%></p></li>
+			<li><span>管理员邮箱</span><p><%=email%></p></li>
+			<li><span>公众号名称</span><p><%=mpName%></p></li>
+			<li><span>公众号人数</span><p><%=mpNum%></p></li>
+			<li><span>管理员微信号</span><p><%=wechat%></p></li>
+			<li><span>分站URL</span><p><%=token%></p></li>
+			<li><span>分站状态</span><p><%=getStatus(status)%></p></li>
+			<li style='display:<%=status == 1 ? "none":""%>' ><span>删除原因</span><p><%=deleteReason%></p></li>
+			<li><span>开通日期</span><p><%=dateformat(new Date(createTime),"yyyy-MM-dd")%></p></li>
+		</ul>
+		<div class="am-panel-footer key-value">
+			<div class="entry">
+				<span>操作</span>
+				<p style="margin-left: 6.8em;">
+					<button style='display:<%=status == 1 ? "none":""%>' class="am-btn am-btn-success am-btn-sm" id="open-sub">启动该分站</button>
+					<button style='display:<%=status == 0 ? "none":""%>' class="am-btn am-btn-danger  am-btn-sm" id="close-sub">关闭该分站</button>
+				</p>
+			</div>
+		</div>
+	</div>
+</script>

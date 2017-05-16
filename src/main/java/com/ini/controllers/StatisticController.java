@@ -76,4 +76,16 @@ public class StatisticController {
         Map count = statisticsService.count(subId);
         return ResultMap.ok().result(count).getMap();
     }
+
+    @RequestMapping("/rootcount/{subId}")
+    public Map rootCount(@PathVariable Integer subId) {
+        Map count = statisticsService.rootCount(subId);
+        return ResultMap.ok().result(count).getMap();
+    }
+
+    @RequestMapping("/rootincre/{subId}")
+    public Map rootIncre(@PathVariable Integer subId) {
+        Map count = statisticsService.rootIncre(subId);
+        return ResultMap.ok().result(count).getMap();
+    }
 }

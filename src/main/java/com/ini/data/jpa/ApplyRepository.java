@@ -27,4 +27,6 @@ public interface ApplyRepository extends JpaRepository<Apply, Integer>, QueryByE
     @Query("select new com.ini.data.schema.ApplyUserSet(a,u) from Apply a, User u where " +
             "u.userId = ?1 and u.applyId = a.applyId")
     ApplyUserSet getLatestApplysByUserId(Integer userId);
+
+    Integer countBySubId(Integer subId);
 }

@@ -15,4 +15,8 @@ public interface StatisticsService {
 
 
     Map count(Integer subId);
+
+    Map rootCount(Integer subId);
+
+    Map rootIncre(Integer subId);
 }

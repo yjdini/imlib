@@ -29,6 +29,8 @@ public class SkillServiceImpl implements SkillService {
     @Autowired private OrderService orderService;
     @Autowired private SessionUtil sessionUtil;
 
+    private final Integer pageSize = 6;
+
     @Override
     @Transactional
     public ResultMap addSkill(Skill skill) {
@@ -69,15 +71,8 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public ResultMap getSkillDetail(Integer skillId) {
-        List skills = entityManager.createQuery("select new com.ini.data.schema.SkillTagSet(s, t)" +
-                " from Skill s, Tag t where s.skillId = :skillId and s.tagId = t.tagId", SkillTagSet.class)
-                .setParameter("skillId", skillId)
-                .getResultList();
-        if (skills.size() == 0) {
-            return ResultMap.ok().put("result", null);
-        } else {
-            return ResultMap.ok().put("result", skills.get(0));
-        }
+        SkillUserTagSet skillUserTagSet = skillRepository.getSkillBySkillId(skillId);
+        return ResultMap.ok().result(skillUserTagSet);
     }
 
 
@@ -140,7 +135,9 @@ public class SkillServiceImpl implements SkillService {
             return;
         }
         skill.setSeoScore(computeSeoScore(skill));
-        skill.setShowTimes(skill.getShowTimes() + 1);
+        Integer showTime = skill.getShowTimes();
+        showTime = (showTime == null) ? 0 : showTime;
+        skill.setShowTimes(showTime + 1);
         skillRepository.save(skill);
     }
 
@@ -149,35 +146,35 @@ public class SkillServiceImpl implements SkillService {
      */
     @Override
     public ResultMap searchPageHotest(Integer subId, Integer tagId, Integer currentPage) {
-        Pageable pageRequest = new PageRequest(currentPage,10);
+        Pageable pageRequest = new PageRequest(currentPage, pageSize);
         List<SkillUserTagSet> list = skillRepository.getHotest(subId, tagId, pageRequest);
         return ResultMap.ok().result(list);
     }
 
     @Override
     public ResultMap searchPageHotest(Integer subId, Integer currentPage) {
-        Pageable pageRequest = new PageRequest(currentPage,10);
+        Pageable pageRequest = new PageRequest(currentPage, pageSize);
         List<SkillUserTagSet> list = skillRepository.getHotest(subId, pageRequest);
         return ResultMap.ok().result(list);
     }
 
     @Override
     public ResultMap searchPageByKeyword(String keyword, Integer subId, Integer currentPage) {
-        Pageable pageRequest = new PageRequest(currentPage,10);
+        Pageable pageRequest = new PageRequest(currentPage, 1000);
         List<SkillUserTagSet> skills = skillRepository.pageQueryByKeyword(keyword, subId, pageRequest);
         return ResultMap.ok().put("result", skills);
     }
 
     @Override
     public ResultMap searchPageByTagId(Integer tagId, Integer subId, Integer currentPage) {
-        Pageable pageRequest = new PageRequest(currentPage,10);
+        Pageable pageRequest = new PageRequest(currentPage, pageSize);
         List<SkillUserTagSet> skills = skillRepository.pageQueryByTagId(tagId, subId, pageRequest);
         return ResultMap.ok().put("result", skills);
     }
 
     @Override
     public ResultMap searchPageAll(Integer subId, Integer currentPage) {
-        Pageable pageRequest = new PageRequest(currentPage,10);
+        Pageable pageRequest = new PageRequest(currentPage, pageSize);
         List<SkillUserTagSet> skills = skillRepository.pageQueryBySubId(subId, pageRequest);
         return ResultMap.ok().put("result", skills);
     }

@@ -2,6 +2,7 @@ package com.ini.service;
 
 import com.ini.data.entity.Admin;
 import com.ini.data.entity.OpenSub;
+import com.ini.data.entity.User;
 import com.ini.data.jpa.*;
 import com.ini.service.abstrac.RootService;
 import com.ini.utils.ResultMap;
@@ -34,7 +35,7 @@ public class RootSerivceImpl implements RootService {
 
     @Override
     public Map login(String name, String password) {
-        if ("root@hust".equals(name) && validatePassword(password)) {
+        if ("root".equals(name) && validatePassword(password)) {
             return ResultMap.ok().result("name", name).getMap();
         } else {
             return ResultMap.error().setMessage("用户名或密码错误！").getMap();
@@ -105,5 +106,21 @@ public class RootSerivceImpl implements RootService {
         admin.setDeleteReason("");
         adminRepository.save(admin);
         return ResultMap.ok().getMap();
+    }
+
+    @Override
+    public Map getMasterList(Integer subId, Integer currentPage) {
+        Pageable pageRequest = new PageRequest(currentPage,10);
+        List<User> users = userRepository.pageQueryMasters(subId, pageRequest);
+        Long recordsNum = userRepository.countMasters(subId);
+        return ResultMap.ok().result("list",users).result("recordsNum", recordsNum).getMap();
+    }
+
+    @Override
+    public Map getUserList(Integer subId, Integer currentPage) {
+        Pageable pageRequest = new PageRequest(currentPage,10);
+        List<User> users = userRepository.findByTypeAndSubId("c",subId, pageRequest);
+        Long recordsNum = userRepository.countByTypeAndSubId("c", subId);
+        return ResultMap.ok().result("list",users).result("recordsNum", recordsNum).getMap();
     }
 }
