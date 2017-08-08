@@ -187,7 +187,7 @@ public class ChatSession implements ChatRoom {
 //        String userid = "393123771";
 //        String websid = "98973447";
         String userid = "393123771";
-        String websid = "618224927";
+        String websid = "319479705";
         String roomid = "605998";
 
         ChatSession session = openSession(userid, websid, roomid);
