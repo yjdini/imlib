@@ -11,8 +11,6 @@ target
 .cache
 .settings
 test-output
-bin
 *.sublime-project
 *.sublime-workspace
 *.log
-test.md
