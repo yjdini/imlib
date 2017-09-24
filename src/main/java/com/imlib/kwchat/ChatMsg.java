@@ -30,6 +30,15 @@ public final class ChatMsg {
         this.content = content;
     }
 
+    public String toString() {
+        return "type:" + type +
+                "; fromUserId:" + fromUserId +
+                "; fromUserName:" + fromUserName +
+                "; toUserId:" + toUserId +
+                "; toUserName:" + toUserName +
+                "; content:" + content;
+    }
+
     public int getType() {
         return type;
     }

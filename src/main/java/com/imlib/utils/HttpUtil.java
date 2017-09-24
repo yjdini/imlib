@@ -1,4 +1,4 @@
-package com.imlib.kwchat.utils;
+package com.imlib.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

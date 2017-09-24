@@ -33,7 +33,12 @@ public class MsgResolve {
                 String content, toUserName = null, toUId = null;
                 int type;
                 tmp = root.getText().split("\\|");// => "|"
-                content = tmp[1];
+                if (tmp.length < 2) {
+                    content = "";
+                } else {
+                    content = tmp[1];
+                }
+
                 if ("#".equals(tmp[0])) { //群发消息
                     type = 10;
                 } else { //私聊消息

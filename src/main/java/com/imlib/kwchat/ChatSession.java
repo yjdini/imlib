@@ -22,6 +22,7 @@ public class ChatSession implements ChatRoom {
     private static final int port = 18133;
     private final Socket socket;
     private final Map<String, String> enterInfo;
+    private final MessageReceiveAware msgAware;
 
     private final BufferedWriter outStream;
     private final BufferedReader inStream;
@@ -31,14 +32,20 @@ public class ChatSession implements ChatRoom {
     protected List<ChatMsg> receiveMsg;
 
 
-    public static ChatSession openSession(String userid, String websid, String roomid) {
+    public static ChatSession openSession(String userid, String websid, String roomid, MessageReceiveAware msgAware) {
         try {
-            ChatSession instance = new ChatSession(userid, websid, roomid);
+            ChatSession instance = new ChatSession(userid, websid, roomid, msgAware);
             instance.connect();
             return instance;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static class MessageReceiveAware {
+        public void resolve(ChatMsg chatMsg){
+
         }
     }
 
@@ -57,7 +64,8 @@ public class ChatSession implements ChatRoom {
         sendTcpMsg(join);
     }
 
-    protected ChatSession(String userid, String websid, String roomid) throws IOException {
+    protected ChatSession(String userid, String websid, String roomid, MessageReceiveAware msgAware) throws IOException {
+        this.msgAware = msgAware;
         socket = new Socket(url, port);
         outStream = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "gbk"));
         inStream = new BufferedReader(new InputStreamReader(socket.getInputStream(), "gbk")) ;
@@ -121,19 +129,24 @@ public class ChatSession implements ChatRoom {
                     StringBuilder msgBuilder = new StringBuilder();
                     //将threadStopSign设置为true，线程会自动结束
                     while (!threadStopSign && (tcpMsg = inStream.readLine())!=null) {
-                        tcpMsg = tcpMsg.trim();
-                        if (tcpMsg.contains("<resp") && tcpMsg.contains("</resp>")) {
-                            ChatMsg chatMsg = MsgResolve.resolve(tcpMsg);
-                            insertMsgToList(chatMsg);
-                        } else if (tcpMsg.contains("<resp>")) {
-                            msgBuilder.append(tcpMsg);
-                        } else if (tcpMsg.contains("</resp>")) {
-                            msgBuilder.append(tcpMsg);
-                            ChatMsg chatMsg = MsgResolve.resolve(msgBuilder.toString());
-                            insertMsgToList(chatMsg);
-                            msgBuilder = new StringBuilder();
-                        } else {
-                            msgBuilder.append(tcpMsg);
+                        try {
+                            tcpMsg = tcpMsg.trim();
+                            if (tcpMsg.contains("<resp") && tcpMsg.contains("</resp>")) {
+                                ChatMsg chatMsg = MsgResolve.resolve(tcpMsg);
+                                insertMsgToList(chatMsg);
+                            } else if (tcpMsg.contains("<resp>")) {
+                                msgBuilder.append(tcpMsg);
+                            } else if (tcpMsg.contains("</resp>")) {
+                                msgBuilder.append(tcpMsg);
+                                ChatMsg chatMsg = MsgResolve.resolve(msgBuilder.toString());
+                                insertMsgToList(chatMsg);
+                                msgBuilder = new StringBuilder();
+                            } else {
+                                msgBuilder.append(tcpMsg);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println(tcpMsg);
                         }
                     }
                 } catch (IOException e) {
@@ -147,7 +160,11 @@ public class ChatSession implements ChatRoom {
     protected void insertMsgToList (ChatMsg chatMsg) {
         if (chatMsg == null)
             return;
-        receiveMsg.add(chatMsg);
+        if (msgAware == null) {
+            receiveMsg.add(chatMsg);
+        } else {
+            msgAware.resolve(chatMsg);
+        }
     }
 
     /**
@@ -184,13 +201,16 @@ public class ChatSession implements ChatRoom {
     }
 
     public static void main(String[] args) throws Exception{
-//        String userid = "393123771";
-//        String websid = "98973447";
         String userid = "393123771";
-        String websid = "136788047";
-        String roomid = "666521";
+        String websid = "931985010";
+        String roomid = "677613";
 
-        ChatSession session = openSession(userid, websid, roomid);
+        ChatSession session = openSession(userid, websid, roomid, new MessageReceiveAware(){
+            @Override
+            public void resolve(ChatMsg chatMsg) {
+                System.out.println(chatMsg);
+            }
+        });
         assert session != null;
         session.startListen();
         String msg;
@@ -198,8 +218,5 @@ public class ChatSession implements ChatRoom {
         while ((msg=si.readLine())!=null) {
             session.sendChatMsg(msg);
         }
-//        while ((msg=session.inStream.readLine())!=null){
-//            System.out.println(">>>>>>>>>"+msg);
-//        }
     }
 }

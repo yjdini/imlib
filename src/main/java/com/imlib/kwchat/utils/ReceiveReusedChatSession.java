@@ -30,7 +30,7 @@ public class ReceiveReusedChatSession extends ChatSession {
     private int getIndex = 0;
 
     private ReceiveReusedChatSession(String userid, String websid, String roomid) throws IOException {
-        super(userid, websid, roomid);
+        super(userid, websid, roomid, null);
     }
 
     /**
