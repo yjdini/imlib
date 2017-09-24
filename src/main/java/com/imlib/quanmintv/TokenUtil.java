@@ -1,7 +1,7 @@
 package com.imlib.quanmintv;
 
-import com.imlib.utils.HttpUtil;
-import com.imlib.utils.MD5Util;
+import com.imlib.quanmintv.utils.HttpUtil;
+import com.imlib.quanmintv.utils.MD5Util;
 import net.sf.json.JSONObject;
 
 import java.util.Map;

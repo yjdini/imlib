@@ -1,4 +1,4 @@
-package com.imlib.utils;
+package com.imlib.quanmintv.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,6 +1,6 @@
 package com.imlib.kwchat.utils;
 
-import com.imlib.utils.HttpUtil;
+import com.imlib.quanmintv.utils.HttpUtil;
 import net.sf.json.JSONObject;
 
 import java.net.URLEncoder;
