@@ -1,5 +1,6 @@
 package com.imlib.kwchat;
 
+import com.imlib.ChatMsg;
 import com.imlib.kwchat.utils.ReceiveReusedChatSession;
 
 import java.util.List;

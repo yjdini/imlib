@@ -25,6 +25,18 @@ public class BytesUtil {
         return src;
     }
 
+    public static Integer bytesToInteger( byte[] bytes, int off)
+    {
+        if (bytes.length < (off + 4)) {
+            return 0;
+        }
+        int b0 = bytes[off] & 0xFF;
+        int b1 = bytes[off + 1] & 0xFF;
+        int b2 = bytes[off + 2] & 0xFF;
+        int b3 = bytes[off + 3] & 0xFF;
+        return b0 | (b1 << 8) | (b2 << 16) | (b3 << 24); // 小端表示法
+    }
+
 //    public static byte[] stringToBytes( String value )
 //    {
 //

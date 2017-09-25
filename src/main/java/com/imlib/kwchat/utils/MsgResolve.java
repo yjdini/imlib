@@ -1,6 +1,6 @@
 package com.imlib.kwchat.utils;
 
-import com.imlib.kwchat.ChatMsg;
+import com.imlib.ChatMsg;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;

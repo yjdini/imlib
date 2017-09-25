@@ -35,13 +35,15 @@ public class SocketClient {
 
     public static void main(String args[]) throws IOException {
         SocketClient socketClient = SocketClient.getInstance(new MessageReceiveAware(){
-            protected void resolve(Value value){
+            protected void resolve(Value value, int type){
                 System.out.println(value);
+                System.out.println(type);
             }
         });
-        socketClient.subscribe(4212632);
-        socketClient.unSubscribe(4212632);
-        socketClient.close();
+        Integer i = null;
+        socketClient.subscribe(new Integer[]{29105,8832533});
+//        socketClient.unSubscribe(4212632);
+//        socketClient.close();
     }
 
     public static SocketClient getInstance(MessageReceiveAware messageReceiveAware) throws IOException {
@@ -53,8 +55,8 @@ public class SocketClient {
         return socketClient;
     }
 
-    public void subscribe(Integer owid) throws IOException {
-        out.write(msgBuilder.buildReqS1002(owid));
+    public void subscribe(Integer[] owids) throws IOException {
+        out.write(msgBuilder.buildReqS1002(owids));
     }
 
     public void unSubscribe(Integer owid) throws IOException {
@@ -91,7 +93,7 @@ public class SocketClient {
                             byte[] respBody = new byte[len - 24];
                             System.arraycopy(msgBuffer, 0, respHeader, 0, 24);
                             System.arraycopy(msgBuffer, 24, respBody, 0, len - 24);
-                            messageReceiveAware.resolve(pack.read(respBody));
+                            messageReceiveAware.resolve(pack.read(respBody), BytesUtil.bytesToInteger(respHeader, 8));
                         }
                     } catch (IOException e) {
                     }
@@ -148,13 +150,26 @@ public class SocketClient {
             return req;
         }
 
-        byte[] buildReqS1002(Integer owid) throws IOException {
+        byte[] buildReqS1002(Integer[] owids) throws IOException {
             MessagePack pack = new MessagePack();
             Value[] values = new Value[2];
+
             values[0] = ValueFactory.createRawValue("owid".getBytes());
-            values[1] = ValueFactory.createArrayValue(new IntegerValue[]{ValueFactory.createIntegerValue(owid)});
+            Value[] ids = new Value[owids.length];
+            for (int i = 0; i < owids.length; i ++) {
+                ids[i] = ValueFactory.createIntegerValue(owids[i]);
+            }
+            values[1] = ValueFactory.createArrayValue(ids);
             MapValue mv = ValueFactory.createMapValue(values);
             byte[] body = pack.write(mv);
+
+            //
+            Value[] vs = new Value[2];
+
+            vs[0] = ValueFactory.createRawValue("owid".getBytes());
+            vs[1] = ValueFactory.createArrayValue(new IntegerValue[]{ValueFactory.createIntegerValue(123)});
+            MapValue test = ValueFactory.createMapValue(vs);
+
 
             long crc = getCrc32(body);
             byte[] header = buildHeader(20 + body.length, 1, 1002, 2, crc, 0);
@@ -208,7 +223,7 @@ public class SocketClient {
 
 
     public static class MessageReceiveAware {
-        protected void resolve(Value value){
+        protected void resolve(Value value, int type){
             System.out.println(value);
         }
     }

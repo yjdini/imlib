@@ -1,6 +1,6 @@
 package com.imlib.kwchat.utils;
 
-import com.imlib.kwchat.ChatMsg;
+import com.imlib.ChatMsg;
 import com.imlib.kwchat.ChatSession;
 
 import java.io.IOException;

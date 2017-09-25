@@ -1,4 +1,4 @@
-package com.imlib.kwchat;
+package com.imlib;
 
 /**
  * Created by yjdini on 2017/8/3.

@@ -1,5 +1,7 @@
 package com.imlib.kwchat;
 
+import com.imlib.ChatMsg;
+
 import java.util.List;
 
 /**
